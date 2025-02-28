@@ -29,13 +29,13 @@ const DEFAULT_INPUTS: DoughCalculatorInputs = {
   ballWeight: 250,
   pizzaStyle: 'neapolitan',
   hydration: 65,
-  salt: 2.5,
-  yeast: 0.5,
-  yeastType: 'active_dry',
+  salt: 2.8,
+  yeast: 0.05,
+  yeastType: 'instant',
   oil: 0,
   sugar: 0,
-  diastaticMalt: 0.5,
-  doughEnhancer: 0.5,
+  diastaticMalt: 0.05,
+  doughEnhancer: 0,
   thicknessFactor: 0.06,
   pizzaDiameter: 30,
   panWidth: 30,
@@ -185,13 +185,80 @@ export const useDoughCalculator = () => {
         );
       }
       
+      // Set style-specific default values
+      let oil = 0;
+      let sugar = 0;
+      let salt = 2.5;
+      let yeast = 0.5;
+      let diastaticMalt = 0.5;
+      let doughEnhancer = 0.5;
+      
+      // Set values based on pizza style
+      switch (styleId) {
+        case 'neapolitan':
+          oil = 0;
+          sugar = 0;
+          salt = 2.8; // 2.5-3%
+          yeast = 0.05; // 0.03-0.06% for instant dry
+          diastaticMalt = 0.05; // 0-0.1%
+          doughEnhancer = 0; // 0%
+          break;
+        case 'ny':
+          oil = 2; // 1-3%
+          sugar = 1.5; // 1-2%
+          salt = 2.25; // 2-2.5%
+          yeast = 0.4; // 0.3-0.5%
+          diastaticMalt = 0.75; // 0.5-1%
+          doughEnhancer = 0.4; // 0.25-0.5%
+          break;
+        case 'sicilian':
+          oil = 3.5; // 2-5%
+          sugar = 2; // 1-3%
+          salt = 2.25; // 2-2.5%
+          yeast = 0.5; // 0.4-0.6%
+          diastaticMalt = 0.4; // 0.25-0.5%
+          doughEnhancer = 0.4; // 0.25-0.5%
+          break;
+        case 'detroit':
+          oil = 4; // 3-5%
+          sugar = 1.5; // 1-2%
+          salt = 2.25; // 2-2.5%
+          yeast = 0.5; // 0.4-0.6%
+          diastaticMalt = 0.75; // 0.5-1%
+          doughEnhancer = 0.5; // 0.25-0.75%
+          break;
+        case 'focaccia':
+          oil = 6; // 4-8%
+          sugar = 0.5; // 0-1%
+          salt = 2.5; // 2-3%
+          yeast = 0.4; // 0.3-0.5%
+          diastaticMalt = 0.4; // 0.25-0.5%
+          doughEnhancer = 0.1; // 0-0.25%
+          break;
+        case 'custom':
+          // Keep current values or use defaults
+          oil = inputs.oil;
+          sugar = inputs.sugar;
+          salt = inputs.salt;
+          yeast = inputs.yeast;
+          diastaticMalt = inputs.diastaticMalt;
+          doughEnhancer = inputs.doughEnhancer;
+          break;
+      }
+      
       setInputs(prev => ({
         ...prev,
         pizzaStyle: styleId,
         hydration: selectedStyle.defaultHydration,
         thicknessFactor: selectedStyle.defaultThicknessFactor,
         ballWeight: newBallWeight,
-        isRectangular: selectedStyle.isRectangular === true
+        isRectangular: selectedStyle.isRectangular === true,
+        oil,
+        sugar,
+        salt,
+        yeast,
+        diastaticMalt,
+        doughEnhancer
       }));
       
       // Track the pizza style change

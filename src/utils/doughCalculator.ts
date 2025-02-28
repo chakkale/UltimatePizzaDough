@@ -39,21 +39,21 @@ export const PIZZA_STYLES: PizzaStyle[] = [
   {
     id: 'neapolitan',
     name: 'Neapolitan',
-    defaultHydration: 60,
+    defaultHydration: 60, // 58-62%
     defaultThicknessFactor: 0.06, // Thin crust in oz/in²
     description: 'Traditional Italian style with a thin center and puffy, airy crust.'
   },
   {
     id: 'ny',
     name: 'New York',
-    defaultHydration: 62,
+    defaultHydration: 62, // 58-65%
     defaultThicknessFactor: 0.08, // Medium-thin crust in oz/in²
     description: 'Thin, foldable slices with a crispy exterior and chewy interior.'
   },
   {
     id: 'sicilian',
     name: 'Sicilian',
-    defaultHydration: 70,
+    defaultHydration: 70, // 65-75%
     defaultThicknessFactor: 0.12, // Thick crust in oz/in²
     description: 'Thick, rectangular pizza with a fluffy, airy interior and crispy bottom.',
     isRectangular: true
@@ -61,7 +61,7 @@ export const PIZZA_STYLES: PizzaStyle[] = [
   {
     id: 'detroit',
     name: 'Detroit',
-    defaultHydration: 70,
+    defaultHydration: 68, // 65-70%
     defaultThicknessFactor: 0.10, // Medium-thick crust in oz/in²
     description: 'Rectangular pan pizza with a thick, airy crust and crispy cheese edges.',
     isRectangular: true
@@ -69,7 +69,7 @@ export const PIZZA_STYLES: PizzaStyle[] = [
   {
     id: 'focaccia',
     name: 'Focaccia',
-    defaultHydration: 75,
+    defaultHydration: 75, // 75-85%
     defaultThicknessFactor: 0.14, // Very thick crust in oz/in²
     description: 'Italian flatbread with a high hydration for an open, airy crumb.',
     isRectangular: 'both'
