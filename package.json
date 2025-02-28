@@ -1,0 +1,52 @@
+{
+  "name": "ultimate-pizza-dough-calculator",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A comprehensive calculator for pizza dough with various styles and preferment options",
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chakkale/UltimatePizzaDough.git"
+  },
+  "homepage": "https://github.com/chakkale/UltimatePizzaDough",
+  "bugs": {
+    "url": "https://github.com/chakkale/UltimatePizzaDough/issues"
+  },
+  "keywords": [
+    "pizza",
+    "dough",
+    "calculator",
+    "react",
+    "typescript"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "framer-motion": "10.16.4",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "@types/node": "^22.13.5",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react-swc": "^3.8.0",
+    "eslint": "^9.21.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^15.15.0",
+    "terser": "^5.39.0",
+    "typescript": "~5.7.2",
+    "typescript-eslint": "^8.24.1",
+    "vite": "^6.2.0"
+  }
+}

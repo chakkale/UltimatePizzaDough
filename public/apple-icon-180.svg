@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="180" height="180">
+  <!-- Background -->
+  <rect width="180" height="180" fill="#f5f5f7" rx="45" ry="45" />
+  
+  <!-- Pizza centered in the image -->
+  <g transform="translate(90, 90) scale(2.5)">
+    <!-- Pizza base -->
+    <circle cx="0" cy="0" r="30" fill="#FFC107" stroke="#E65100" stroke-width="2" />
+    
+    <!-- Pizza crust -->
+    <circle cx="0" cy="0" r="28" fill="#FFECB3" />
+    
+    <!-- Pizza sauce -->
+    <circle cx="0" cy="0" r="25" fill="#F44336" />
+    
+    <!-- Pizza cheese -->
+    <circle cx="0" cy="0" r="23" fill="#FFF9C4" />
+    
+    <!-- Pepperoni slices -->
+    <circle cx="-10" cy="-12" r="4" fill="#B71C1C" />
+    <circle cx="6" cy="-14" r="3" fill="#B71C1C" />
+    <circle cx="0" cy="0" r="3.5" fill="#B71C1C" />
+    <circle cx="10" cy="-2" r="2.5" fill="#B71C1C" />
+    <circle cx="-8" cy="6" r="3" fill="#B71C1C" />
+    <circle cx="-14" cy="-2" r="2.5" fill="#B71C1C" />
+    <circle cx="4" cy="10" r="3.5" fill="#B71C1C" />
+    
+    <!-- Slice cut -->
+    <path d="M0,0 L30,0" stroke="#E65100" stroke-width="1.5" />
+    <path d="M0,0 L0,-30" stroke="#E65100" stroke-width="1.5" />
+    <path d="M0,0 L18,-18" stroke="#E65100" stroke-width="1.5" />
+  </g>
+</svg> 

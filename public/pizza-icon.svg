@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Pizza base -->
+  <circle cx="32" cy="32" r="30" fill="#FFC107" stroke="#E65100" stroke-width="2" />
+  
+  <!-- Pizza crust -->
+  <circle cx="32" cy="32" r="28" fill="#FFECB3" />
+  
+  <!-- Pizza sauce -->
+  <circle cx="32" cy="32" r="25" fill="#F44336" />
+  
+  <!-- Pizza cheese -->
+  <circle cx="32" cy="32" r="23" fill="#FFF9C4" />
+  
+  <!-- Pepperoni slices -->
+  <circle cx="22" cy="20" r="4" fill="#B71C1C" />
+  <circle cx="38" cy="18" r="3" fill="#B71C1C" />
+  <circle cx="32" cy="32" r="3.5" fill="#B71C1C" />
+  <circle cx="42" cy="30" r="2.5" fill="#B71C1C" />
+  <circle cx="24" cy="38" r="3" fill="#B71C1C" />
+  <circle cx="18" cy="30" r="2.5" fill="#B71C1C" />
+  <circle cx="36" cy="42" r="3.5" fill="#B71C1C" />
+  
+  <!-- Slice cut -->
+  <path d="M32,32 L62,32" stroke="#E65100" stroke-width="1.5" />
+  <path d="M32,32 L32,2" stroke="#E65100" stroke-width="1.5" />
+  <path d="M32,32 L50,14" stroke="#E65100" stroke-width="1.5" />
+</svg> 

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#f5f5f7" />
+  
+  <!-- Pizza centered in the image -->
+  <g transform="translate(600, 250) scale(4)">
+    <!-- Pizza base -->
+    <circle cx="0" cy="0" r="30" fill="#FFC107" stroke="#E65100" stroke-width="2" />
+    
+    <!-- Pizza crust -->
+    <circle cx="0" cy="0" r="28" fill="#FFECB3" />
+    
+    <!-- Pizza sauce -->
+    <circle cx="0" cy="0" r="25" fill="#F44336" />
+    
+    <!-- Pizza cheese -->
+    <circle cx="0" cy="0" r="23" fill="#FFF9C4" />
+    
+    <!-- Pepperoni slices -->
+    <circle cx="-10" cy="-12" r="4" fill="#B71C1C" />
+    <circle cx="6" cy="-14" r="3" fill="#B71C1C" />
+    <circle cx="0" cy="0" r="3.5" fill="#B71C1C" />
+    <circle cx="10" cy="-2" r="2.5" fill="#B71C1C" />
+    <circle cx="-8" cy="6" r="3" fill="#B71C1C" />
+    <circle cx="-14" cy="-2" r="2.5" fill="#B71C1C" />
+    <circle cx="4" cy="10" r="3.5" fill="#B71C1C" />
+    
+    <!-- Slice cut -->
+    <path d="M0,0 L30,0" stroke="#E65100" stroke-width="1.5" />
+    <path d="M0,0 L0,-30" stroke="#E65100" stroke-width="1.5" />
+    <path d="M0,0 L18,-18" stroke="#E65100" stroke-width="1.5" />
+  </g>
+  
+  <!-- Text -->
+  <text x="600" y="450" font-family="Arial, sans-serif" font-size="48" font-weight="bold" text-anchor="middle" fill="#333">
+    Ultimate Pizza Dough Calculator
+  </text>
+  
+  <text x="600" y="520" font-family="Arial, sans-serif" font-size="24" text-anchor="middle" fill="#666">
+    Calculate the perfect pizza dough recipe for any style and size
+  </text>
+</svg> 
+
+<link rel="apple-touch-icon" href="/apple-icon.png" />
+<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152.png" />
+<link rel="apple-touch-icon" sizes="167x167" href="/apple-icon-167.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180.png" /> 

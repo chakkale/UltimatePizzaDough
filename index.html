@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/pizza-icon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Pizza Calculator" />
+    <meta name="theme-color" content="#0071e3" />
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TQWFS0SBSD"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-TQWFS0SBSD');
+    </script>
+    
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- iOS home screen icons - using PNG format which is required for iOS -->
+    <link rel="apple-touch-icon" href="/apple-icon.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152.png" />
+    <link rel="apple-touch-icon" sizes="167x167" href="/apple-icon-167.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180.png" />
+    
+    <!-- iOS splash screens -->
+    <link rel="apple-touch-startup-image" href="/splash.svg" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" />
+    <link rel="apple-touch-startup-image" href="/splash.svg" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" />
+    <link rel="apple-touch-startup-image" href="/splash.svg" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)" />
+    <link rel="apple-touch-startup-image" href="/splash.svg" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" />
+    <link rel="apple-touch-startup-image" href="/splash.svg" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" />
+    <link rel="apple-touch-startup-image" href="/splash.svg" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)" />
+    <link rel="apple-touch-startup-image" href="/splash.svg" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)" />
+    <link rel="apple-touch-startup-image" href="/splash.svg" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3)" />
+    <link rel="apple-touch-startup-image" href="/splash.svg" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)" />
+    <link rel="apple-touch-startup-image" href="/splash.svg" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)" />
+    <link rel="apple-touch-startup-image" href="/splash.svg" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)" />
+    <link rel="apple-touch-startup-image" href="/splash.svg" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)" />
+    
+    <title>Ultimate Pizza Dough Calculator</title>
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Ultimate Pizza Dough Calculator" />
+    <meta property="og:description" content="Calculate the perfect pizza dough recipe for any style and size. Customize hydration, salt, and more for your ideal pizza." />
+    <!-- Primary image (PNG) -->
+    <meta property="og:image" content="https://ultimatepizzadough.xyz/pizza-thumbnail.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content="Pizza Dough Calculator with pizza icon" />
+    <!-- Additional image (JPG) for better Telegram compatibility -->
+    <meta property="og:image" content="https://ultimatepizzadough.xyz/pizza-thumbnail.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:alt" content="Pizza Dough Calculator with pizza icon" />
+    
+    <meta property="og:url" content="https://ultimatepizzadough.xyz" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Pizza Dough Calculator" />
+    
+    <!-- Twitter Card data -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Ultimate Pizza Dough Calculator" />
+    <meta name="twitter:description" content="Calculate the perfect pizza dough recipe for any style and size. Customize hydration, salt, and more for your ideal pizza." />
+    <meta name="twitter:image" content="https://ultimatepizzadough.xyz/pizza-thumbnail.png" />
+    
+    <!-- General Meta Tags -->
+    <meta name="description" content="Calculate the perfect pizza dough recipe for any style and size. Customize hydration, salt, and more for your ideal pizza." />
+    <meta name="keywords" content="pizza, dough, calculator, recipe, baking, cooking, hydration, baker's percentages" />
+    
+    <!-- Schema.org markup for better Telegram compatibility -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Ultimate Pizza Dough Calculator",
+      "description": "Calculate the perfect pizza dough recipe for any style and size. Customize hydration, salt, and more for your ideal pizza.",
+      "image": "https://ultimatepizzadough.xyz/pizza-thumbnail.jpg",
+      "url": "https://ultimatepizzadough.xyz",
+      "applicationCategory": "UtilityApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+    
+    <script>
+      // iOS web app full screen
+      (function() {
+        if(("standalone" in window.navigator) && window.navigator.standalone) {
+          // If you want to prevent links in standalone web apps opening Mobile Safari, change 'auto' to 'none'
+          var a = document.getElementsByTagName("a");
+          for(var i = 0, l = a.length; i < l; i++) {
+            a[i].addEventListener("click", function(e) {
+              var n = this.getAttribute("href");
+              var t = this.getAttribute("target");
+              var u = new URL(n || "", window.location.href).href;
+              
+              // Only handle links that don't have specific targets or are to the same origin
+              if(!t && u.indexOf(window.location.origin) === 0) {
+                e.preventDefault();
+                window.location = u;
+              }
+            }, false);
+          }
+        }
+        
+        // Attempt to hide the address bar on mobile browsers
+        window.addEventListener("load", function() {
+          setTimeout(function() {
+            window.scrollTo(0, 1);
+          }, 0);
+        });
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
