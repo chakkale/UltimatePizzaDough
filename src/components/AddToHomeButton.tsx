@@ -41,14 +41,20 @@ interface NavigatorWithStandalone extends Navigator {
   standalone?: boolean;
 }
 
+// Define BeforeInstallPromptEvent interface
+interface BeforeInstallPromptEvent extends Event {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: string }>;
+}
+
 const AddToHomeButton: React.FC<{ theme?: string }> = ({ theme }) => {
   const [isVisible, setIsVisible] = useState(false);
-  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isIOS, setIsIOS] = useState(false);
   
   useEffect(() => {
     // Check if it's iOS
-    const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+    const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as Window & { MSStream?: unknown }).MSStream;
     setIsIOS(iOS);
     
     // For PWA install prompt (Android)
@@ -56,7 +62,7 @@ const AddToHomeButton: React.FC<{ theme?: string }> = ({ theme }) => {
       // Prevent Chrome 67 and earlier from automatically showing the prompt
       e.preventDefault();
       // Stash the event so it can be triggered later
-      setDeferredPrompt(e);
+      setDeferredPrompt(e as BeforeInstallPromptEvent);
       // Show the button
       setIsVisible(true);
     };

@@ -1,6 +1,9 @@
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 
+// Named export to fix fast refresh warning
+export const StyledComponents = 'StyledComponents';
+
 // Color palette with dark mode support
 export const colors = {
   light: {

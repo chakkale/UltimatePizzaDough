@@ -5,7 +5,7 @@ declare global {
       command: string,
       action: string,
       params?: {
-        [key: string]: any;
+        [key: string]: unknown;
       }
     ) => void;
   }
@@ -31,7 +31,7 @@ export const trackPageView = (title: string, path: string): void => {
 // Track an event
 export const trackEvent = (
   eventName: string,
-  eventParams: { [key: string]: any } = {}
+  eventParams: { [key: string]: unknown } = {}
 ): void => {
   if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
     window.gtag('event', eventName, eventParams);

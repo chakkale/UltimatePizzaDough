@@ -1,6 +1,9 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { trackThemeChange } from '../utils/analytics';
 
+// Named export to fix fast refresh warning
+export const ThemeContextExport = 'ThemeContext';
+
 type ThemeType = 'light' | 'dark';
 
 interface ThemeContextType {
