@@ -17,6 +17,7 @@ const App: React.FC = () => {
   const {
     inputs,
     recipe,
+    templates,
     handleInputChange: onInputChange,
     handlePizzaStyleChange: onPizzaStyleChange,
     handlePrefermentTypeChange: onPrefermentTypeChange,
@@ -27,6 +28,10 @@ const App: React.FC = () => {
     handlePrefermentPercentageChange: onPrefermentPercentageChange,
     handlePrefermentHydrationChange: onPrefermentHydrationChange,
     handleYeastTypeChange,
+    handleShapeToggle,
+    handleSaveTemplate,
+    handleApplyTemplate,
+    handleDeleteTemplate,
     resetToDefaults: onReset
   } = useDoughCalculator();
 
@@ -35,30 +40,37 @@ const App: React.FC = () => {
       <AppContainer>
         <Header>
           <Title>Ultimate Pizza Dough Calculator</Title>
-          <Subtitle>Create the perfect pizza dough with baker's percentages</Subtitle>
+          <Subtitle>Create the perfect pizza dough for any style</Subtitle>
           <HeaderControls />
         </Header>
-
+        
         <ContentContainer>
           <CalculatorForm
             inputs={inputs}
+            templates={templates}
             onInputChange={onInputChange}
             onPizzaStyleChange={onPizzaStyleChange}
             onPrefermentTypeChange={onPrefermentTypeChange}
             onPizzaDiameterChange={onPizzaDiameterChange}
             onThicknessFactorChange={onThicknessFactorChange}
             onPanDimensionsChange={onPanDimensionsChange}
+            handleUseInchesChange={handleUseInchesChange}
             onPrefermentPercentageChange={onPrefermentPercentageChange}
             onPrefermentHydrationChange={onPrefermentHydrationChange}
-            handleUseInchesChange={handleUseInchesChange}
             handleYeastTypeChange={handleYeastTypeChange}
+            handleShapeToggle={handleShapeToggle}
+            handleSaveTemplate={handleSaveTemplate}
+            handleApplyTemplate={handleApplyTemplate}
+            handleDeleteTemplate={handleDeleteTemplate}
             onReset={onReset}
           />
-          <RecipeDisplay recipe={recipe} />
+          
+          {recipe && <RecipeDisplay recipe={recipe} />}
         </ContentContainer>
-
+        
         <Footer>
           <p>Created with ❤️ for pizza enthusiasts everywhere</p>
+          <p>© {new Date().getFullYear()} Ultimate Pizza Dough Calculator</p>
         </Footer>
       </AppContainer>
     </ThemeProvider>

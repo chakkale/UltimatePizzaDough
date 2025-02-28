@@ -1,7 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { DoughCalculatorInputs, PrefermentType, YeastType } from '../types';
+import { DoughCalculatorInputs, PrefermentType, YeastType, CustomPizzaTemplate } from '../types';
 import { PIZZA_STYLES, inchesToCm, cmToInches } from '../utils/doughCalculator';
+import TemplateManager from './TemplateManager';
 import {
   Card,
   SectionTitle,
@@ -20,6 +21,7 @@ import {
 
 interface CalculatorFormProps {
   inputs: DoughCalculatorInputs;
+  templates: CustomPizzaTemplate[];
   onInputChange: (name: string, value: string | number) => void;
   onPizzaStyleChange: (style: string) => void;
   onPizzaDiameterChange: (diameter: number) => void;
@@ -31,10 +33,15 @@ interface CalculatorFormProps {
   handleYeastTypeChange?: (type: YeastType) => void;
   onReset: () => void;
   handleUseInchesChange?: (useInches: boolean) => void;
+  handleShapeToggle?: (isRectangular: boolean) => void;
+  handleSaveTemplate?: (name: string) => void;
+  handleApplyTemplate?: (id: string) => void;
+  handleDeleteTemplate?: (id: string) => void;
 }
 
 const CalculatorForm: React.FC<CalculatorFormProps> = ({
   inputs,
+  templates,
   onInputChange,
   onPizzaStyleChange,
   onPizzaDiameterChange,
@@ -45,7 +52,11 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
   onPrefermentHydrationChange,
   handleYeastTypeChange,
   onReset,
-  handleUseInchesChange
+  handleUseInchesChange,
+  handleShapeToggle,
+  handleSaveTemplate,
+  handleApplyTemplate,
+  handleDeleteTemplate
 }) => {
   // Handle number input changes
   const handleNumberInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,7 +113,10 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
 
   // Check if the selected pizza style is rectangular
   const selectedStyle = PIZZA_STYLES.find(style => style.id === inputs.pizzaStyle);
-  const isRectangular = selectedStyle?.isRectangular === true || (selectedStyle?.isRectangular === 'both' && inputs.panWidth && inputs.panLength);
+  const isRectangular = 
+    selectedStyle?.isRectangular === true || 
+    (selectedStyle?.isRectangular === 'both' && inputs.panWidth && inputs.panLength) ||
+    (inputs.pizzaStyle === 'custom' && inputs.isRectangular);
   
   // For Focaccia, we need to add a shape selection
   const isFocaccia = selectedStyle?.id === 'focaccia';
@@ -181,6 +195,46 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
             </GridItem>
           ))}
         </Grid>
+
+        {/* Template Manager for Custom Style */}
+        {inputs.pizzaStyle === 'custom' && handleSaveTemplate && handleApplyTemplate && handleDeleteTemplate && (
+          <TemplateManager
+            templates={templates}
+            onSaveTemplate={handleSaveTemplate}
+            onApplyTemplate={handleApplyTemplate}
+            onDeleteTemplate={handleDeleteTemplate}
+            isCustomStyle={inputs.pizzaStyle === 'custom'}
+          />
+        )}
+
+        {/* Shape selection for Custom Style */}
+        {inputs.pizzaStyle === 'custom' && handleShapeToggle && (
+          <FormGroup>
+            <Label>Shape</Label>
+            <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
+              <Button 
+                onClick={() => handleShapeToggle(false)}
+                style={{
+                  backgroundColor: !inputs.isRectangular ? '#0071e3' : '#f5f5f7',
+                  color: !inputs.isRectangular ? 'white' : '#1d1d1f',
+                  flex: 1
+                }}
+              >
+                Round
+              </Button>
+              <Button 
+                onClick={() => handleShapeToggle(true)}
+                style={{
+                  backgroundColor: inputs.isRectangular ? '#0071e3' : '#f5f5f7',
+                  color: inputs.isRectangular ? 'white' : '#1d1d1f',
+                  flex: 1
+                }}
+              >
+                Rectangular
+              </Button>
+            </div>
+          </FormGroup>
+        )}
       </Section>
 
       <Section>

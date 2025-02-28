@@ -11,6 +11,8 @@ Visit the live application: [Ultimate Pizza Dough Calculator](https://ultimatepi
 ## ✨ Features
 
 - **Multiple Pizza Styles**: Neapolitan, New York, Sicilian, Detroit, Focaccia, and Custom
+- **Custom Templates**: Save, apply, and manage your favorite custom dough settings
+- **Shape Selection**: Choose between round or rectangular shapes for custom styles
 - **Preferment Options**: None, Poolish, Biga, Sponge, and Sourdough
 - **Yeast Type Selection**: Active Dry, Instant, and Fresh yeast with automatic conversion
 - **Measurement Units**: Toggle between metric (cm) and imperial (inches)
@@ -42,6 +44,20 @@ The application includes Google Analytics to track user interactions and improve
 - Tab views (ingredients/method)
 - Recipe generations
 - Reset actions
+- Template management (save, apply, delete)
+- Shape toggles (round/rectangular)
+
+## 🧩 Template Management
+
+The application allows you to save and manage your favorite custom dough settings as templates:
+
+- **Save Templates**: Create named templates with your current custom dough settings
+- **Apply Templates**: Quickly load saved templates to recreate your favorite dough recipes
+- **Delete Templates**: Remove templates you no longer need
+- **Shape Selection**: Each template remembers whether it's for a round or rectangular pizza
+- **Persistent Storage**: Templates are saved in your browser's cookies and persist between sessions
+
+This feature is especially useful if you have multiple custom dough recipes you frequently use, allowing you to switch between them without having to manually adjust all settings each time.
 
 ## 🚀 Getting Started
 

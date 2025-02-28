@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { DoughCalculatorInputs, DoughRecipe, PrefermentType, YeastType } from '../types';
+import { DoughCalculatorInputs, DoughRecipe, PrefermentType, YeastType, CustomPizzaTemplate } from '../types';
 import { 
   calculateDoughRecipe, 
   PIZZA_STYLES, 
@@ -14,8 +14,13 @@ import {
   trackYeastTypeChange, 
   trackUnitChange,
   trackReset,
-  trackRecipeGenerated
+  trackRecipeGenerated,
+  trackTemplateSaved,
+  trackTemplateApplied,
+  trackTemplateDeleted,
+  trackShapeToggled
 } from '../utils/analytics';
+import { getTemplates, addTemplate, deleteTemplate, applyTemplate } from '../utils/templateUtils';
 
 // Update default thickness factors based on the new calculation method
 // These values represent the thickness factor in ounces per square inch
@@ -40,12 +45,20 @@ const DEFAULT_INPUTS: DoughCalculatorInputs = {
     percentage: 30,
     hydration: 100
   },
-  useInches: false
+  useInches: false,
+  isRectangular: false
 };
 
 export const useDoughCalculator = () => {
   const [inputs, setInputs] = useState<DoughCalculatorInputs>(DEFAULT_INPUTS);
   const [recipe, setRecipe] = useState<DoughRecipe | null>(null);
+  const [templates, setTemplates] = useState<CustomPizzaTemplate[]>([]);
+
+  // Load templates on initial render
+  useEffect(() => {
+    const savedTemplates = getTemplates();
+    setTemplates(savedTemplates);
+  }, []);
 
   // Update recipe whenever inputs change
   useEffect(() => {
@@ -177,11 +190,96 @@ export const useDoughCalculator = () => {
         pizzaStyle: styleId,
         hydration: selectedStyle.defaultHydration,
         thicknessFactor: selectedStyle.defaultThicknessFactor,
-        ballWeight: newBallWeight
+        ballWeight: newBallWeight,
+        isRectangular: selectedStyle.isRectangular === true
       }));
       
       // Track the pizza style change
       trackPizzaStyleChange(styleId);
+    }
+  };
+
+  // Handle shape toggle for custom style
+  const handleShapeToggle = (isRectangular: boolean) => {
+    setInputs(prev => {
+      const newInputs = { ...prev, isRectangular };
+      
+      if (isRectangular) {
+        // Set to rectangular shape
+        newInputs.panWidth = prev.panWidth || 25;
+        newInputs.panLength = prev.panLength || 35;
+        
+        // Recalculate ball weight
+        newInputs.ballWeight = calculateDoughBallWeight(
+          prev.pizzaStyle,
+          0,
+          newInputs.panWidth,
+          newInputs.panLength,
+          prev.thicknessFactor,
+          prev.useInches
+        );
+      } else {
+        // Set to round shape
+        newInputs.pizzaDiameter = prev.pizzaDiameter || 30;
+        
+        // Recalculate ball weight
+        newInputs.ballWeight = calculateDoughBallWeight(
+          prev.pizzaStyle,
+          newInputs.pizzaDiameter,
+          undefined,
+          undefined,
+          prev.thicknessFactor,
+          prev.useInches
+        );
+      }
+      
+      // Track shape toggle
+      trackShapeToggled(isRectangular ? 'rectangular' : 'round');
+      
+      return newInputs;
+    });
+  };
+
+  // Handle saving a template
+  const handleSaveTemplate = (name: string) => {
+    const newTemplate = addTemplate(name, inputs);
+    setTemplates(prev => [...prev, newTemplate]);
+    trackTemplateSaved(name);
+    return newTemplate;
+  };
+
+  // Handle applying a template
+  const handleApplyTemplate = (templateId: string) => {
+    const template = templates.find(t => t.id === templateId);
+    if (template) {
+      const newInputs = applyTemplate(template, inputs);
+      
+      // Ensure proper dimensions are set based on shape
+      if (template.isRectangular) {
+        // For rectangular pizzas, ensure pan dimensions are set
+        if (!newInputs.panWidth || !newInputs.panLength) {
+          newInputs.panWidth = 25;
+          newInputs.panLength = 35;
+        }
+      } else {
+        // For round pizzas, ensure diameter is set
+        if (!newInputs.pizzaDiameter) {
+          newInputs.pizzaDiameter = 30;
+        }
+      }
+      
+      setInputs(newInputs);
+      trackTemplateApplied(template.name);
+    }
+  };
+
+  // Handle deleting a template
+  const handleDeleteTemplate = (templateId: string) => {
+    const template = templates.find(t => t.id === templateId);
+    if (template) {
+      deleteTemplate(templateId);
+      setTemplates(prev => prev.filter(t => t.id !== templateId));
+      trackTemplateDeleted(template.name);
     }
   };
 
@@ -394,6 +492,7 @@ export const useDoughCalculator = () => {
   return {
     inputs,
     recipe,
+    templates,
     handleInputChange,
     handlePizzaStyleChange,
     handlePrefermentTypeChange,
@@ -404,6 +503,10 @@ export const useDoughCalculator = () => {
     handlePrefermentPercentageChange,
     handlePrefermentHydrationChange,
     handleYeastTypeChange,
+    handleShapeToggle,
+    handleSaveTemplate,
+    handleApplyTemplate,
+    handleDeleteTemplate,
     resetToDefaults
   };
 }; 

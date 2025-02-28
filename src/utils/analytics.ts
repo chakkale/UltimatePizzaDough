@@ -79,4 +79,21 @@ export const trackTabChange = (tab: string): void => {
 
 export const trackReset = (): void => {
   trackEvent('reset_calculator');
+};
+
+// Add these new tracking functions for templates
+export const trackTemplateSaved = (templateName: string): void => {
+  trackEvent('save_template', { template_name: templateName });
+};
+
+export const trackTemplateApplied = (templateName: string): void => {
+  trackEvent('apply_template', { template_name: templateName });
+};
+
+export const trackTemplateDeleted = (templateName: string): void => {
+  trackEvent('delete_template', { template_name: templateName });
+};
+
+export const trackShapeToggled = (shape: 'round' | 'rectangular'): void => {
+  trackEvent('toggle_shape', { shape });
 }; 
