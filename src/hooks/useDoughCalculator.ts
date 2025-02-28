@@ -269,6 +269,7 @@ export const useDoughCalculator = () => {
   // Handle shape toggle for custom style
   const handleShapeToggle = (isRectangular: boolean) => {
     setInputs(prev => {
+      // Preserve all existing values
       const newInputs = { ...prev, isRectangular };
       
       if (isRectangular) {
@@ -276,18 +277,29 @@ export const useDoughCalculator = () => {
         newInputs.panWidth = prev.panWidth || 25;
         newInputs.panLength = prev.panLength || 35;
         
+        // Ensure thickness factor is not zero
+        const thicknessFactor = prev.thicknessFactor || 0.08; // Default to medium thickness if zero
+        
         // Recalculate ball weight
         newInputs.ballWeight = calculateDoughBallWeight(
           prev.pizzaStyle,
           0,
           newInputs.panWidth,
           newInputs.panLength,
-          prev.thicknessFactor,
+          thicknessFactor,
           prev.useInches
         );
+        
+        // Ensure ball weight is not zero
+        if (newInputs.ballWeight <= 0) {
+          newInputs.ballWeight = prev.ballWeight || 250; // Keep previous value or use default
+        }
       } else {
         // Set to round shape
         newInputs.pizzaDiameter = prev.pizzaDiameter || 30;
+        
+        // Ensure thickness factor is not zero
+        const thicknessFactor = prev.thicknessFactor || 0.08; // Default to medium thickness if zero
         
         // Recalculate ball weight
         newInputs.ballWeight = calculateDoughBallWeight(
@@ -295,9 +307,14 @@ export const useDoughCalculator = () => {
           newInputs.pizzaDiameter,
           undefined,
           undefined,
-          prev.thicknessFactor,
+          thicknessFactor,
           prev.useInches
         );
+        
+        // Ensure ball weight is not zero
+        if (newInputs.ballWeight <= 0) {
+          newInputs.ballWeight = prev.ballWeight || 250; // Keep previous value or use default
+        }
       }
       
       // Track shape toggle
