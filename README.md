@@ -54,8 +54,8 @@ The application includes Google Analytics to track user interactions and improve
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/ultimate-pizza-dough-calculator.git
-   cd ultimate-pizza-dough-calculator
+   git clone https://github.com/chakkale/UltimatePizzaDough.git
+   cd UltimatePizzaDough
    ```
 
 2. Install dependencies:
@@ -84,6 +84,17 @@ yarn build
 
 The build artifacts will be stored in the `dist/` directory.
 
+## 🌐 Deployment
+
+This project uses:
+- **GitHub** for version control
+- **GitHub Actions** for CI/CD
+- **Netlify** for hosting and deployment
+
+For deployment instructions, see:
+- [NETLIFY_PUBLISHING.md](NETLIFY_PUBLISHING.md) - Manual Netlify deployment
+- [GITHUB_NETLIFY_SETUP.md](GITHUB_NETLIFY_SETUP.md) - GitHub Actions integration with Netlify
+
 ## 📱 PWA Features
 
 The application is configured as a Progressive Web App (PWA), allowing users to install it on their devices. It includes:
@@ -103,14 +114,16 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
+For more details, see [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgements
 
 - Created with ❤️ for pizza enthusiasts everywhere
-- Pizza icon designed by [Your Name]
+- Pizza icon designed by chakkale
 - Special thanks to the pizza community for feedback and suggestions
 
 ---

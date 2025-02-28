@@ -11,5 +11,5 @@ export default defineConfig({
     assetsDir: 'assets',
     assetsInlineLimit: 4096,
   },
-  base: process.env.NODE_ENV === 'production' ? '/UltimatePizzaDough/' : '/',
+  base: '/',
 })

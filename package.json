@@ -4,13 +4,13 @@
   "version": "1.0.0",
   "type": "module",
   "description": "A comprehensive calculator for pizza dough with various styles and preferment options",
-  "author": "Your Name",
+  "author": "chakkale",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/chakkale/UltimatePizzaDough.git"
   },
-  "homepage": "https://github.com/chakkale/UltimatePizzaDough",
+  "homepage": "https://ultimatepizzadough.xyz",
   "bugs": {
     "url": "https://github.com/chakkale/UltimatePizzaDough/issues"
   },
