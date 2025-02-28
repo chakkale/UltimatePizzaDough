@@ -123,9 +123,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🙏 Acknowledgements
 
 - Created with ❤️ for pizza enthusiasts everywhere
-- Pizza icon designed by chakkale
+- Pizza icon designed by chakkale (and Cursor/Claude Sonnet 3.7)
 - Special thanks to the pizza community for feedback and suggestions
 
 ---
 
-Made with passion by chakkale (and Cursor AI)
+Made with passion by chakkale (and Cursor/Claude Sonnet 3.7)
