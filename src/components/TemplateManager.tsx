@@ -85,12 +85,20 @@ const ButtonGroup = styled.div`
   margin-top: 1rem;
 `;
 
+const CloseButton = styled(Button)`
+  background-color: var(--secondaryButton);
+  &:hover {
+    background-color: var(--secondaryButtonHover);
+  }
+`;
+
 interface TemplateManagerProps {
   templates: CustomPizzaTemplate[];
   onSaveTemplate: (name: string) => void;
   onApplyTemplate: (id: string) => void;
   onDeleteTemplate: (id: string) => void;
   isCustomStyle: boolean;
+  onClose?: () => void;
 }
 
 const TemplateManager: React.FC<TemplateManagerProps> = ({
@@ -98,7 +106,8 @@ const TemplateManager: React.FC<TemplateManagerProps> = ({
   onSaveTemplate,
   onApplyTemplate,
   onDeleteTemplate,
-  isCustomStyle
+  isCustomStyle,
+  onClose
 }) => {
   const [showSaveForm, setShowSaveForm] = useState(false);
   const [templateName, setTemplateName] = useState('');
@@ -134,7 +143,14 @@ const TemplateManager: React.FC<TemplateManagerProps> = ({
 
   return (
     <TemplateContainer>
-      <h3>Custom Templates</h3>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h3>Template Manager</h3>
+        {onClose && (
+          <CloseButton onClick={onClose}>
+            Close
+          </CloseButton>
+        )}
+      </div>
       
       {templates.length === 0 ? (
         <InfoBox>

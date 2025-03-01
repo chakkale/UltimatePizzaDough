@@ -1,78 +1,108 @@
-import React from 'react';
-import { useDoughCalculator } from './hooks/useDoughCalculator';
+import React, { useState, useEffect } from 'react';
+import { ThemeProvider } from './context/ThemeContext';
 import CalculatorForm from './components/CalculatorForm';
 import RecipeDisplay from './components/RecipeDisplay';
 import HeaderControls from './components/HeaderControls';
-import { ThemeProvider } from './context/ThemeContext';
+import TemplateManager from './components/TemplateManager';
+import { useDoughCalculator } from './hooks/useDoughCalculator';
+import PasswordProtection from './components/PasswordProtection';
 import {
   AppContainer,
   Header,
-  Title,
-  Subtitle,
   ContentContainer,
-  Footer
+  Footer,
+  Button
 } from './components/StyledComponents';
 
 const App: React.FC = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [showTemplateManager, setShowTemplateManager] = useState(false);
   const {
     inputs,
     recipe,
     templates,
-    handleInputChange: onInputChange,
-    handlePizzaStyleChange: onPizzaStyleChange,
-    handlePrefermentTypeChange: onPrefermentTypeChange,
-    handlePizzaDiameterChange: onPizzaDiameterChange,
-    handleThicknessFactorChange: onThicknessFactorChange,
-    handlePanDimensionsChange: onPanDimensionsChange,
+    handleInputChange,
+    handlePizzaStyleChange,
+    handlePrefermentTypeChange,
+    handlePizzaDiameterChange,
+    handleThicknessFactorChange,
+    handlePanDimensionsChange,
     handleUseInchesChange,
-    handlePrefermentPercentageChange: onPrefermentPercentageChange,
-    handlePrefermentHydrationChange: onPrefermentHydrationChange,
+    handlePrefermentPercentageChange,
+    handlePrefermentHydrationChange,
     handleYeastTypeChange,
     handleShapeToggle,
     handleSaveTemplate,
     handleApplyTemplate,
     handleDeleteTemplate,
-    resetToDefaults: onReset
+    resetToDefaults: onReset,
   } = useDoughCalculator();
+
+  useEffect(() => {
+    // Check if user is already authenticated
+    const token = localStorage.getItem('auth_token');
+    if (token) {
+      setIsAuthenticated(true);
+    }
+  }, []);
 
   return (
     <ThemeProvider>
-      <AppContainer>
-        <Header>
-          <Title>Ultimate Pizza Dough Calculator</Title>
-          <Subtitle>Create the perfect pizza dough for any style</Subtitle>
-          <HeaderControls />
-        </Header>
-        
-        <ContentContainer>
-          <CalculatorForm
-            inputs={inputs}
-            templates={templates}
-            onInputChange={onInputChange}
-            onPizzaStyleChange={onPizzaStyleChange}
-            onPrefermentTypeChange={onPrefermentTypeChange}
-            onPizzaDiameterChange={onPizzaDiameterChange}
-            onThicknessFactorChange={onThicknessFactorChange}
-            onPanDimensionsChange={onPanDimensionsChange}
-            handleUseInchesChange={handleUseInchesChange}
-            onPrefermentPercentageChange={onPrefermentPercentageChange}
-            onPrefermentHydrationChange={onPrefermentHydrationChange}
-            handleYeastTypeChange={handleYeastTypeChange}
-            handleShapeToggle={handleShapeToggle}
-            handleSaveTemplate={handleSaveTemplate}
-            handleApplyTemplate={handleApplyTemplate}
-            handleDeleteTemplate={handleDeleteTemplate}
-            onReset={onReset}
-          />
+      {!isAuthenticated ? (
+        <PasswordProtection onPasswordSuccess={() => setIsAuthenticated(true)} />
+      ) : (
+        <AppContainer>
+          <Header>
+            <h1>Ultimate Pizza Dough Calculator</h1>
+            <HeaderControls />
+          </Header>
+          <ContentContainer>
+            <CalculatorForm
+              inputs={inputs}
+              templates={templates}
+              onInputChange={handleInputChange}
+              onPizzaStyleChange={handlePizzaStyleChange}
+              onPrefermentTypeChange={handlePrefermentTypeChange}
+              onPizzaDiameterChange={handlePizzaDiameterChange}
+              onThicknessFactorChange={handleThicknessFactorChange}
+              onPanDimensionsChange={handlePanDimensionsChange}
+              handleUseInchesChange={handleUseInchesChange}
+              onPrefermentPercentageChange={handlePrefermentPercentageChange}
+              onPrefermentHydrationChange={handlePrefermentHydrationChange}
+              handleYeastTypeChange={handleYeastTypeChange}
+              handleShapeToggle={handleShapeToggle}
+              handleSaveTemplate={handleSaveTemplate}
+              handleApplyTemplate={handleApplyTemplate}
+              handleDeleteTemplate={handleDeleteTemplate}
+              onReset={onReset}
+            />
+            
+            {recipe && <RecipeDisplay recipe={recipe} />}
+            
+            <Button 
+              onClick={() => setShowTemplateManager(true)}
+              style={{ marginTop: '1rem' }}
+            >
+              Manage Templates
+            </Button>
+            
+            {showTemplateManager && (
+              <TemplateManager
+                templates={templates}
+                onSaveTemplate={handleSaveTemplate}
+                onApplyTemplate={handleApplyTemplate}
+                onDeleteTemplate={handleDeleteTemplate}
+                isCustomStyle={inputs.pizzaStyle === 'custom'}
+                onClose={() => setShowTemplateManager(false)}
+              />
+            )}
+          </ContentContainer>
           
-          {recipe && <RecipeDisplay recipe={recipe} />}
-        </ContentContainer>
-        
-        <Footer>
-          <p>Created with ❤️ for pizza enthusiasts everywhere</p>
-          <p>© {new Date().getFullYear()} Ultimate Pizza Dough Calculator</p>
-        </Footer>
-      </AppContainer>
+          <Footer>
+            <p>© {new Date().getFullYear()} Ultimate Pizza Dough Calculator</p>
+          </Footer>
+        </AppContainer>
+      )}
     </ThemeProvider>
   );
 };
