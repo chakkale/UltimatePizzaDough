@@ -100,7 +100,7 @@ export const trackReset = (): void => {
 };
 
 // Add these new tracking functions for templates
-export const trackTemplateSaved = (templateName: string, templateData?: any): void => {
+export const trackTemplateSaved = (templateName: string, templateData?: Record<string, unknown>): void => {
   const eventParams: { [key: string]: unknown } = { template_name: templateName };
   
   // Add template details if available
@@ -120,7 +120,7 @@ export const trackTemplateSaved = (templateName: string, templateData?: any): vo
   trackEvent('save_template', eventParams);
 };
 
-export const trackTemplateApplied = (templateName: string, templateData?: any): void => {
+export const trackTemplateApplied = (templateName: string, templateData?: Record<string, unknown>): void => {
   const eventParams: { [key: string]: unknown } = { template_name: templateName };
   
   // Add template details if available
@@ -183,10 +183,10 @@ export const trackCustomTemplateStats = (): void => {
       rectangular: 0
     };
     
-    templates.forEach((template: any) => {
+    templates.forEach((template: Record<string, unknown>) => {
       // Count by pizza style
       if (template.pizzaStyle) {
-        styleDistribution[template.pizzaStyle] = (styleDistribution[template.pizzaStyle] || 0) + 1;
+        styleDistribution[template.pizzaStyle as string] = (styleDistribution[template.pizzaStyle as string] || 0) + 1;
       }
       
       // Count by shape
