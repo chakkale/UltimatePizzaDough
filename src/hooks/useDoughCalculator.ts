@@ -18,7 +18,9 @@ import {
   trackTemplateSaved,
   trackTemplateApplied,
   trackTemplateDeleted,
-  trackShapeToggled
+  trackShapeToggled,
+  trackRecipeAdjustment,
+  trackCustomTemplateStats
 } from '../utils/analytics';
 import { getTemplates, addTemplate, deleteTemplate, applyTemplate } from '../utils/templateUtils';
 
@@ -58,6 +60,9 @@ export const useDoughCalculator = () => {
   useEffect(() => {
     const savedTemplates = getTemplates();
     setTemplates(savedTemplates);
+    
+    // Track template statistics
+    trackCustomTemplateStats();
   }, []);
 
   // Update recipe whenever inputs change
@@ -71,7 +76,16 @@ export const useDoughCalculator = () => {
         inputs.pizzaStyle,
         inputs.numberOfPizzas,
         inputs.hydration,
-        inputs.preferment.type
+        inputs.preferment.type,
+        inputs.salt,
+        inputs.yeast,
+        inputs.yeastType,
+        inputs.oil,
+        inputs.sugar,
+        inputs.diastaticMalt,
+        inputs.doughEnhancer,
+        inputs.isRectangular,
+        inputs.ballWeight
       );
     }, 1000);
     
@@ -80,6 +94,17 @@ export const useDoughCalculator = () => {
 
   // Handle input changes
   const handleInputChange = (name: string, value: string | number) => {
+    // Track significant adjustments for key parameters
+    const significantParameters = ['hydration', 'salt', 'yeast', 'oil', 'sugar', 'diastaticMalt', 'doughEnhancer'];
+    if (significantParameters.includes(name)) {
+      const oldValue = inputs[name as keyof DoughCalculatorInputs];
+      // Only track if the change is significant (more than 5% difference for percentages)
+      if (typeof oldValue === 'number' && typeof value === 'number' && 
+          Math.abs(oldValue - value) > (oldValue * 0.05)) {
+        trackRecipeAdjustment(name, oldValue, value, inputs.pizzaStyle);
+      }
+    }
+    
     if (name.includes('.')) {
       // Handle nested properties (e.g., preferment.percentage)
       const [parent, child] = name.split('.');
@@ -328,7 +353,7 @@ export const useDoughCalculator = () => {
   const handleSaveTemplate = (name: string) => {
     const newTemplate = addTemplate(name, inputs);
     setTemplates(prev => [...prev, newTemplate]);
-    trackTemplateSaved(name);
+    trackTemplateSaved(name, inputs);
     return newTemplate;
   };
 
@@ -353,7 +378,7 @@ export const useDoughCalculator = () => {
       }
       
       setInputs(newInputs);
-      trackTemplateApplied(template.name);
+      trackTemplateApplied(template.name, template);
     }
   };
 
