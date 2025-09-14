@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CustomPizzaTemplate } from '../types';
-import { Button, FormGroup, Label, Input, InfoBox } from './StyledComponents';
+import { Button, FormGroup, Label, Input } from './StyledComponents';
+import { useToast } from './ToastProvider';
+import EmptyState from './EmptyState';
 
 const TemplateContainer = styled.div`
   margin-top: 1rem;
@@ -112,6 +114,7 @@ const TemplateManager: React.FC<TemplateManagerProps> = ({
   const [showSaveForm, setShowSaveForm] = useState(false);
   const [templateName, setTemplateName] = useState('');
   const [error, setError] = useState('');
+  const { showToast } = useToast();
 
   const handleSave = () => {
     if (!templateName.trim()) {
@@ -129,6 +132,17 @@ const TemplateManager: React.FC<TemplateManagerProps> = ({
     setTemplateName('');
     setShowSaveForm(false);
     setError('');
+    showToast(`Template "${templateName.trim()}" saved successfully!`, 'success');
+  };
+
+  const handleApply = (template: CustomPizzaTemplate) => {
+    onApplyTemplate(template.id);
+    showToast(`Applied template "${template.name}"`, 'info');
+  };
+
+  const handleDelete = (template: CustomPizzaTemplate) => {
+    onDeleteTemplate(template.id);
+    showToast(`Deleted template "${template.name}"`, 'warning');
   };
 
   const handleCancel = () => {
@@ -153,9 +167,13 @@ const TemplateManager: React.FC<TemplateManagerProps> = ({
       </div>
       
       {templates.length === 0 ? (
-        <InfoBox>
-          No saved templates yet. Create custom pizza settings and save them as templates.
-        </InfoBox>
+        <EmptyState
+          icon="📋"
+          title="No Templates Yet"
+          message="Create custom pizza settings and save them as templates for quick access later."
+          actionText={isCustomStyle ? "Save Current Settings" : undefined}
+          onAction={isCustomStyle ? () => setShowSaveForm(true) : undefined}
+        />
       ) : (
         <TemplateList>
           {templates.map(template => (
@@ -169,12 +187,12 @@ const TemplateManager: React.FC<TemplateManagerProps> = ({
                 </TemplateInfo>
               </div>
               <TemplateActions>
-                <ActionButton onClick={() => onApplyTemplate(template.id)}>
+                <ActionButton onClick={() => handleApply(template)}>
                   Apply
                 </ActionButton>
                 <ActionButton 
                   className="delete"
-                  onClick={() => onDeleteTemplate(template.id)}
+                  onClick={() => handleDelete(template)}
                 >
                   Delete
                 </ActionButton>

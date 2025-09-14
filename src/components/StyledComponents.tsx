@@ -1,5 +1,19 @@
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
+import { keyframes } from '@emotion/react';
+
+// Pulse animation for active elements
+const pulse = keyframes`
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 113, 227, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(0, 113, 227, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 113, 227, 0);
+  }
+`;
 
 // Named export to fix fast refresh warning
 export const StyledComponents = 'StyledComponents';
@@ -98,14 +112,40 @@ export const ContentContainer = styled.main`
   }
 `;
 
-// Card container
+// Card container with enhanced visual appeal
 export const Card = styled(motion.div)`
   background-color: var(--cardBackground);
   border-radius: 1rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   padding: 2rem;
   flex: 1;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid transparent;
+  position: relative;
+  overflow: hidden;
+  
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--highlight, #5e5ce6));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    border-color: var(--border);
+    
+    &:before {
+      transform: scaleX(1);
+    }
+  }
 `;
 
 // Sticky Card for recipe display
@@ -151,21 +191,39 @@ export const Label = styled.label`
   transition: all 0.3s ease;
 `;
 
-// Input
+// Input with enhanced visual feedback
 export const Input = styled.input`
   width: 100%;
   padding: 0.75rem;
   border-radius: 0.5rem;
   border: 1px solid var(--border);
   font-size: 1rem;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   background-color: var(--cardBackground);
   color: var(--text);
+  position: relative;
+  
+  &:hover {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 1px rgba(0, 113, 227, 0.1);
+  }
   
   &:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 2px rgba(0, 113, 227, 0.2);
+    box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.2);
+    transform: translateY(-1px);
+  }
+  
+  &:invalid {
+    border-color: var(--error, #ff3b30);
+    box-shadow: 0 0 0 1px rgba(255, 59, 48, 0.2);
+  }
+  
+  &:disabled {
+    background-color: var(--border);
+    cursor: not-allowed;
+    opacity: 0.6;
   }
 `;
 
@@ -187,7 +245,7 @@ export const Select = styled.select`
   }
 `;
 
-// Button
+// Button with enhanced visual feedback
 export const Button = styled.button`
   padding: 0.75rem 1.5rem;
   border-radius: 0.5rem;
@@ -195,22 +253,52 @@ export const Button = styled.button`
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   background-color: var(--primary);
   color: white;
+  position: relative;
+  overflow: hidden;
+  
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s;
+  }
   
   &:hover {
     background-color: #0062c3;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 113, 227, 0.3);
+  }
+  
+  &:hover:before {
+    left: 100%;
+  }
+  
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0, 113, 227, 0.2);
   }
   
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 2px rgba(0, 113, 227, 0.2);
+    box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.3);
   }
   
   &:disabled {
     background-color: var(--secondary);
     cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    
+    &:before {
+      display: none;
+    }
   }
 `;
 
@@ -230,42 +318,64 @@ export const SliderContainer = styled.div`
   margin-bottom: 1rem;
 `;
 
-// Slider
+// Slider with enhanced visual feedback
 export const Slider = styled.input`
   width: 100%;
   -webkit-appearance: none;
-  height: 4px;
-  border-radius: 2px;
+  height: 6px;
+  border-radius: 3px;
   background: var(--border);
   outline: none;
   margin: 1rem 0;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: var(--secondary);
+  }
   
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     background: var(--primary);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 6px rgba(0, 113, 227, 0.3);
+    border: 2px solid white;
+    position: relative;
   }
   
   &::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     background: var(--primary);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 6px rgba(0, 113, 227, 0.3);
+    border: 2px solid white;
   }
   
   &::-webkit-slider-thumb:hover {
-    transform: scale(1.1);
+    transform: scale(1.2);
+    box-shadow: 0 4px 12px rgba(0, 113, 227, 0.4);
   }
   
   &::-moz-range-thumb:hover {
-    transform: scale(1.1);
+    transform: scale(1.2);
+    box-shadow: 0 4px 12px rgba(0, 113, 227, 0.4);
+  }
+  
+  &::-webkit-slider-thumb:active {
+    transform: scale(1.3);
+    animation: ${pulse} 1.5s infinite;
+  }
+  
+  &::-moz-range-thumb:active {
+    transform: scale(1.3);
+    animation: ${pulse} 1.5s infinite;
   }
 `;
 
@@ -318,7 +428,7 @@ export const TabsContainer = styled.div`
   border-bottom: 1px solid var(--border);
 `;
 
-// Tab
+// Tab with enhanced visual feedback
 export const Tab = styled.button<{ active: boolean }>`
   padding: 0.75rem 1.5rem;
   border: none;
@@ -327,22 +437,47 @@ export const Tab = styled.button<{ active: boolean }>`
   font-weight: ${props => (props.active ? '600' : '400')};
   color: ${props => (props.active ? 'var(--primary)' : 'var(--text)')};
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  border-radius: 0.5rem 0.5rem 0 0;
+  
+  &:before {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    width: ${props => (props.active ? '100%' : '0%')};
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--highlight, #5e5ce6));
+    transform: translateX(-50%);
+    transition: width 0.3s ease;
+    border-radius: 2px;
+  }
   
   &:after {
     content: '';
     position: absolute;
-    bottom: -1px;
+    top: 0;
     left: 0;
-    width: 100%;
-    height: 2px;
-    background-color: ${props => (props.active ? 'var(--primary)' : 'transparent')};
-    transition: all 0.2s ease;
+    right: 0;
+    bottom: 0;
+    background: ${props => (props.active ? 'rgba(0, 113, 227, 0.05)' : 'transparent')};
+    border-radius: 0.5rem 0.5rem 0 0;
+    transition: background-color 0.2s ease;
+    z-index: -1;
   }
   
   &:hover {
     color: var(--primary);
+    transform: translateY(-1px);
+    
+    &:after {
+      background: rgba(0, 113, 227, 0.08);
+    }
+  }
+  
+  &:active {
+    transform: translateY(0);
   }
 `;
 
@@ -373,30 +508,62 @@ export const Grid = styled.div`
   }
 `;
 
-// Grid item
+// Grid item with enhanced interactions
 export const GridItem = styled.div`
   padding: 1rem;
   border-radius: 0.5rem;
   border: 1px solid var(--border);
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  background: var(--cardBackground);
+  
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(0, 113, 227, 0.05) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+  }
   
   h3 {
     margin-top: 0;
     margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text);
+    transition: color 0.2s ease;
   }
   
   p {
     margin: 0;
+    color: var(--lightText);
+    flex-grow: 1;
   }
   
   &:hover {
     border-color: var(--primary);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    
+    &:before {
+      transform: translateX(100%);
+    }
+    
+    h3 {
+      color: var(--primary);
+    }
+  }
+  
+  &:active {
+    transform: translateY(-1px) scale(1.01);
   }
 `;
 

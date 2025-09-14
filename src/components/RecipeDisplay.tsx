@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { DoughRecipe } from '../types';
 import { roundToOneDecimal, roundToTwoDecimals, gramsToOunces, cmToInches } from '../utils/doughCalculator';
 import { trackTabChange } from '../utils/analytics';
+import LoadingSpinner from './LoadingSpinner';
+import EmptyState from './EmptyState';
 import {
   StickyCard,
   SectionTitle,
@@ -21,6 +23,7 @@ interface RecipeDisplayProps {
 
 const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe }) => {
   const [activeTab, setActiveTab] = useState<'ingredients' | 'method'>('ingredients');
+  const [isLoading, setIsLoading] = useState(false);
 
   // Track tab changes
   useEffect(() => {
@@ -29,8 +32,41 @@ const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe }) => {
     }
   }, [activeTab, recipe]);
 
+  // Simulate loading when recipe changes
+  useEffect(() => {
+    if (recipe) {
+      setIsLoading(true);
+      const timer = setTimeout(() => setIsLoading(false), 300);
+      return () => clearTimeout(timer);
+    }
+  }, [recipe]);
+
   if (!recipe) {
-    return null;
+    return (
+      <StickyCard
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      >
+        <EmptyState
+          icon="🍕"
+          title="No Recipe Yet"
+          message="Adjust your pizza settings to generate a customized dough recipe with precise measurements and step-by-step instructions."
+        />
+      </StickyCard>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <StickyCard
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      >
+        <LoadingSpinner fullScreen text="Calculating your perfect recipe..." />
+      </StickyCard>
+    );
   }
 
   // Find ingredients by name for method instructions
@@ -95,8 +131,10 @@ const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe }) => {
 
       {activeTab === 'ingredients' && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          key="ingredients"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: 20 }}
           transition={{ duration: 0.3 }}
         >
           <Section>
@@ -213,8 +251,10 @@ const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe }) => {
 
       {activeTab === 'method' && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          key="method"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -20 }}
           transition={{ duration: 0.3 }}
         >
           {recipe.preferment && recipe.mainDough ? (

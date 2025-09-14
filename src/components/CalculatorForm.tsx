@@ -158,10 +158,12 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
                 flex: 1,
                 padding: '8px 4px',
                 fontSize: 'clamp(0.75rem, 3vw, 1rem)',
-                whiteSpace: 'nowrap'
+                whiteSpace: 'nowrap',
+                transform: !inputs.useInches ? 'translateY(-1px)' : 'translateY(0)',
+                boxShadow: !inputs.useInches ? '0 4px 12px rgba(0, 113, 227, 0.3)' : 'none'
               }}
             >
-              Centimeters
+              📏 Centimeters
             </Button>
             <Button 
               onClick={() => handleUseInchesChange && handleUseInchesChange(true)}
@@ -171,10 +173,12 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
                 flex: 1,
                 padding: '8px 4px',
                 fontSize: 'clamp(0.75rem, 3vw, 1rem)',
-                whiteSpace: 'nowrap'
+                whiteSpace: 'nowrap',
+                transform: inputs.useInches ? 'translateY(-1px)' : 'translateY(0)',
+                boxShadow: inputs.useInches ? '0 4px 12px rgba(0, 113, 227, 0.3)' : 'none'
               }}
             >
-              Inches
+              📐 Inches
             </Button>
           </div>
         </FormGroup>
@@ -190,7 +194,15 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
                 backgroundColor: inputs.pizzaStyle === style.id ? 'rgba(0, 113, 227, 0.05)' : 'transparent'
               }}
             >
-              <h3>{style.name}</h3>
+              <h3 style={{ 
+                color: inputs.pizzaStyle === style.id ? '#0071e3' : undefined,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem'
+              }}>
+                {inputs.pizzaStyle === style.id && <span>✅</span>}
+                {style.name}
+              </h3>
               <p style={{ fontSize: '0.8rem', color: '#86868b' }}>{style.description}</p>
             </GridItem>
           ))}
@@ -217,20 +229,24 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
                 style={{
                   backgroundColor: !inputs.isRectangular ? '#0071e3' : '#f5f5f7',
                   color: !inputs.isRectangular ? 'white' : '#1d1d1f',
-                  flex: 1
+                  flex: 1,
+                  transform: !inputs.isRectangular ? 'translateY(-1px)' : 'translateY(0)',
+                  boxShadow: !inputs.isRectangular ? '0 4px 12px rgba(0, 113, 227, 0.3)' : 'none'
                 }}
               >
-                Round
+                🔵 Round
               </Button>
               <Button 
                 onClick={() => handleShapeToggle(true)}
                 style={{
                   backgroundColor: inputs.isRectangular ? '#0071e3' : '#f5f5f7',
                   color: inputs.isRectangular ? 'white' : '#1d1d1f',
-                  flex: 1
+                  flex: 1,
+                  transform: inputs.isRectangular ? 'translateY(-1px)' : 'translateY(0)',
+                  boxShadow: inputs.isRectangular ? '0 4px 12px rgba(0, 113, 227, 0.3)' : 'none'
                 }}
               >
-                Rectangular
+                🔲 Rectangular
               </Button>
             </div>
           </FormGroup>
@@ -266,10 +282,12 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
                 style={{
                   backgroundColor: !isRectangular ? '#0071e3' : '#f5f5f7',
                   color: !isRectangular ? 'white' : '#1d1d1f',
-                  flex: 1
+                  flex: 1,
+                  transform: !isRectangular ? 'translateY(-1px)' : 'translateY(0)',
+                  boxShadow: !isRectangular ? '0 4px 12px rgba(0, 113, 227, 0.3)' : 'none'
                 }}
               >
-                Round
+                🔵 Round
               </Button>
               <Button 
                 onClick={() => {
@@ -279,10 +297,12 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
                 style={{
                   backgroundColor: isRectangular ? '#0071e3' : '#f5f5f7',
                   color: isRectangular ? 'white' : '#1d1d1f',
-                  flex: 1
+                  flex: 1,
+                  transform: isRectangular ? 'translateY(-1px)' : 'translateY(0)',
+                  boxShadow: isRectangular ? '0 4px 12px rgba(0, 113, 227, 0.3)' : 'none'
                 }}
               >
-                Rectangular
+                🔲 Rectangular
               </Button>
             </div>
           </FormGroup>
@@ -594,7 +614,21 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
         )}
       </Section>
 
-      <Button onClick={onReset}>Reset to Defaults</Button>
+      <Button 
+        onClick={onReset}
+        style={{
+          backgroundColor: '#ff6b35',
+          background: 'linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%)',
+          color: 'white',
+          fontWeight: '600',
+          padding: '0.875rem 2rem',
+          fontSize: '1rem',
+          boxShadow: '0 4px 12px rgba(255, 107, 53, 0.3)',
+          border: 'none'
+        }}
+      >
+        🔄 Reset to Defaults
+      </Button>
     </Card>
   );
 };
