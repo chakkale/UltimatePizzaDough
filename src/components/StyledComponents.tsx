@@ -72,9 +72,38 @@ export const Header = styled.header`
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
   
   & > *:last-child {
     margin-top: 1rem;
+  }
+`;
+
+// Header row for title and theme toggle
+export const HeaderRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  position: relative;
+  flex-wrap: wrap;
+  
+  @media (min-width: 768px) {
+    flex-wrap: nowrap;
+  }
+`;
+
+// Theme toggle wrapper positioned in corner on larger screens
+export const ThemeToggleWrapper = styled.div`
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  
+  @media (max-width: 767px) {
+    position: static;
+    transform: none;
   }
 `;
 

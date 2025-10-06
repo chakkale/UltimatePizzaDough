@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import ThemeToggle from './ThemeToggle';
 import AddToHomeButton from './AddToHomeButton';
 // GitHub button temporarily disabled - uncomment to re-enable
 // import GitHubButton from './GitHubButton';
@@ -26,7 +25,6 @@ const HeaderControls: React.FC = () => {
   
   return (
     <ControlsContainer>
-      <ThemeToggle />
       <ButtonGroup>
         <AddToHomeButton theme={theme} />
         {/* GitHub button temporarily disabled - uncomment to re-enable */}

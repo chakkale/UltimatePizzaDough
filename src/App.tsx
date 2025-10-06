@@ -10,9 +10,12 @@ import ToastProvider from './components/ToastProvider';
 import { useDoughCalculator } from './hooks/useDoughCalculator';
 // Password protection temporarily disabled - uncomment to re-enable
 // import PasswordProtection from './components/PasswordProtection';
+import ThemeToggle from './components/ThemeToggle';
 import {
   AppContainer,
   Header,
+  HeaderRow,
+  ThemeToggleWrapper,
   ContentContainer,
   Footer,
   Button
@@ -61,19 +64,24 @@ const App: React.FC = () => {
         ) : ( */}
           <AppContainer>
             <Header>
-              <h1 style={{ 
-                background: 'linear-gradient(135deg, #0071e3 0%, #5e5ce6 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
-                textAlign: 'center',
-                margin: '0 0 0.5rem 0',
-                fontWeight: '700',
-                letterSpacing: '-0.02em'
-              }}>
-                🍕 Ultimate Pizza Dough Calculator
-              </h1>
+              <HeaderRow>
+                <h1 style={{ 
+                  background: 'linear-gradient(135deg, #0071e3 0%, #5e5ce6 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
+                  textAlign: 'center',
+                  margin: '0',
+                  fontWeight: '700',
+                  letterSpacing: '-0.02em'
+                }}>
+                  🍕 Ultimate Pizza Dough Calculator
+                </h1>
+                <ThemeToggleWrapper>
+                  <ThemeToggle />
+                </ThemeToggleWrapper>
+              </HeaderRow>
               <HeaderControls />
             </Header>
             <ContentContainer>

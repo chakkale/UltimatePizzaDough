@@ -32,6 +32,18 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
     
+    // Update color-scheme meta tag to inform browser plugins like Dark Reader
+    let colorSchemeMeta = document.querySelector('meta[name="color-scheme"]');
+    if (!colorSchemeMeta) {
+      colorSchemeMeta = document.createElement('meta');
+      colorSchemeMeta.setAttribute('name', 'color-scheme');
+      document.head.appendChild(colorSchemeMeta);
+    }
+    colorSchemeMeta.setAttribute('content', theme);
+    
+    // Also update the root element's style for maximum compatibility
+    document.documentElement.style.colorScheme = theme;
+    
     // Track theme change, but only after initial render
     const isInitialRender = document.documentElement.getAttribute('data-analytics-tracked') !== 'true';
     if (!isInitialRender) {
