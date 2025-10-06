@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+// Uncomment useEffect when re-enabling password protection
+// import React, { useState, useEffect } from 'react';
 import { ThemeProvider } from './context/ThemeContext';
 import CalculatorForm from './components/CalculatorForm';
 import RecipeDisplay from './components/RecipeDisplay';
@@ -6,7 +8,8 @@ import HeaderControls from './components/HeaderControls';
 import TemplateManager from './components/TemplateManager';
 import ToastProvider from './components/ToastProvider';
 import { useDoughCalculator } from './hooks/useDoughCalculator';
-import PasswordProtection from './components/PasswordProtection';
+// Password protection temporarily disabled - uncomment to re-enable
+// import PasswordProtection from './components/PasswordProtection';
 import {
   AppContainer,
   Header,
@@ -16,7 +19,8 @@ import {
 } from './components/StyledComponents';
 
 const App: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // Password protection temporarily disabled - uncomment to re-enable
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showTemplateManager, setShowTemplateManager] = useState(false);
   const {
     inputs,
@@ -39,20 +43,22 @@ const App: React.FC = () => {
     resetToDefaults: onReset,
   } = useDoughCalculator();
 
-  useEffect(() => {
-    // Check if user is already authenticated
-    const token = localStorage.getItem('auth_token');
-    if (token) {
-      setIsAuthenticated(true);
-    }
-  }, []);
+  // Password protection temporarily disabled - uncomment to re-enable
+  // useEffect(() => {
+  //   // Check if user is already authenticated
+  //   const token = localStorage.getItem('auth_token');
+  //   if (token) {
+  //     setIsAuthenticated(true);
+  //   }
+  // }, []);
 
   return (
     <ThemeProvider>
       <ToastProvider>
-        {!isAuthenticated ? (
+        {/* Password protection temporarily disabled - uncomment to re-enable */}
+        {/* {!isAuthenticated ? (
           <PasswordProtection onPasswordSuccess={() => setIsAuthenticated(true)} />
-        ) : (
+        ) : ( */}
           <AppContainer>
             <Header>
               <h1 style={{ 
@@ -130,7 +136,7 @@ const App: React.FC = () => {
               </p>
             </Footer>
           </AppContainer>
-        )}
+        {/* )} */}
       </ToastProvider>
     </ThemeProvider>
   );
