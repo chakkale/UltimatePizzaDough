@@ -190,12 +190,12 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
               key={style.id}
               onClick={() => onPizzaStyleChange(style.id)}
               style={{
-                borderColor: inputs.pizzaStyle === style.id ? '#0071e3' : '#d2d2d7',
-                backgroundColor: inputs.pizzaStyle === style.id ? 'rgba(0, 113, 227, 0.05)' : 'transparent'
+                borderColor: inputs.pizzaStyle === style.id ? 'var(--primary)' : 'var(--border)',
+                backgroundColor: inputs.pizzaStyle === style.id ? 'rgba(0, 113, 227, 0.1)' : 'transparent'
               }}
             >
               <h3 style={{ 
-                color: inputs.pizzaStyle === style.id ? '#0071e3' : undefined,
+                color: inputs.pizzaStyle === style.id ? 'var(--primary)' : 'var(--text)',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.5rem'
@@ -203,7 +203,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
                 {inputs.pizzaStyle === style.id && <span>✅</span>}
                 {style.name}
               </h3>
-              <p style={{ fontSize: '0.8rem', color: '#86868b' }}>{style.description}</p>
+              <p style={{ fontSize: '0.8rem', color: 'var(--lightText)' }}>{style.description}</p>
             </GridItem>
           ))}
         </Grid>
