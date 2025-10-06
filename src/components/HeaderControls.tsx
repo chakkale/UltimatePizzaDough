@@ -2,7 +2,8 @@ import React from 'react';
 import styled from '@emotion/styled';
 import ThemeToggle from './ThemeToggle';
 import AddToHomeButton from './AddToHomeButton';
-import GitHubButton from './GitHubButton';
+// GitHub button temporarily disabled - uncomment to re-enable
+// import GitHubButton from './GitHubButton';
 import { useTheme } from '../context/ThemeContext';
 
 const ControlsContainer = styled.div`
@@ -20,14 +21,16 @@ const ButtonGroup = styled.div`
 
 const HeaderControls: React.FC = () => {
   const { theme } = useTheme();
-  const repoUrl = 'https://github.com/chakkale/UltimatePizzaDough';
+  // GitHub button temporarily disabled - uncomment to re-enable
+  // const repoUrl = 'https://github.com/chakkale/UltimatePizzaDough';
   
   return (
     <ControlsContainer>
       <ThemeToggle />
       <ButtonGroup>
         <AddToHomeButton theme={theme} />
-        <GitHubButton theme={theme} repoUrl={repoUrl} />
+        {/* GitHub button temporarily disabled - uncomment to re-enable */}
+        {/* <GitHubButton theme={theme} repoUrl={repoUrl} /> */}
       </ButtonGroup>
     </ControlsContainer>
   );
