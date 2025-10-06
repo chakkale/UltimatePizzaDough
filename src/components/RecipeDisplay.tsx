@@ -5,6 +5,7 @@ import { roundToOneDecimal, roundToTwoDecimals, gramsToOunces, cmToInches } from
 import { trackTabChange } from '../utils/analytics';
 import LoadingSpinner from './LoadingSpinner';
 import EmptyState from './EmptyState';
+import { useTranslation } from '../context/TranslationContext';
 import {
   StickyCard,
   SectionTitle,
@@ -24,6 +25,7 @@ interface RecipeDisplayProps {
 const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe }) => {
   const [activeTab, setActiveTab] = useState<'ingredients' | 'method'>('ingredients');
   const [isLoading, setIsLoading] = useState(false);
+  const { t } = useTranslation();
 
   // Track tab changes
   useEffect(() => {
@@ -50,8 +52,8 @@ const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe }) => {
       >
         <EmptyState
           icon="🍕"
-          title="No Recipe Yet"
-          message="Adjust your pizza settings to generate a customized dough recipe with precise measurements and step-by-step instructions."
+          title={t('empty.title')}
+          message={t('empty.message')}
         />
       </StickyCard>
     );
@@ -64,7 +66,7 @@ const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe }) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        <LoadingSpinner fullScreen text="Calculating your perfect recipe..." />
+        <LoadingSpinner fullScreen text={t('loading.recipe')} />
       </StickyCard>
     );
   }
@@ -92,23 +94,38 @@ const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe }) => {
     return name.toLowerCase().includes('yeast');
   };
 
+  // Helper function to translate ingredient names
+  const translateIngredient = (name: string): string => {
+    const lowerName = name.toLowerCase();
+    if (lowerName.includes('flour')) return t('ingredient.flour');
+    if (lowerName.includes('water')) return t('ingredient.water');
+    if (lowerName.includes('salt')) return t('ingredient.salt');
+    if (lowerName.includes('yeast')) return t('ingredient.yeast');
+    if (lowerName.includes('oil')) return t('ingredient.oil');
+    if (lowerName.includes('sugar')) return t('ingredient.sugar');
+    if (lowerName.includes('preferment')) return t('ingredient.preferment');
+    if (lowerName.includes('diastatic malt')) return t('ingredient.diastaticMalt');
+    if (lowerName.includes('dough enhancer')) return t('ingredient.doughEnhancer');
+    return name; // Return original name if no translation found
+  };
+
   return (
     <StickyCard
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.2 }}
     >
-      <SectionTitle>Your Pizza Dough Recipe</SectionTitle>
+      <SectionTitle>{t('recipe.title')}</SectionTitle>
 
       {recipe.pizzaInfo && (
         <InfoBox>
           {recipe.pizzaInfo.panWidth && recipe.pizzaInfo.panLength ? (
             <>
-              <strong>Pizza Info:</strong> {recipe.pizzaInfo.panWidth}cm × {recipe.pizzaInfo.panLength}cm ({safeCmToInches(recipe.pizzaInfo.panWidth)}″ × {safeCmToInches(recipe.pizzaInfo.panLength)}″) rectangular pan with a thickness factor of {recipe.pizzaInfo.thicknessFactor.toFixed(2)} oz/in².
+              <strong>{t('recipe.info')}:</strong> {recipe.pizzaInfo.panWidth}cm × {recipe.pizzaInfo.panLength}cm ({safeCmToInches(recipe.pizzaInfo.panWidth)}″ × {safeCmToInches(recipe.pizzaInfo.panLength)}″) {t('form.rectangular').toLowerCase()} {t('form.thicknessFactor').toLowerCase()} {recipe.pizzaInfo.thicknessFactor.toFixed(2)} oz/in².
             </>
           ) : (
             <>
-              <strong>Pizza Info:</strong> {recipe.pizzaInfo.diameter}cm ({recipe.pizzaInfo.diameter ? safeCmToInches(recipe.pizzaInfo.diameter) : "0.0"}″) diameter with a thickness factor of {recipe.pizzaInfo.thicknessFactor.toFixed(2)} oz/in².
+              <strong>{t('recipe.info')}:</strong> {recipe.pizzaInfo.diameter}cm ({recipe.pizzaInfo.diameter ? safeCmToInches(recipe.pizzaInfo.diameter) : "0.0"}″) {t('recipe.diameter')} {t('form.thicknessFactor').toLowerCase()} {recipe.pizzaInfo.thicknessFactor.toFixed(2)} oz/in².
             </>
           )}
         </InfoBox>
@@ -119,13 +136,13 @@ const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe }) => {
           active={activeTab === 'ingredients'}
           onClick={() => setActiveTab('ingredients')}
         >
-          Ingredients
+          {t('recipe.ingredients')}
         </Tab>
         <Tab
           active={activeTab === 'method'}
           onClick={() => setActiveTab('method')}
         >
-          Method
+          {t('method.title')}
         </Tab>
       </TabsContainer>
 
@@ -141,15 +158,15 @@ const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe }) => {
             <Table>
               <thead>
                 <tr>
-                  <TableHeader>Ingredient</TableHeader>
-                  <TableHeader>Weight</TableHeader>
-                  <TableHeader>Baker's %</TableHeader>
+                  <TableHeader>{t('recipe.ingredient')}</TableHeader>
+                  <TableHeader>{t('recipe.weight')}</TableHeader>
+                  <TableHeader>{t('recipe.percentage')}</TableHeader>
                 </tr>
               </thead>
               <tbody>
                 {recipe.ingredients.map((ingredient, index) => (
                   <tr key={index}>
-                    <TableCell>{ingredient.name}</TableCell>
+                    <TableCell>{translateIngredient(ingredient.name)}</TableCell>
                     <TableCell>{isYeast(ingredient.name) ? roundToTwoDecimals(ingredient.weight) : roundToOneDecimal(ingredient.weight)}g</TableCell>
                     <TableCell>{ingredient.percentage}%</TableCell>
                   </tr>
@@ -160,85 +177,85 @@ const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe }) => {
 
           {recipe.preferment && recipe.mainDough && (
             <Section>
-              <SectionTitle>Preferment & Main Dough</SectionTitle>
+              <SectionTitle>{t('preferment.title')}</SectionTitle>
               <InfoBox>
-                Prepare the preferment first and let it ferment before mixing with the main dough ingredients.
+                {t('preferment.info')}
               </InfoBox>
 
-              <h3 style={{ marginBottom: '1rem' }}>Preferment</h3>
+              <h3 style={{ marginBottom: '1rem' }}>{t('recipe.preferment')}</h3>
               <Table>
                 <thead>
                   <tr>
-                    <TableHeader>Ingredient</TableHeader>
-                    <TableHeader>Weight</TableHeader>
+                    <TableHeader>{t('recipe.ingredient')}</TableHeader>
+                    <TableHeader>{t('recipe.weight')}</TableHeader>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <TableCell>Flour</TableCell>
+                    <TableCell>{t('ingredient.flour')}</TableCell>
                     <TableCell>{roundToOneDecimal(recipe.preferment.flour)}g</TableCell>
                   </tr>
                   <tr>
-                    <TableCell>Water</TableCell>
+                    <TableCell>{t('ingredient.water')}</TableCell>
                     <TableCell>{roundToOneDecimal(recipe.preferment.water)}g</TableCell>
                   </tr>
                   {recipe.preferment.yeast !== undefined && (
                     <tr>
-                      <TableCell>Yeast</TableCell>
+                      <TableCell>{t('ingredient.yeast')}</TableCell>
                       <TableCell>{roundToTwoDecimals(recipe.preferment.yeast)}g</TableCell>
                     </tr>
                   )}
                 </tbody>
               </Table>
 
-              <h3 style={{ margin: '1.5rem 0 1rem' }}>Main Dough</h3>
+              <h3 style={{ margin: '1.5rem 0 1rem' }}>{t('recipe.mainDough')}</h3>
               <Table>
                 <thead>
                   <tr>
-                    <TableHeader>Ingredient</TableHeader>
-                    <TableHeader>Weight</TableHeader>
+                    <TableHeader>{t('recipe.ingredient')}</TableHeader>
+                    <TableHeader>{t('recipe.weight')}</TableHeader>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <TableCell>Flour</TableCell>
+                    <TableCell>{t('ingredient.flour')}</TableCell>
                     <TableCell>{roundToOneDecimal(recipe.mainDough.flour)}g</TableCell>
                   </tr>
                   <tr>
-                    <TableCell>Water</TableCell>
+                    <TableCell>{t('ingredient.water')}</TableCell>
                     <TableCell>{roundToOneDecimal(recipe.mainDough.water)}g</TableCell>
                   </tr>
                   <tr>
-                    <TableCell>Salt</TableCell>
+                    <TableCell>{t('ingredient.salt')}</TableCell>
                     <TableCell>{roundToOneDecimal(recipe.mainDough.salt)}g</TableCell>
                   </tr>
                   {recipe.mainDough.yeast > 0 && (
                     <tr>
-                      <TableCell>Yeast</TableCell>
+                      <TableCell>{t('ingredient.yeast')}</TableCell>
                       <TableCell>{roundToTwoDecimals(recipe.mainDough.yeast)}g</TableCell>
                     </tr>
                   )}
                   {recipe.mainDough.oil !== undefined && (
                     <tr>
-                      <TableCell>Oil</TableCell>
+                      <TableCell>{t('ingredient.oil')}</TableCell>
                       <TableCell>{roundToOneDecimal(recipe.mainDough.oil)}g</TableCell>
                     </tr>
                   )}
                   {recipe.mainDough.sugar !== undefined && (
                     <tr>
-                      <TableCell>Sugar</TableCell>
+                      <TableCell>{t('ingredient.sugar')}</TableCell>
                       <TableCell>{roundToOneDecimal(recipe.mainDough.sugar)}g</TableCell>
                     </tr>
                   )}
                   {recipe.mainDough.diastaticMalt !== undefined && (
                     <tr>
-                      <TableCell>Diastatic Malt</TableCell>
+                      <TableCell>{t('ingredient.diastaticMalt')}</TableCell>
                       <TableCell>{roundToOneDecimal(recipe.mainDough.diastaticMalt)}g</TableCell>
                     </tr>
                   )}
                   {recipe.mainDough.doughEnhancer !== undefined && (
                     <tr>
-                      <TableCell>Dough Enhancer</TableCell>
+                      <TableCell>{t('ingredient.doughEnhancer')}</TableCell>
                       <TableCell>{roundToOneDecimal(recipe.mainDough.doughEnhancer)}g</TableCell>
                     </tr>
                   )}
@@ -260,66 +277,151 @@ const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe }) => {
           {recipe.preferment && recipe.mainDough ? (
             <>
               <Section>
-                <h3>Preferment Instructions</h3>
+                <h3>{t('preferment.instructions')}</h3>
                 <ol style={{ paddingLeft: '1.5rem', lineHeight: '1.6' }}>
-                  <li>Mix {roundToOneDecimal(recipe.preferment.flour)}g ({safeGramsToOunces(recipe.preferment.flour)}oz) flour with {roundToOneDecimal(recipe.preferment.water)}g ({safeGramsToOunces(recipe.preferment.water)}oz) water{recipe.preferment.yeast !== undefined ? ` and ${roundToTwoDecimals(recipe.preferment.yeast)}g (${safeGramsToOunces(recipe.preferment.yeast)}oz) yeast` : ''} until no dry flour remains.</li>
-                  <li>Cover and let ferment at room temperature (68-72°F/20-22°C) for {recipe.prefermentType === 'sponge' ? '3-5 hours' : '12-16 hours'}.</li>
-                  <li>The preferment is ready when it has {recipe.prefermentType === 'sponge' ? 'a domed surface with many small bubbles' : 'doubled in size and has a domed or slightly collapsed surface with bubbles'}.</li>
+                  <li>
+                    {t('preferment.step1')
+                      .replace('{flour}', roundToOneDecimal(recipe.preferment.flour).toString())
+                      .replace('{flourOz}', safeGramsToOunces(recipe.preferment.flour))
+                      .replace('{water}', roundToOneDecimal(recipe.preferment.water).toString())
+                      .replace('{waterOz}', safeGramsToOunces(recipe.preferment.water))
+                      .replace('{yeast}', recipe.preferment.yeast !== undefined 
+                        ? t('preferment.step1.yeast')
+                            .replace('{yeast}', roundToTwoDecimals(recipe.preferment.yeast).toString())
+                            .replace('{yeastOz}', safeGramsToOunces(recipe.preferment.yeast))
+                        : ''
+                      )}
+                  </li>
+                  <li>
+                    {recipe.prefermentType === 'sponge' ? t('preferment.step2.sponge') : t('preferment.step2.poolish')}
+                  </li>
+                  <li>
+                    {recipe.prefermentType === 'sponge' ? t('preferment.step3.sponge') : t('preferment.step3.poolish')}
+                  </li>
                 </ol>
               </Section>
 
               <Section>
-                <h3>Main Dough Instructions</h3>
+                <h3>{t('mainDough.instructions')}</h3>
                 <ol style={{ paddingLeft: '1.5rem', lineHeight: '1.6' }}>
-                  <li>In a large bowl, combine the preferment with {roundToOneDecimal(recipe.mainDough.water)}g ({safeGramsToOunces(recipe.mainDough.water)}oz) water and mix until the preferment is dissolved.</li>
-                  <li>Add {roundToOneDecimal(recipe.mainDough.flour)}g ({safeGramsToOunces(recipe.mainDough.flour)}oz) flour and mix until no dry flour remains. Cover and let rest for 30 minutes (autolyse).</li>
-                  <li>Add {roundToOneDecimal(recipe.mainDough.salt)}g ({safeGramsToOunces(recipe.mainDough.salt)}oz) salt{recipe.mainDough.yeast > 0 ? `, ${roundToTwoDecimals(recipe.mainDough.yeast)}g (${safeGramsToOunces(recipe.mainDough.yeast)}oz) yeast` : ''}{recipe.mainDough.oil ? `, ${roundToOneDecimal(recipe.mainDough.oil)}g (${safeGramsToOunces(recipe.mainDough.oil)}oz) oil` : ''}{recipe.mainDough.sugar ? ` and ${roundToOneDecimal(recipe.mainDough.sugar)}g (${safeGramsToOunces(recipe.mainDough.sugar)}oz) sugar` : ''}{recipe.mainDough.diastaticMalt ? ` and ${roundToOneDecimal(recipe.mainDough.diastaticMalt)}g (${safeGramsToOunces(recipe.mainDough.diastaticMalt)}oz) diastatic malt` : ''}{recipe.mainDough.doughEnhancer ? ` and ${roundToOneDecimal(recipe.mainDough.doughEnhancer)}g (${safeGramsToOunces(recipe.mainDough.doughEnhancer)}oz) dough enhancer` : ''} and mix thoroughly.</li>
-                  <li>Perform 3-4 sets of stretch and folds at 30-minute intervals.</li>
-                  <li>After the final fold, let the dough bulk ferment until it has increased in volume by about 50% (2-4 hours depending on temperature).</li>
-                  <li>Divide the dough into individual balls and shape them.</li>
-                  <li>Place the dough balls in containers and refrigerate for 24-72 hours for cold fermentation.</li>
-                  <li>Remove from the refrigerator 1-2 hours before baking to allow the dough to warm up.</li>
+                  <li>
+                    {t('mainDough.step1')
+                      .replace('{water}', roundToOneDecimal(recipe.mainDough.water).toString())
+                      .replace('{waterOz}', safeGramsToOunces(recipe.mainDough.water))}
+                  </li>
+                  <li>
+                    {t('mainDough.step2')
+                      .replace('{flour}', roundToOneDecimal(recipe.mainDough.flour).toString())
+                      .replace('{flourOz}', safeGramsToOunces(recipe.mainDough.flour))}
+                  </li>
+                  <li>
+                    {t('mainDough.step3.start')
+                      .replace('{salt}', roundToOneDecimal(recipe.mainDough.salt).toString())
+                      .replace('{saltOz}', safeGramsToOunces(recipe.mainDough.salt))}
+                    {recipe.mainDough.yeast > 0 
+                      ? t('mainDough.step3.yeast')
+                          .replace('{yeast}', roundToTwoDecimals(recipe.mainDough.yeast).toString())
+                          .replace('{yeastOz}', safeGramsToOunces(recipe.mainDough.yeast))
+                      : ''}
+                    {recipe.mainDough.oil 
+                      ? t('mainDough.step3.oil')
+                          .replace('{oil}', roundToOneDecimal(recipe.mainDough.oil).toString())
+                          .replace('{oilOz}', safeGramsToOunces(recipe.mainDough.oil))
+                      : ''}
+                    {recipe.mainDough.sugar 
+                      ? t('mainDough.step3.sugar')
+                          .replace('{sugar}', roundToOneDecimal(recipe.mainDough.sugar).toString())
+                          .replace('{sugarOz}', safeGramsToOunces(recipe.mainDough.sugar))
+                      : ''}
+                    {recipe.mainDough.diastaticMalt 
+                      ? t('mainDough.step3.malt')
+                          .replace('{malt}', roundToOneDecimal(recipe.mainDough.diastaticMalt).toString())
+                          .replace('{maltOz}', safeGramsToOunces(recipe.mainDough.diastaticMalt))
+                      : ''}
+                    {recipe.mainDough.doughEnhancer 
+                      ? t('mainDough.step3.enhancer')
+                          .replace('{enhancer}', roundToOneDecimal(recipe.mainDough.doughEnhancer).toString())
+                          .replace('{enhancerOz}', safeGramsToOunces(recipe.mainDough.doughEnhancer))
+                      : ''}
+                    {t('mainDough.step3.end')}
+                  </li>
+                  <li>{t('mainDough.step4')}</li>
+                  <li>{t('mainDough.step5')}</li>
+                  <li>{t('mainDough.step6')}</li>
+                  <li>{t('mainDough.step7')}</li>
+                  <li>{t('mainDough.step8')}</li>
                 </ol>
               </Section>
             </>
           ) : (
             <Section>
-              <h3>Dough Instructions</h3>
+              <h3>{t('dough.instructions')}</h3>
               <ol style={{ paddingLeft: '1.5rem', lineHeight: '1.6' }}>
-                <li>In a large bowl, combine {roundToOneDecimal(getIngredientWeight('Water'))}g ({safeGramsToOunces(getIngredientWeight('Water'))}oz) water with {roundToOneDecimal(getIngredientWeight('Salt'))}g ({safeGramsToOunces(getIngredientWeight('Salt'))}oz) salt until dissolved.</li>
-                <li>Add {roundToOneDecimal(getIngredientWeight('Flour'))}g ({safeGramsToOunces(getIngredientWeight('Flour'))}oz) flour and mix until no dry flour remains.</li>
+                <li>
+                  {t('dough.step1')
+                    .replace('{water}', roundToOneDecimal(getIngredientWeight('Water')).toString())
+                    .replace('{waterOz}', safeGramsToOunces(getIngredientWeight('Water')))
+                    .replace('{salt}', roundToOneDecimal(getIngredientWeight('Salt')).toString())
+                    .replace('{saltOz}', safeGramsToOunces(getIngredientWeight('Salt')))}
+                </li>
+                <li>
+                  {t('dough.step2')
+                    .replace('{flour}', roundToOneDecimal(getIngredientWeight('Flour')).toString())
+                    .replace('{flourOz}', safeGramsToOunces(getIngredientWeight('Flour')))}
+                </li>
                 {recipe.ingredients.some(i => isYeast(i.name)) && (
-                  <li>Add {roundToTwoDecimals(recipe.ingredients.find(i => isYeast(i.name))?.weight || 0)}g ({safeGramsToOunces(recipe.ingredients.find(i => isYeast(i.name))?.weight || 0)}oz) {recipe.ingredients.find(i => isYeast(i.name))?.name} and mix thoroughly.</li>
+                  <li>
+                    {t('dough.step3.yeast')
+                      .replace('{yeast}', roundToTwoDecimals(recipe.ingredients.find(i => isYeast(i.name))?.weight || 0).toString())
+                      .replace('{yeastOz}', safeGramsToOunces(recipe.ingredients.find(i => isYeast(i.name))?.weight || 0))
+                      .replace('{yeastName}', translateIngredient(recipe.ingredients.find(i => isYeast(i.name))?.name || 'Yeast'))}
+                  </li>
                 )}
                 {getIngredientWeight('Oil') > 0 && (
-                  <li>Add {roundToOneDecimal(getIngredientWeight('Oil'))}g ({safeGramsToOunces(getIngredientWeight('Oil'))}oz) oil and mix thoroughly.</li>
+                  <li>
+                    {t('dough.step3.oil')
+                      .replace('{oil}', roundToOneDecimal(getIngredientWeight('Oil')).toString())
+                      .replace('{oilOz}', safeGramsToOunces(getIngredientWeight('Oil')))}
+                  </li>
                 )}
                 {getIngredientWeight('Sugar') > 0 && (
-                  <li>Add {roundToOneDecimal(getIngredientWeight('Sugar'))}g ({safeGramsToOunces(getIngredientWeight('Sugar'))}oz) sugar and mix thoroughly.</li>
+                  <li>
+                    {t('dough.step3.sugar')
+                      .replace('{sugar}', roundToOneDecimal(getIngredientWeight('Sugar')).toString())
+                      .replace('{sugarOz}', safeGramsToOunces(getIngredientWeight('Sugar')))}
+                  </li>
                 )}
                 {getIngredientWeight('Diastatic Malt') > 0 && (
-                  <li>Add {roundToOneDecimal(getIngredientWeight('Diastatic Malt'))}g ({safeGramsToOunces(getIngredientWeight('Diastatic Malt'))}oz) diastatic malt and mix thoroughly.</li>
+                  <li>
+                    {t('dough.step3.malt')
+                      .replace('{malt}', roundToOneDecimal(getIngredientWeight('Diastatic Malt')).toString())
+                      .replace('{maltOz}', safeGramsToOunces(getIngredientWeight('Diastatic Malt')))}
+                  </li>
                 )}
                 {getIngredientWeight('Dough Enhancer') > 0 && (
-                  <li>Add {roundToOneDecimal(getIngredientWeight('Dough Enhancer'))}g ({safeGramsToOunces(getIngredientWeight('Dough Enhancer'))}oz) dough enhancer and mix thoroughly.</li>
+                  <li>
+                    {t('dough.step3.enhancer')
+                      .replace('{enhancer}', roundToOneDecimal(getIngredientWeight('Dough Enhancer')).toString())
+                      .replace('{enhancerOz}', safeGramsToOunces(getIngredientWeight('Dough Enhancer')))}
+                  </li>
                 )}
-                <li>Cover and let rest for 30 minutes (autolyse).</li>
-                <li>Perform 3-4 sets of stretch and folds at 30-minute intervals.</li>
-                <li>After the final fold, let the dough bulk ferment until it has increased in volume by about 50% (2-4 hours depending on temperature).</li>
-                <li>Divide the dough into individual balls and shape them.</li>
-                <li>Place the dough balls in containers and refrigerate for 24-72 hours for cold fermentation.</li>
-                <li>Remove from the refrigerator 1-2 hours before baking to allow the dough to warm up.</li>
+                <li>{t('dough.step4')}</li>
+                <li>{t('mainDough.step4')}</li>
+                <li>{t('mainDough.step5')}</li>
+                <li>{t('mainDough.step6')}</li>
+                <li>{t('mainDough.step7')}</li>
+                <li>{t('mainDough.step8')}</li>
               </ol>
             </Section>
           )}
 
           <Section>
-            <h3>Baking Instructions</h3>
+            <h3>{t('baking.instructions')}</h3>
             <ol style={{ paddingLeft: '1.5rem', lineHeight: '1.6' }}>
-              <li>Preheat your oven to the highest temperature (ideally 500-550°F/260-290°C) with a pizza stone or steel for at least 1 hour.</li>
-              <li>Gently stretch the dough to your desired size without deflating it too much.</li>
-              <li>Add your toppings and transfer to the hot stone/steel.</li>
-              <li>Bake until the crust is golden and the cheese is bubbly (typically 5-8 minutes).</li>
+              <li>{t('baking.step1')}</li>
+              <li>{t('baking.step2')}</li>
+              <li>{t('baking.step3')}</li>
+              <li>{t('baking.step4')}</li>
             </ol>
           </Section>
         </motion.div>

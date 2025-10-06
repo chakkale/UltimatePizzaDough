@@ -5,6 +5,7 @@ import { CustomPizzaTemplate } from '../types';
 import { Button, FormGroup, Label, Input } from './StyledComponents';
 import { useToast } from './ToastProvider';
 import EmptyState from './EmptyState';
+import { useTranslation } from '../context/TranslationContext';
 
 const TemplateContainer = styled.div`
   margin-top: 1rem;
@@ -115,16 +116,17 @@ const TemplateManager: React.FC<TemplateManagerProps> = ({
   const [templateName, setTemplateName] = useState('');
   const [error, setError] = useState('');
   const { showToast } = useToast();
+  const { t } = useTranslation();
 
   const handleSave = () => {
     if (!templateName.trim()) {
-      setError('Please enter a template name');
+      setError(t('template.errorName'));
       return;
     }
     
     // Check if name already exists
     if (templates.some(t => t.name.toLowerCase() === templateName.trim().toLowerCase())) {
-      setError('A template with this name already exists');
+      setError(t('template.errorExists'));
       return;
     }
     
@@ -132,17 +134,17 @@ const TemplateManager: React.FC<TemplateManagerProps> = ({
     setTemplateName('');
     setShowSaveForm(false);
     setError('');
-    showToast(`Template "${templateName.trim()}" saved successfully!`, 'success');
+    showToast(t('template.saved').replace('{name}', templateName.trim()), 'success');
   };
 
   const handleApply = (template: CustomPizzaTemplate) => {
     onApplyTemplate(template.id);
-    showToast(`Applied template "${template.name}"`, 'info');
+    showToast(t('template.applied').replace('{name}', template.name), 'info');
   };
 
   const handleDelete = (template: CustomPizzaTemplate) => {
     onDeleteTemplate(template.id);
-    showToast(`Deleted template "${template.name}"`, 'warning');
+    showToast(t('template.deleted').replace('{name}', template.name), 'warning');
   };
 
   const handleCancel = () => {
@@ -158,10 +160,10 @@ const TemplateManager: React.FC<TemplateManagerProps> = ({
   return (
     <TemplateContainer>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h3>Template Manager</h3>
+        <h3>{t('template.manager')}</h3>
         {onClose && (
           <CloseButton onClick={onClose}>
-            Close
+            {t('template.close')}
           </CloseButton>
         )}
       </div>
@@ -169,9 +171,9 @@ const TemplateManager: React.FC<TemplateManagerProps> = ({
       {templates.length === 0 ? (
         <EmptyState
           icon="📋"
-          title="No Templates Yet"
-          message="Create custom pizza settings and save them as templates for quick access later."
-          actionText={isCustomStyle ? "Save Current Settings" : undefined}
+          title={t('template.noTemplates')}
+          message={t('template.noTemplatesMessage')}
+          actionText={isCustomStyle ? t('template.saveCurrentSettings') : undefined}
           onAction={isCustomStyle ? () => setShowSaveForm(true) : undefined}
         />
       ) : (
@@ -181,20 +183,20 @@ const TemplateManager: React.FC<TemplateManagerProps> = ({
               <div>
                 <TemplateName>{template.name}</TemplateName>
                 <TemplateInfo>
-                  {template.hydration}% hydration • 
-                  {template.isRectangular ? ' Rectangular' : ' Round'} • 
-                  Created: {formatDate(template.createdAt)}
+                  {template.hydration}% {t('template.hydration')} • 
+                  {template.isRectangular ? ` ${t('template.rectangular')}` : ` ${t('template.round')}`} • 
+                  {t('template.created')}: {formatDate(template.createdAt)}
                 </TemplateInfo>
               </div>
               <TemplateActions>
                 <ActionButton onClick={() => handleApply(template)}>
-                  Apply
+                  {t('template.apply')}
                 </ActionButton>
                 <ActionButton 
                   className="delete"
                   onClick={() => handleDelete(template)}
                 >
-                  Delete
+                  {t('template.delete')}
                 </ActionButton>
               </TemplateActions>
             </TemplateItem>
@@ -209,7 +211,7 @@ const TemplateManager: React.FC<TemplateManagerProps> = ({
               style={{ marginTop: '1rem' }}
               onClick={() => setShowSaveForm(true)}
             >
-              Save Current Settings as Template
+              {t('template.saveAsTemplate')}
             </Button>
           ) : (
             <AnimatePresence>
@@ -219,13 +221,13 @@ const TemplateManager: React.FC<TemplateManagerProps> = ({
                 exit={{ opacity: 0, y: -10 }}
               >
                 <FormGroup>
-                  <Label htmlFor="templateName">Template Name</Label>
+                  <Label htmlFor="templateName">{t('template.name')}</Label>
                   <Input
                     id="templateName"
                     type="text"
                     value={templateName}
                     onChange={(e) => setTemplateName(e.target.value)}
-                    placeholder="E.g., My Favorite NY Style"
+                    placeholder={t('template.placeholder')}
                   />
                   {error && (
                     <p style={{ color: 'var(--error)', fontSize: '0.8rem', marginTop: '0.5rem' }}>
@@ -234,7 +236,7 @@ const TemplateManager: React.FC<TemplateManagerProps> = ({
                   )}
                 </FormGroup>
                 <ButtonGroup>
-                  <Button onClick={handleSave}>Save Template</Button>
+                  <Button onClick={handleSave}>{t('template.save')}</Button>
                   <Button 
                     onClick={handleCancel}
                     style={{ 
@@ -243,7 +245,7 @@ const TemplateManager: React.FC<TemplateManagerProps> = ({
                       border: '1px solid var(--border)'
                     }}
                   >
-                    Cancel
+                    {t('template.cancel')}
                   </Button>
                 </ButtonGroup>
               </SaveTemplateForm>

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { DoughCalculatorInputs, PrefermentType, YeastType, CustomPizzaTemplate } from '../types';
 import { PIZZA_STYLES, inchesToCm, cmToInches } from '../utils/doughCalculator';
 import TemplateManager from './TemplateManager';
+import { useTranslation } from '../context/TranslationContext';
 import {
   Card,
   SectionTitle,
@@ -58,6 +59,8 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
   handleApplyTemplate,
   handleDeleteTemplate
 }) => {
+  const { t } = useTranslation();
+  
   // Handle number input changes
   const handleNumberInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -143,12 +146,12 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <SectionTitle>Pizza Dough Calculator</SectionTitle>
+      <SectionTitle>{t('recipe.title')}</SectionTitle>
       
       <Section>
         {/* Unit Toggle */}
         <FormGroup>
-          <Label>Measurement Units</Label>
+          <Label>{t('units.title')}</Label>
           <div style={{ display: 'flex', gap: '8px' }}>
             <Button 
               onClick={() => handleUseInchesChange && handleUseInchesChange(false)}
@@ -163,7 +166,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
                 boxShadow: !inputs.useInches ? '0 4px 12px rgba(0, 113, 227, 0.3)' : 'none'
               }}
             >
-              📏 Centimeters
+              📏 {t('units.centimeters')}
             </Button>
             <Button 
               onClick={() => handleUseInchesChange && handleUseInchesChange(true)}
@@ -178,12 +181,12 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
                 boxShadow: inputs.useInches ? '0 4px 12px rgba(0, 113, 227, 0.3)' : 'none'
               }}
             >
-              📐 Inches
+              📐 {t('units.inches')}
             </Button>
           </div>
         </FormGroup>
 
-        <Label>Pizza Style</Label>
+        <Label>{t('style.title')}</Label>
         <Grid>
           {PIZZA_STYLES.map((style) => (
             <GridItem
@@ -201,9 +204,9 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
                 gap: '0.5rem'
               }}>
                 {inputs.pizzaStyle === style.id && <span>✅</span>}
-                {style.name}
+                {t(`style.${style.id}`)}
               </h3>
-              <p style={{ fontSize: '0.8rem', color: 'var(--lightText)' }}>{style.description}</p>
+              <p style={{ fontSize: '0.8rem', color: 'var(--lightText)' }}>{t(`style.${style.id}.desc`)}</p>
             </GridItem>
           ))}
         </Grid>
@@ -222,7 +225,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
         {/* Shape selection for Custom Style */}
         {inputs.pizzaStyle === 'custom' && handleShapeToggle && (
           <FormGroup>
-            <Label>Shape</Label>
+            <Label>{t('form.shape')}</Label>
             <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
               <Button 
                 onClick={() => handleShapeToggle(false)}
@@ -234,7 +237,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
                   boxShadow: !inputs.isRectangular ? '0 4px 12px rgba(0, 113, 227, 0.3)' : 'none'
                 }}
               >
-                🔵 Round
+                🔵 {t('form.round')}
               </Button>
               <Button 
                 onClick={() => handleShapeToggle(true)}
@@ -246,7 +249,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
                   boxShadow: inputs.isRectangular ? '0 4px 12px rgba(0, 113, 227, 0.3)' : 'none'
                 }}
               >
-                🔲 Rectangular
+                🔲 {t('form.rectangular')}
               </Button>
             </div>
           </FormGroup>
@@ -255,7 +258,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
 
       <Section>
         <FormGroup>
-          <Label htmlFor="numberOfPizzas">Number of Pizzas</Label>
+          <Label htmlFor="numberOfPizzas">{t('form.numberOfPizzas')}</Label>
           <Input
             id="numberOfPizzas"
             type="number"
@@ -268,7 +271,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
         {/* Shape selection for Focaccia */}
         {isFocaccia && (
           <FormGroup>
-            <Label>Shape</Label>
+            <Label>{t('form.shape')}</Label>
             <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
               <Button 
                 onClick={() => {
@@ -287,7 +290,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
                   boxShadow: !isRectangular ? '0 4px 12px rgba(0, 113, 227, 0.3)' : 'none'
                 }}
               >
-                🔵 Round
+                🔵 {t('form.round')}
               </Button>
               <Button 
                 onClick={() => {
@@ -302,7 +305,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
                   boxShadow: isRectangular ? '0 4px 12px rgba(0, 113, 227, 0.3)' : 'none'
                 }}
               >
-                🔲 Rectangular
+                🔲 {t('form.rectangular')}
               </Button>
             </div>
           </FormGroup>
@@ -311,7 +314,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
         {isRectangular ? (
           <>
             <FormGroup>
-              <Label htmlFor="panWidth">Pan Width</Label>
+              <Label htmlFor="panWidth">{t('form.width')}</Label>
               <Input
                 id="panWidth"
                 type="number"
@@ -325,7 +328,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
               </p>
             </FormGroup>
             <FormGroup>
-              <Label htmlFor="panLength">Pan Length</Label>
+              <Label htmlFor="panLength">{t('form.length')}</Label>
               <Input
                 id="panLength"
                 type="number"
@@ -341,7 +344,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
           </>
         ) : (
           <FormGroup>
-            <Label htmlFor="pizzaDiameter">Pizza Diameter</Label>
+            <Label htmlFor="pizzaDiameter">{t('form.pizzaDiameter')}</Label>
             <Input
               id="pizzaDiameter"
               type="number"
@@ -357,11 +360,11 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
         )}
 
         <FormGroup>
-          <Label htmlFor="thicknessFactor">Thickness Factor</Label>
+          <Label htmlFor="thicknessFactor">{t('form.thicknessFactor')}</Label>
           <SliderValue>
-            <span>0.03 (Thin)</span>
+            <span>0.03 ({t('form.thin')})</span>
             <span>{inputs.thicknessFactor.toFixed(2)}</span>
-            <span>0.15 (Thick)</span>
+            <span>0.15 ({t('form.thick')})</span>
           </SliderValue>
           <Slider
             id="thicknessFactor"
@@ -378,7 +381,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
         </FormGroup>
 
         <FormGroup>
-          <Label htmlFor="ballWeight">Dough Ball Weight</Label>
+          <Label htmlFor="ballWeight">{t('form.doughBallWeight')}</Label>
           <Input
             id="ballWeight"
             type="number"
@@ -392,7 +395,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
         </FormGroup>
 
         <FormGroup>
-          <Label htmlFor="hydration">Hydration (%)</Label>
+          <Label htmlFor="hydration">{t('form.hydration')} (%)</Label>
           <SliderValue>
             <span>50%</span>
             <span>{inputs.hydration}%</span>
@@ -410,7 +413,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
         </FormGroup>
 
         <FormGroup>
-          <Label htmlFor="salt">Salt (%)</Label>
+          <Label htmlFor="salt">{t('form.salt')} (%)</Label>
           <SliderValue>
             <span>1%</span>
             <span>{inputs.salt}%</span>
@@ -428,7 +431,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
         </FormGroup>
 
         <FormGroup>
-          <Label htmlFor="yeast">Yeast (%)</Label>
+          <Label htmlFor="yeast">{t('form.yeast')} (%)</Label>
           <SliderValue>
             <span>0%</span>
             <span>{inputs.yeast.toFixed(2)}%</span>
@@ -444,15 +447,15 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
             onChange={(e) => handleSliderChange(e, 'yeast')}
           />
           <div style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }}>
-            <Label htmlFor="yeastType">Yeast Type</Label>
+            <Label htmlFor="yeastType">{t('form.yeastType')}</Label>
             <Select
               id="yeastType"
               value={inputs.yeastType}
               onChange={(e) => handleYeastTypeChange && handleYeastTypeChange(e.target.value as YeastType)}
             >
-              <option value="active_dry">Active Dry Yeast</option>
-              <option value="instant">Instant Yeast</option>
-              <option value="fresh">Fresh Yeast</option>
+              <option value="active_dry">{t('form.active')}</option>
+              <option value="instant">{t('form.instant')}</option>
+              <option value="fresh">{t('form.fresh')}</option>
             </Select>
           </div>
           <p style={{ fontSize: '0.8rem', color: '#86868b', marginTop: '0.5rem' }}>
@@ -464,7 +467,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
         </FormGroup>
 
         <FormGroup>
-          <Label htmlFor="oil">Oil (%)</Label>
+          <Label htmlFor="oil">{t('form.oil')} (%)</Label>
           <SliderValue>
             <span>0%</span>
             <span>{inputs.oil}%</span>
@@ -482,7 +485,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
         </FormGroup>
 
         <FormGroup>
-          <Label htmlFor="sugar">Sugar (%)</Label>
+          <Label htmlFor="sugar">{t('form.sugar')} (%)</Label>
           <SliderValue>
             <span>0%</span>
             <span>{inputs.sugar}%</span>
@@ -500,7 +503,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
         </FormGroup>
 
         <FormGroup>
-          <Label htmlFor="diastaticMalt">Diastatic Malt (%)</Label>
+          <Label htmlFor="diastaticMalt">{t('form.diastaticMalt')} (%)</Label>
           <SliderValue>
             <span>0%</span>
             <span>{inputs.diastaticMalt}%</span>
@@ -549,15 +552,15 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
         </InfoBox>
 
         <FormGroup>
-          <Label htmlFor="prefermentType">Preferment Type</Label>
+          <Label htmlFor="prefermentType">{t('form.preferment')}</Label>
           <Select
             id="prefermentType"
             value={inputs.preferment.type}
             onChange={(e) => onPrefermentTypeChange(e.target.value as PrefermentType)}
           >
-            <option value="none">None</option>
-            <option value="poolish">Poolish</option>
-            <option value="biga">Biga</option>
+            <option value="none">{t('form.none')}</option>
+            <option value="poolish">{t('form.poolish')}</option>
+            <option value="biga">{t('form.biga')}</option>
             <option value="sponge">Sponge</option>
             <option value="sourdough">Sourdough</option>
           </Select>
@@ -570,7 +573,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
             transition={{ duration: 0.3 }}
           >
             <FormGroup>
-              <Label htmlFor="prefermentPercentage">Preferment Percentage (%)</Label>
+              <Label htmlFor="prefermentPercentage">{t('form.prefermentPercentage')} (%)</Label>
               <SliderValue>
                 <span>10%</span>
                 <span>{inputs.preferment.percentage}%</span>
@@ -591,7 +594,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
             </FormGroup>
 
             <FormGroup>
-              <Label htmlFor="prefermentHydration">Preferment Hydration (%)</Label>
+              <Label htmlFor="prefermentHydration">{t('form.prefermentHydration')} (%)</Label>
               <SliderValue>
                 <span>50%</span>
                 <span>{inputs.preferment.hydration}%</span>
@@ -627,7 +630,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
           border: 'none'
         }}
       >
-        🔄 Reset to Defaults
+        🔄 {t('button.reset')}
       </Button>
     </Card>
   );

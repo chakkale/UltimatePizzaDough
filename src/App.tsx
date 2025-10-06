@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 // Uncomment useEffect when re-enabling password protection
 // import React, { useState, useEffect } from 'react';
 import { ThemeProvider } from './context/ThemeContext';
+// import { useTheme } from './context/ThemeContext'; // Only needed for LanguageSelector
+import { TranslationProvider, useTranslation } from './context/TranslationContext';
 import CalculatorForm from './components/CalculatorForm';
 import RecipeDisplay from './components/RecipeDisplay';
 import HeaderControls from './components/HeaderControls';
@@ -11,6 +13,9 @@ import { useDoughCalculator } from './hooks/useDoughCalculator';
 // Password protection temporarily disabled - uncomment to re-enable
 // import PasswordProtection from './components/PasswordProtection';
 import ThemeToggle from './components/ThemeToggle';
+import LanguageToggle from './components/LanguageToggle';
+// Language selector temporarily removed - can re-enable if needed
+// import LanguageSelector from './components/LanguageSelector';
 import {
   AppContainer,
   Header,
@@ -21,10 +26,10 @@ import {
   Button
 } from './components/StyledComponents';
 
-const App: React.FC = () => {
-  // Password protection temporarily disabled - uncomment to re-enable
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
+// Inner component that uses the theme context
+const AppContent: React.FC = () => {
   const [showTemplateManager, setShowTemplateManager] = useState(false);
+  const { t } = useTranslation();
   const {
     inputs,
     recipe,
@@ -56,13 +61,12 @@ const App: React.FC = () => {
   // }, []);
 
   return (
-    <ThemeProvider>
-      <ToastProvider>
-        {/* Password protection temporarily disabled - uncomment to re-enable */}
-        {/* {!isAuthenticated ? (
-          <PasswordProtection onPasswordSuccess={() => setIsAuthenticated(true)} />
-        ) : ( */}
-          <AppContainer>
+    <ToastProvider>
+      {/* Password protection temporarily disabled - uncomment to re-enable */}
+      {/* {!isAuthenticated ? (
+        <PasswordProtection onPasswordSuccess={() => setIsAuthenticated(true)} />
+      ) : ( */}
+        <AppContainer>
             <Header>
               <HeaderRow>
                 <h1 style={{ 
@@ -76,10 +80,13 @@ const App: React.FC = () => {
                   fontWeight: '700',
                   letterSpacing: '-0.02em'
                 }}>
-                  🍕 Ultimate Pizza Dough Calculator
+                  🍕 {t('app.title')}
                 </h1>
                 <ThemeToggleWrapper>
-                  <ThemeToggle />
+                  <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+                    <LanguageToggle />
+                    <ThemeToggle />
+                  </div>
                 </ThemeToggleWrapper>
               </HeaderRow>
               <HeaderControls />
@@ -117,7 +124,7 @@ const App: React.FC = () => {
                   boxShadow: '0 4px 12px rgba(52, 199, 89, 0.3)'
                 }}
               >
-                📋 Manage Templates
+                📋 {t('button.manageTemplates')}
               </Button>
               
               {showTemplateManager && (
@@ -140,12 +147,22 @@ const App: React.FC = () => {
                 gap: '0.5rem',
                 margin: 0 
               }}>
-                Made with ❤️ © {new Date().getFullYear()} Ultimate Pizza Dough Calculator
+                {t('app.footer')} © {new Date().getFullYear()} {t('app.title')}
               </p>
             </Footer>
           </AppContainer>
         {/* )} */}
       </ToastProvider>
+  );
+};
+
+// Main App component with providers
+const App: React.FC = () => {
+  return (
+    <ThemeProvider>
+      <TranslationProvider>
+        <AppContent />
+      </TranslationProvider>
     </ThemeProvider>
   );
 };

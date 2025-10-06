@@ -92,6 +92,7 @@ p {
 }
 
 input[type="number"] {
+  appearance: textfield;
   -moz-appearance: textfield;
 }
 
@@ -121,4 +122,36 @@ input::-webkit-inner-spin-button {
   --warning: #ff9f0a;
   --error: #ff453a;
   --highlight: #5e5ce6;
+}
+
+/* Hide Google Translate default UI elements */
+.goog-te-banner-frame,
+.goog-te-balloon-frame,
+#goog-gt-tt,
+.goog-tooltip,
+.goog-te-gadget,
+.goog-te-gadget-simple {
+  display: none !important;
+}
+
+/* Prevent body top margin added by Google Translate */
+body.translated-ltr {
+  top: 0 !important;
+}
+
+/* Hide the Google Translate top frame */
+.skiptranslate iframe {
+  visibility: hidden !important;
+  height: 0 !important;
+}
+
+/* Hide the Google Translate attribution */
+.goog-logo-link,
+.goog-te-gadget span {
+  display: none !important;
+}
+
+/* Ensure translated content maintains theme colors */
+font[style*="background-color"] {
+  background-color: transparent !important;
 }
