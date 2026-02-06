@@ -67,6 +67,13 @@ export const PIZZA_STYLES: PizzaStyle[] = [
     isRectangular: true
   },
   {
+    id: 'pan',
+    name: 'Pan',
+    defaultHydration: 65, // 60-70%
+    defaultThicknessFactor: 0.11, // Thick crust in oz/in²
+    description: 'Pizza Hut-style thick, fluffy crust with a crispy, oil-fried bottom baked in a deep round pan.'
+  },
+  {
     id: 'focaccia',
     name: 'Focaccia',
     defaultHydration: 75, // 75-85%
@@ -223,37 +230,39 @@ export const calculateDoughRecipe = (inputs: DoughCalculatorInputs): DoughRecipe
     panWidth,
     panLength,
     preferment,
-    useInches
+    useInches,
+    isRectangular: isRect
   } = inputs;
 
   // Calculate total dough weight
   const totalDoughWeight = calculateTotalDoughWeight(numberOfPizzas, ballWeight);
-  
+
   // Calculate flour weight
   const totalFlour = calculateFlourWeight(totalDoughWeight, hydration, salt, yeast, oil, sugar, diastaticMalt, doughEnhancer);
-  
+
   // Calculate ingredient weights
   const waterWeight = (totalFlour * hydration) / 100;
   const saltWeight = (totalFlour * salt) / 100;
-  
+
   // Calculate base yeast weight (as active dry equivalent)
   const baseYeastWeight = (totalFlour * yeast) / 100;
-  
+
   // Convert to the selected yeast type
   const yeastWeight = baseYeastWeight * YEAST_CONVERSION_FACTORS[yeastType];
-  
+
   const oilWeight = (totalFlour * oil) / 100;
   const sugarWeight = (totalFlour * sugar) / 100;
   const diastaticMaltWeight = (totalFlour * diastaticMalt) / 100;
   const doughEnhancerWeight = (totalFlour * doughEnhancer) / 100;
 
-  // Get selected pizza style
+  // Use the user's actual shape choice from inputs, not the style definition
+  // This ensures that when a 'both' style (like Focaccia) is set to round, we use round calculation
   const selectedStyle = PIZZA_STYLES.find(style => style.id === pizzaStyle);
-  const isRectangular = selectedStyle?.isRectangular;
-  
+  const isRectangular = isRect !== undefined ? isRect : selectedStyle?.isRectangular;
+
   // Calculate pizza area
   let area: number;
-  if ((isRectangular === true || isRectangular === 'both') && panWidth && panLength) {
+  if (isRectangular && panWidth && panLength) {
     // If dimensions are in inches, convert to cm for area calculation in cm²
     const widthCm = useInches ? inchesToCm(panWidth) : panWidth;
     const lengthCm = useInches ? inchesToCm(panLength) : panLength;

@@ -20,6 +20,23 @@ import {
   Section
 } from './StyledComponents';
 
+// Pizza style images
+import neapolitanImg from '../assets/style-neapolitan.png';
+import newyorkImg from '../assets/style-newyork.png';
+import sicilianImg from '../assets/style-sicilian.png';
+import detroitImg from '../assets/style-detroit.png';
+import panImg from '../assets/style-pan.png';
+import focacciaImg from '../assets/style-focaccia.png';
+
+const STYLE_IMAGES: Record<string, string> = {
+  neapolitan: neapolitanImg,
+  ny: newyorkImg,
+  sicilian: sicilianImg,
+  detroit: detroitImg,
+  pan: panImg,
+  focaccia: focacciaImg,
+};
+
 interface CalculatorFormProps {
   inputs: DoughCalculatorInputs;
   templates: CustomPizzaTemplate[];
@@ -116,9 +133,9 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
 
   // Check if the selected pizza style is rectangular
   const selectedStyle = PIZZA_STYLES.find(style => style.id === inputs.pizzaStyle);
-  const isRectangular = 
-    selectedStyle?.isRectangular === true || 
-    (selectedStyle?.isRectangular === 'both' && inputs.panWidth && inputs.panLength) ||
+  const isRectangular =
+    selectedStyle?.isRectangular === true ||
+    (selectedStyle?.isRectangular === 'both' && inputs.isRectangular) ||
     (inputs.pizzaStyle === 'custom' && inputs.isRectangular);
   
   // For Focaccia, we need to add a shape selection
@@ -194,10 +211,32 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
               onClick={() => onPizzaStyleChange(style.id)}
               style={{
                 borderColor: inputs.pizzaStyle === style.id ? 'var(--primary)' : 'var(--border)',
-                backgroundColor: inputs.pizzaStyle === style.id ? 'rgba(0, 113, 227, 0.1)' : 'transparent'
+                backgroundColor: inputs.pizzaStyle === style.id ? 'rgba(0, 113, 227, 0.1)' : 'transparent',
+                overflow: 'hidden'
               }}
             >
-              <h3 style={{ 
+              {STYLE_IMAGES[style.id] && (
+                <div style={{
+                  width: '100%',
+                  height: '100px',
+                  marginBottom: '0.5rem',
+                  borderRadius: '8px',
+                  overflow: 'hidden'
+                }}>
+                  <img
+                    src={STYLE_IMAGES[style.id]}
+                    alt={style.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      opacity: inputs.pizzaStyle === style.id ? 1 : 0.7,
+                      transition: 'opacity 0.2s ease'
+                    }}
+                  />
+                </div>
+              )}
+              <h3 style={{
                 color: inputs.pizzaStyle === style.id ? 'var(--primary)' : 'var(--text)',
                 display: 'flex',
                 alignItems: 'center',
@@ -269,19 +308,12 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
         </FormGroup>
 
         {/* Shape selection for Focaccia */}
-        {isFocaccia && (
+        {isFocaccia && handleShapeToggle && (
           <FormGroup>
             <Label>{t('form.shape')}</Label>
             <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
-              <Button 
-                onClick={() => {
-                  // Set to round shape by clearing pan dimensions
-                  onPanDimensionsChange(0, 0);
-                  // Reset diameter if it was zeroed out
-                  if (!inputs.pizzaDiameter) {
-                    onPizzaDiameterChange(30);
-                  }
-                }}
+              <Button
+                onClick={() => handleShapeToggle(false)}
                 style={{
                   backgroundColor: !isRectangular ? '#0071e3' : '#f5f5f7',
                   color: !isRectangular ? 'white' : '#1d1d1f',
@@ -292,11 +324,8 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
               >
                 🔵 {t('form.round')}
               </Button>
-              <Button 
-                onClick={() => {
-                  // Set to rectangular shape by setting default pan dimensions
-                  onPanDimensionsChange(25, 35);
-                }}
+              <Button
+                onClick={() => handleShapeToggle(true)}
                 style={{
                   backgroundColor: isRectangular ? '#0071e3' : '#f5f5f7',
                   color: isRectangular ? 'white' : '#1d1d1f',
@@ -550,6 +579,16 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
         <InfoBox>
           Preferments improve flavor, texture, and shelf life. They require preparation ahead of time.
         </InfoBox>
+
+        {inputs.pizzaStyle !== 'custom' && t(`preferment.hint.${inputs.pizzaStyle}`) !== `preferment.hint.${inputs.pizzaStyle}` && (
+          <InfoBox style={{
+            background: 'rgba(255, 149, 0, 0.08)',
+            borderLeft: '3px solid rgba(255, 149, 0, 0.6)',
+            fontSize: '0.85rem'
+          }}>
+            {t(`preferment.hint.${inputs.pizzaStyle}`)}
+          </InfoBox>
+        )}
 
         <FormGroup>
           <Label htmlFor="prefermentType">{t('form.preferment')}</Label>

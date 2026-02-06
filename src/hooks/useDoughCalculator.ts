@@ -30,13 +30,13 @@ const DEFAULT_INPUTS: DoughCalculatorInputs = {
   numberOfPizzas: 1,
   ballWeight: 250,
   pizzaStyle: 'neapolitan',
-  hydration: 65,
+  hydration: 60,
   salt: 2.8,
   yeast: 0.05,
   yeastType: 'instant',
   oil: 0,
   sugar: 0,
-  diastaticMalt: 0.05,
+  diastaticMalt: 0,
   doughEnhancer: 0,
   thicknessFactor: 0.06,
   pizzaDiameter: 30,
@@ -132,15 +132,14 @@ export const useDoughCalculator = () => {
         // If ballWeight changes, recalculate thickness factor
         if (name === 'ballWeight') {
           const ballWeight = Number(value);
-          const { pizzaStyle, pizzaDiameter, panWidth, panLength, useInches } = newInputs;
-          const selectedStyle = PIZZA_STYLES.find(style => style.id === pizzaStyle);
-          const isRectangular = selectedStyle?.isRectangular;
+          const { pizzaDiameter, panWidth, panLength, useInches, isRectangular: isRect } = newInputs;
 
-          if ((isRectangular === true || isRectangular === 'both') && panWidth && panLength) {
+          // Use the user's actual shape choice (isRectangular state), not the style definition
+          if (isRect && panWidth && panLength) {
             newInputs.thicknessFactor = calculateThicknessFactor(
               ballWeight,
               pizzaDiameter,
-              isRectangular,
+              true,
               panWidth,
               panLength,
               useInches
@@ -162,48 +161,68 @@ export const useDoughCalculator = () => {
     }
   };
 
+  // Get style-specific default dimensions
+  // These are based on traditional/industry standards for each pizza style
+  const getStyleDefaultDimensions = (styleId: string) => {
+    switch (styleId) {
+      case 'neapolitan':
+        // AVPN standard: 22-35cm, typical is ~30cm (12")
+        return { diameter: 30, panWidth: 30, panLength: 40 };
+      case 'ny':
+        // Standard NY pie: 45cm (18"), traditional range 45-50cm
+        return { diameter: 45, panWidth: 30, panLength: 40 };
+      case 'sicilian':
+        // Standard Sicilian pan: 30x46cm (12"x18")
+        return { diameter: 30, panWidth: 30, panLength: 46 };
+      case 'detroit':
+        // Standard Detroit pan: 25x36cm (10"x14")
+        return { diameter: 30, panWidth: 25, panLength: 36 };
+      case 'pan':
+        // Standard pan pizza: 30cm (12") round deep pan
+        return { diameter: 30, panWidth: 30, panLength: 40 };
+      case 'focaccia':
+        // Common home size: 23x33cm (9"x13"), round ~30cm
+        return { diameter: 30, panWidth: 23, panLength: 33 };
+      default:
+        return { diameter: 30, panWidth: 30, panLength: 40 };
+    }
+  };
+
   // Handle pizza style selection
   const handlePizzaStyleChange = (styleId: string) => {
     const selectedStyle = PIZZA_STYLES.find(style => style.id === styleId);
-    
+
     if (selectedStyle) {
+      // Get style-specific default dimensions
+      const styleDimensions = getStyleDefaultDimensions(styleId);
+
       // Recalculate ball weight based on the new style
       let newBallWeight: number;
-      
+
       if (selectedStyle.isRectangular === true) {
-        // For rectangular pizzas
+        // For rectangular pizzas, use style-specific pan dimensions
         newBallWeight = calculateDoughBallWeight(
           styleId,
           0, // diameter not used for rectangular
-          inputs.panWidth,
-          inputs.panLength,
+          styleDimensions.panWidth,
+          styleDimensions.panLength,
           selectedStyle.defaultThicknessFactor
         );
       } else if (selectedStyle.isRectangular === 'both') {
         // For styles that can be either shape (like Focaccia)
-        // Default to round unless pan dimensions are already set
-        if (inputs.panWidth && inputs.panLength) {
-          newBallWeight = calculateDoughBallWeight(
-            styleId,
-            0,
-            inputs.panWidth,
-            inputs.panLength,
-            selectedStyle.defaultThicknessFactor
-          );
-        } else {
-          newBallWeight = calculateDoughBallWeight(
-            styleId,
-            inputs.pizzaDiameter,
-            undefined,
-            undefined,
-            selectedStyle.defaultThicknessFactor
-          );
-        }
-      } else {
-        // For round pizzas
+        // Default to rectangular with style-specific dimensions
         newBallWeight = calculateDoughBallWeight(
           styleId,
-          inputs.pizzaDiameter,
+          0,
+          styleDimensions.panWidth,
+          styleDimensions.panLength,
+          selectedStyle.defaultThicknessFactor
+        );
+      } else {
+        // For round pizzas, use style-specific diameter
+        newBallWeight = calculateDoughBallWeight(
+          styleId,
+          styleDimensions.diameter,
           undefined,
           undefined,
           selectedStyle.defaultThicknessFactor
@@ -223,10 +242,10 @@ export const useDoughCalculator = () => {
         case 'neapolitan':
           oil = 0;
           sugar = 0;
-          salt = 2.8; // 2.5-3%
+          salt = 2.8; // 2.5-3% (AVPN standard)
           yeast = 0.05; // 0.03-0.06% for instant dry
-          diastaticMalt = 0.05; // 0-0.1%
-          doughEnhancer = 0; // 0%
+          diastaticMalt = 0; // Traditional Neapolitan: flour, water, salt, yeast only
+          doughEnhancer = 0; // Not used in traditional Neapolitan
           break;
         case 'ny':
           oil = 2; // 1-3%
@@ -251,6 +270,14 @@ export const useDoughCalculator = () => {
           yeast = 0.5; // 0.4-0.6%
           diastaticMalt = 0.75; // 0.5-1%
           doughEnhancer = 0.5; // 0.25-0.75%
+          break;
+        case 'pan':
+          oil = 5; // 4-8% (enriched, oily dough + oiled pan)
+          sugar = 2; // 1-3% (aids browning, slight sweetness)
+          salt = 2.25; // 2-2.5%
+          yeast = 0.5; // 0.4-0.6% (same-day rise)
+          diastaticMalt = 0.5; // 0.25-1%
+          doughEnhancer = 0.4; // 0.25-0.5%
           break;
         case 'focaccia':
           oil = 6; // 4-8%
@@ -277,7 +304,10 @@ export const useDoughCalculator = () => {
         hydration: selectedStyle.defaultHydration,
         thicknessFactor: selectedStyle.defaultThicknessFactor,
         ballWeight: newBallWeight,
-        isRectangular: selectedStyle.isRectangular === true,
+        isRectangular: selectedStyle.isRectangular === true || selectedStyle.isRectangular === 'both',
+        pizzaDiameter: styleDimensions.diameter,
+        panWidth: styleDimensions.panWidth,
+        panLength: styleDimensions.panLength,
         oil,
         sugar,
         salt,
@@ -285,7 +315,7 @@ export const useDoughCalculator = () => {
         diastaticMalt,
         doughEnhancer
       }));
-      
+
       // Track the pizza style change
       trackPizzaStyleChange(styleId);
     }
@@ -296,11 +326,12 @@ export const useDoughCalculator = () => {
     setInputs(prev => {
       // Preserve all existing values
       const newInputs = { ...prev, isRectangular };
-      
+      const styleDimensions = getStyleDefaultDimensions(prev.pizzaStyle);
+
       if (isRectangular) {
-        // Set to rectangular shape
-        newInputs.panWidth = prev.panWidth || 25;
-        newInputs.panLength = prev.panLength || 35;
+        // Set to rectangular shape with style-specific defaults
+        newInputs.panWidth = prev.panWidth || styleDimensions.panWidth;
+        newInputs.panLength = prev.panLength || styleDimensions.panLength;
         
         // Ensure thickness factor is not zero
         const thicknessFactor = prev.thicknessFactor || 0.08; // Default to medium thickness if zero
@@ -320,8 +351,8 @@ export const useDoughCalculator = () => {
           newInputs.ballWeight = prev.ballWeight || 250; // Keep previous value or use default
         }
       } else {
-        // Set to round shape
-        newInputs.pizzaDiameter = prev.pizzaDiameter || 30;
+        // Set to round shape with style-specific default
+        newInputs.pizzaDiameter = prev.pizzaDiameter || styleDimensions.diameter;
         
         // Ensure thickness factor is not zero
         const thicknessFactor = prev.thicknessFactor || 0.08; // Default to medium thickness if zero
@@ -364,16 +395,17 @@ export const useDoughCalculator = () => {
       const newInputs = applyTemplate(template, inputs);
       
       // Ensure proper dimensions are set based on shape
+      const templateDimensions = getStyleDefaultDimensions(newInputs.pizzaStyle);
       if (template.isRectangular) {
         // For rectangular pizzas, ensure pan dimensions are set
         if (!newInputs.panWidth || !newInputs.panLength) {
-          newInputs.panWidth = 25;
-          newInputs.panLength = 35;
+          newInputs.panWidth = templateDimensions.panWidth;
+          newInputs.panLength = templateDimensions.panLength;
         }
       } else {
         // For round pizzas, ensure diameter is set
         if (!newInputs.pizzaDiameter) {
-          newInputs.pizzaDiameter = 30;
+          newInputs.pizzaDiameter = templateDimensions.diameter;
         }
       }
       
@@ -424,11 +456,10 @@ export const useDoughCalculator = () => {
       };
 
       // Recalculate ball weight based on new thickness factor
-      const { pizzaStyle, pizzaDiameter, panWidth, panLength, useInches } = newInputs;
-      const selectedStyle = PIZZA_STYLES.find(style => style.id === pizzaStyle);
-      const isRectangular = selectedStyle?.isRectangular;
+      // Use the user's actual shape choice (isRectangular state), not the style definition
+      const { pizzaStyle, pizzaDiameter, panWidth, panLength, useInches, isRectangular: isRect } = newInputs;
 
-      if ((isRectangular === true || isRectangular === 'both') && panWidth && panLength) {
+      if (isRect && panWidth && panLength) {
         newInputs.ballWeight = calculateDoughBallWeight(
           pizzaStyle,
           pizzaDiameter,
@@ -506,36 +537,113 @@ export const useDoughCalculator = () => {
     });
   };
 
+  // Get the style-specific default yeast value (used when resetting preferment to 'none')
+  const getStyleDefaultYeast = (styleId: string): number => {
+    switch (styleId) {
+      case 'neapolitan': return 0.05;
+      case 'ny': return 0.4;
+      case 'sicilian': return 0.5;
+      case 'detroit': return 0.5;
+      case 'pan': return 0.5;
+      case 'focaccia': return 0.4;
+      default: return 0.5;
+    }
+  };
+
+  // Style-specific preferment defaults.
+  // "percentage" = % of total flour that goes into the preferment.
+  // At 100%, all flour is in the preferment and only water/salt/extras are added later.
+  // Traditional ranges: poolish 30-50%, biga 40-60%, sponge 50-75%, sourdough 20-35%.
+  const getStylePrefermentDefaults = (styleId: string, prefermentType: PrefermentType) => {
+    const styleDefaults: Record<string, Record<string, { percentage: number; hydration: number; yeast: number }>> = {
+      neapolitan: {
+        // Neapolitan: moderate preferment to preserve delicate flavor
+        poolish: { percentage: 40, hydration: 100, yeast: 0.05 },
+        biga:    { percentage: 50, hydration: 60, yeast: 0.05 },
+        sponge:  { percentage: 50, hydration: 75, yeast: 0.05 },
+        sourdough: { percentage: 25, hydration: 100, yeast: 0 },
+      },
+      ny: {
+        // NY: poolish or sponge for flavor complexity in a chewy crust
+        poolish: { percentage: 40, hydration: 100, yeast: 0.3 },
+        biga:    { percentage: 50, hydration: 60, yeast: 0.3 },
+        sponge:  { percentage: 60, hydration: 75, yeast: 0.4 },
+        sourdough: { percentage: 30, hydration: 100, yeast: 0 },
+      },
+      sicilian: {
+        // Sicilian: higher preferment % for lighter, airier thick crust
+        poolish: { percentage: 50, hydration: 100, yeast: 0.3 },
+        biga:    { percentage: 50, hydration: 60, yeast: 0.3 },
+        sponge:  { percentage: 65, hydration: 75, yeast: 0.4 },
+        sourdough: { percentage: 30, hydration: 100, yeast: 0 },
+      },
+      detroit: {
+        // Detroit: similar to Sicilian, open crumb structure
+        poolish: { percentage: 45, hydration: 100, yeast: 0.3 },
+        biga:    { percentage: 50, hydration: 60, yeast: 0.3 },
+        sponge:  { percentage: 60, hydration: 75, yeast: 0.4 },
+        sourdough: { percentage: 25, hydration: 100, yeast: 0 },
+      },
+      pan: {
+        // Pan pizza: moderate preferment to complement the buttery, enriched dough
+        poolish:   { percentage: 45, hydration: 100, yeast: 0.3 },
+        biga:      { percentage: 50, hydration: 60, yeast: 0.3 },
+        sponge:    { percentage: 60, hydration: 75, yeast: 0.4 },
+        sourdough: { percentage: 25, hydration: 100, yeast: 0 },
+      },
+      focaccia: {
+        // Focaccia: high preferment for maximum flavor and open crumb
+        poolish: { percentage: 50, hydration: 100, yeast: 0.3 },
+        biga:    { percentage: 60, hydration: 60, yeast: 0.25 },
+        sponge:  { percentage: 65, hydration: 75, yeast: 0.35 },
+        sourdough: { percentage: 30, hydration: 100, yeast: 0 },
+      },
+    };
+
+    return styleDefaults[styleId]?.[prefermentType] || null;
+  };
+
   // Handle preferment type change
   const handlePrefermentTypeChange = (type: PrefermentType) => {
     setInputs(prev => {
-      // Set default values based on preferment type
       let percentage = prev.preferment.percentage;
       let hydration = prev.preferment.hydration;
       let yeast = prev.yeast;
-      
+
       if (type === 'none') {
         percentage = 0;
         hydration = 100;
-        yeast = 0.5;
-      } else if (type === 'poolish') {
-        percentage = percentage || 30;
-        hydration = 100;
-        yeast = 0.3;
-      } else if (type === 'biga') {
-        percentage = percentage || 30;
-        hydration = 60;
-        yeast = 0.3;
-      } else if (type === 'sponge') {
-        percentage = percentage || 50;
-        hydration = 75;
-        yeast = 0.4;
-      } else if (type === 'sourdough') {
-        percentage = percentage || 20;
-        hydration = 100;
-        yeast = 0; // No commercial yeast for sourdough
+        // Reset yeast to the style-specific default, not a generic 0.5
+        yeast = getStyleDefaultYeast(prev.pizzaStyle);
+      } else {
+        // Try style-specific defaults first
+        const styleDefaults = getStylePrefermentDefaults(prev.pizzaStyle, type);
+        if (styleDefaults) {
+          percentage = styleDefaults.percentage;
+          hydration = styleDefaults.hydration;
+          yeast = styleDefaults.yeast;
+        } else {
+          // Generic fallbacks for custom style (standard baker ranges)
+          if (type === 'poolish') {
+            percentage = 40; // Standard: 30-50% of flour
+            hydration = 100;
+            yeast = 0.3;
+          } else if (type === 'biga') {
+            percentage = 50; // Standard: 40-60% of flour
+            hydration = 60;
+            yeast = 0.3;
+          } else if (type === 'sponge') {
+            percentage = 60; // Standard: 50-75% of flour
+            hydration = 75;
+            yeast = 0.4;
+          } else if (type === 'sourdough') {
+            percentage = 25; // Standard: 20-35% of flour
+            hydration = 100;
+            yeast = 0;
+          }
+        }
       }
-      
+
       const newInputs = {
         ...prev,
         yeast,
@@ -545,10 +653,10 @@ export const useDoughCalculator = () => {
           hydration
         }
       };
-      
+
       // Track the preferment type change
       trackPrefermentTypeChange(type);
-      
+
       return newInputs;
     });
   };

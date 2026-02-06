@@ -20,9 +20,10 @@ import {
 
 interface RecipeDisplayProps {
   recipe: DoughRecipe | null;
+  pizzaStyle?: string;
 }
 
-const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe }) => {
+const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe, pizzaStyle }) => {
   const [activeTab, setActiveTab] = useState<'ingredients' | 'method'>('ingredients');
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
@@ -361,13 +362,16 @@ const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe }) => {
                   {t('dough.step1')
                     .replace('{water}', roundToOneDecimal(getIngredientWeight('Water')).toString())
                     .replace('{waterOz}', safeGramsToOunces(getIngredientWeight('Water')))
-                    .replace('{salt}', roundToOneDecimal(getIngredientWeight('Salt')).toString())
-                    .replace('{saltOz}', safeGramsToOunces(getIngredientWeight('Salt')))}
-                </li>
-                <li>
-                  {t('dough.step2')
                     .replace('{flour}', roundToOneDecimal(getIngredientWeight('Flour')).toString())
                     .replace('{flourOz}', safeGramsToOunces(getIngredientWeight('Flour')))}
+                </li>
+                <li>
+                  {t('dough.step2')}
+                </li>
+                <li>
+                  {t('dough.step3.salt')
+                    .replace('{salt}', roundToOneDecimal(getIngredientWeight('Salt')).toString())
+                    .replace('{saltOz}', safeGramsToOunces(getIngredientWeight('Salt')))}
                 </li>
                 {recipe.ingredients.some(i => isYeast(i.name)) && (
                   <li>
@@ -405,7 +409,6 @@ const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe }) => {
                       .replace('{enhancerOz}', safeGramsToOunces(getIngredientWeight('Dough Enhancer')))}
                   </li>
                 )}
-                <li>{t('dough.step4')}</li>
                 <li>{t('mainDough.step4')}</li>
                 <li>{t('mainDough.step5')}</li>
                 <li>{t('mainDough.step6')}</li>
@@ -417,11 +420,16 @@ const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe }) => {
 
           <Section>
             <h3>{t('baking.instructions')}</h3>
+            {pizzaStyle && pizzaStyle !== 'custom' && t(`flour.${pizzaStyle}`) !== `flour.${pizzaStyle}` && (
+              <InfoBox>
+                {t(`flour.${pizzaStyle}`)}
+              </InfoBox>
+            )}
             <ol style={{ paddingLeft: '1.5rem', lineHeight: '1.6' }}>
-              <li>{t('baking.step1')}</li>
-              <li>{t('baking.step2')}</li>
+              <li>{t(`baking.step1.${pizzaStyle}`) !== `baking.step1.${pizzaStyle}` ? t(`baking.step1.${pizzaStyle}`) : t('baking.step1')}</li>
+              <li>{t(`baking.step2.${pizzaStyle}`) !== `baking.step2.${pizzaStyle}` ? t(`baking.step2.${pizzaStyle}`) : t('baking.step2')}</li>
               <li>{t('baking.step3')}</li>
-              <li>{t('baking.step4')}</li>
+              <li>{t(`baking.step4.${pizzaStyle}`) !== `baking.step4.${pizzaStyle}` ? t(`baking.step4.${pizzaStyle}`) : t('baking.step4')}</li>
             </ol>
           </Section>
         </motion.div>

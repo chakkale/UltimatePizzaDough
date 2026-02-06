@@ -79,6 +79,14 @@ const translations: Translations = {
     en: 'Rectangular pan pizza with a thick, airy crust and crispy cheese edges.',
     tr: 'Kalın, havadar hamur ve çıtır peynir kenarlarıyla dikdörtgen tava pizzası.'
   },
+  'style.pan': {
+    en: 'Pan',
+    tr: 'Tava'
+  },
+  'style.pan.desc': {
+    en: 'Pizza Hut-style thick, fluffy crust with a crispy, oil-fried bottom baked in a deep round pan.',
+    tr: 'Derin yuvarlak tavada pişirilen, çıtır yağlı tabanıyla kalın ve kabarık Pizza Hut tarzı hamur.'
+  },
   'style.focaccia': {
     en: 'Focaccia',
     tr: 'Focaccia'
@@ -374,6 +382,32 @@ const translations: Translations = {
     tr: 'Mükemmel tarifiniz hesaplanıyor...'
   },
   
+  // Style-specific preferment recommendations
+  'preferment.hint.neapolitan': {
+    en: 'Neapolitan pairs well with poolish (40% of flour, 12-16hr) or biga (50% of flour) for deeper flavor and better oven spring.',
+    tr: 'Neapolitan, daha derin lezzet ve daha iyi fırın kabarması için poolish (unun %40\'ı, 12-16 saat) veya biga (unun %50\'si) ile iyi uyum sağlar.'
+  },
+  'preferment.hint.ny': {
+    en: 'New York style benefits from poolish (40% of flour) for flavor complexity, or a sponge (60% of flour) for faster same-day prep.',
+    tr: 'New York stili, lezzet karmaşıklığı için poolish (unun %40\'ı) veya aynı gün hazırlık için sünger (unun %60\'ı) ile iyi sonuç verir.'
+  },
+  'preferment.hint.sicilian': {
+    en: 'Sicilian thick crust benefits from higher preferment amounts (50-65% of flour) for a lighter, airier crumb.',
+    tr: 'Sicilian kalın kenar, daha hafif ve havadar gözenek için yüksek ön maya miktarından (unun %50-65\'i) fayda görür.'
+  },
+  'preferment.hint.detroit': {
+    en: 'Detroit style works great with poolish (45% of flour) or biga (50% of flour) for an open, airy crumb.',
+    tr: 'Detroit stili, açık ve havadar gözenek için poolish (unun %45\'i) veya biga (unun %50\'si) ile harika sonuç verir.'
+  },
+  'preferment.hint.pan': {
+    en: 'Pan pizza is traditionally a straight dough, but a sponge (60% of flour) adds softness, or poolish (45% of flour) develops flavor without overpowering the buttery character.',
+    tr: 'Tava pizza geleneksel olarak düz hamurdur, ancak sünger (unun %60\'ı) yumuşaklık katar veya poolish (unun %45\'i) tereyağlı karakteri bastırmadan lezzet geliştirir.'
+  },
+  'preferment.hint.focaccia': {
+    en: 'Focaccia traditionally uses biga (60% of flour) for structure, or poolish (50% of flour) for maximum open crumb.',
+    tr: 'Focaccia geleneksel olarak yapı için biga (unun %60\'ı) veya maksimum açık gözenek için poolish (unun %50\'si) kullanır.'
+  },
+
   // Preferment section
   'preferment.title': {
     en: 'Preferment & Main Dough',
@@ -486,12 +520,16 @@ const translations: Translations = {
   
   // Simple dough steps
   'dough.step1': {
-    en: 'In a large bowl, combine {water}g ({waterOz}oz) water with {salt}g ({saltOz}oz) salt until dissolved.',
-    tr: 'Büyük bir kapta {water}g ({waterOz}oz) suyu {salt}g ({saltOz}oz) tuz ile çözülene kadar karıştırın.'
+    en: 'In a large bowl, combine {water}g ({waterOz}oz) water with {flour}g ({flourOz}oz) flour and mix until no dry flour remains.',
+    tr: 'Büyük bir kapta {water}g ({waterOz}oz) suyu {flour}g ({flourOz}oz) un ile kuru un kalmayana kadar karıştırın.'
   },
   'dough.step2': {
-    en: 'Add {flour}g ({flourOz}oz) flour and mix until no dry flour remains.',
-    tr: '{flour}g ({flourOz}oz) un ekleyin ve kuru un kalmayana kadar karıştırın.'
+    en: 'Cover and let rest for 30 minutes (autolyse). This allows the flour to fully hydrate and begins gluten development.',
+    tr: 'Kapatın ve 30 dakika dinlendirin (otoliz). Bu, unun tamamen su emmesini ve glüten gelişiminin başlamasını sağlar.'
+  },
+  'dough.step3.salt': {
+    en: 'Add {salt}g ({saltOz}oz) salt and incorporate thoroughly.',
+    tr: '{salt}g ({saltOz}oz) tuz ekleyin ve iyice karıştırın.'
   },
   'dough.step3.yeast': {
     en: 'Add {yeast}g ({yeastOz}oz) {yeastName} and mix thoroughly.',
@@ -513,19 +551,61 @@ const translations: Translations = {
     en: 'Add {enhancer}g ({enhancerOz}oz) dough enhancer and mix thoroughly.',
     tr: '{enhancer}g ({enhancerOz}oz) hamur iyileştirici ekleyin ve iyice karıştırın.'
   },
-  'dough.step4': {
-    en: 'Cover and let rest for 30 minutes (autolyse).',
-    tr: 'Kapatın ve 30 dakika dinlendirin (otoliz).'
-  },
   
-  // Baking steps
+  // Flour type recommendations
+  'flour.neapolitan': {
+    en: 'Recommended flour: Tipo 00 (such as Caputo Pizzeria) with ~12.5% protein for authentic Neapolitan results.',
+    tr: 'Önerilen un: Otantik Neapolitan sonuçlar için ~%12.5 proteinli Tipo 00 (Caputo Pizzeria gibi).'
+  },
+  'flour.ny': {
+    en: 'Recommended flour: High-gluten bread flour (14%+ protein) for that classic chewy, foldable New York slice.',
+    tr: 'Önerilen un: Klasik çiğnenebilir, katlanabilir New York dilimi için yüksek glütenli ekmek unu (%14+ protein).'
+  },
+  'flour.sicilian': {
+    en: 'Recommended flour: Bread flour (12-13% protein) for a sturdy yet airy thick crust.',
+    tr: 'Önerilen un: Sağlam ama havadar kalın kenar için ekmek unu (%12-13 protein).'
+  },
+  'flour.detroit': {
+    en: 'Recommended flour: Bread flour (12-13% protein) for proper structure in the thick, airy crust.',
+    tr: 'Önerilen un: Kalın, havadar kenarda doğru yapı için ekmek unu (%12-13 protein).'
+  },
+  'flour.pan': {
+    en: 'Recommended flour: Bread flour (12-13% protein) for a chewy yet fluffy interior with good structure.',
+    tr: 'Önerilen un: İç yapıda çiğnenebilir ama kabarık doku ve iyi yapı için ekmek unu (%12-13 protein).'
+  },
+  'flour.focaccia': {
+    en: 'Recommended flour: All-purpose or bread flour (11-13% protein) works well for focaccia.',
+    tr: 'Önerilen un: Çok amaçlı veya ekmek unu (%11-13 protein) focaccia için iyi sonuç verir.'
+  },
+
+  // Baking steps - style-specific
   'baking.step1': {
     en: 'Preheat your oven to the highest temperature (ideally 500-550°F/260-290°C) with a pizza stone or steel for at least 1 hour.',
     tr: 'Fırınınızı en yüksek sıcaklığa (ideal olarak 260-290°C) ısıtın ve pizza taşı veya çeliğini en az 1 saat önceden ısıtın.'
   },
+  'baking.step1.neapolitan': {
+    en: 'For authentic Neapolitan pizza, a wood-fired oven at 800-900°F (425-485°C) is ideal. For home ovens, preheat to maximum (500-550°F/260-290°C) with a pizza stone or steel for at least 1 hour.',
+    tr: 'Otantik Neapolitan pizza için 425-485°C odun ateşli fırın idealdir. Ev fırınları için pizza taşı veya çeliği ile en yüksek sıcaklığa (260-290°C) en az 1 saat önceden ısıtın.'
+  },
+  'baking.step1.detroit': {
+    en: 'Preheat your oven to 500-550°F (260-290°C). Use a well-oiled Detroit-style steel pan or dark-colored deep pan.',
+    tr: 'Fırınınızı 260-290°C\'ye ısıtın. İyi yağlanmış Detroit tarzı çelik tava veya koyu renkli derin tava kullanın.'
+  },
+  'baking.step1.sicilian': {
+    en: 'Preheat your oven to 450-500°F (230-260°C). Use a well-oiled sheet pan and let the dough proof in the pan before baking.',
+    tr: 'Fırınınızı 230-260°C\'ye ısıtın. İyi yağlanmış tepsi kullanın ve pişirmeden önce hamurun tepsinde kabarmasını bekleyin.'
+  },
+  'baking.step1.pan': {
+    en: 'Preheat your oven to 500°F (260°C). Generously oil a deep round pan or cast iron skillet — the oil fries the bottom for that signature crispy crust.',
+    tr: 'Fırınınızı 260°C\'ye ısıtın. Derin yuvarlak tava veya döküm demir tavayı bol yağlayın — yağ, tabanı kızartarak o karakteristik çıtır kabuğu oluşturur.'
+  },
   'baking.step2': {
     en: 'Gently stretch the dough to your desired size without deflating it too much.',
     tr: 'Hamuru fazla havasını çıkarmadan nazikçe istediğiniz boyuta gerin.'
+  },
+  'baking.step2.neapolitan': {
+    en: 'Gently stretch the dough by hand from the center outward, leaving the cornicione (edge) untouched for a puffy rim. Never use a rolling pin.',
+    tr: 'Hamuru merkezden dışa doğru nazikçe elle gerin, kabarık kenar (cornicione) için kenarına dokunmayın. Asla oklava kullanmayın.'
   },
   'baking.step3': {
     en: 'Add your toppings and transfer to the hot stone/steel.',
@@ -534,6 +614,14 @@ const translations: Translations = {
   'baking.step4': {
     en: 'Bake until the crust is golden and the cheese is bubbly (typically 5-8 minutes).',
     tr: 'Kenar altın rengi olana ve peynir köpürene kadar pişirin (genellikle 5-8 dakika).'
+  },
+  'baking.step4.neapolitan': {
+    en: 'Bake until leopard-spotted charring appears on the crust (60-90 seconds in wood-fired oven, 5-7 minutes in home oven).',
+    tr: 'Kenarda leopar benekli yanık noktalar oluşana kadar pişirin (odun fırında 60-90 saniye, ev fırınında 5-7 dakika).'
+  },
+  'baking.step4.pan': {
+    en: 'Bake on the lowest rack for 12-15 minutes until the crust is deep golden and the cheese is bubbly. The oiled pan creates a crispy, fried bottom.',
+    tr: 'En alt rafta 12-15 dakika, kenar koyu altın rengi olana ve peynir köpürene kadar pişirin. Yağlı tava çıtır, kızarmış bir taban oluşturur.'
   },
   
   // Template Manager

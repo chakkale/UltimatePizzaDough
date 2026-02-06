@@ -14,6 +14,7 @@ import { useDoughCalculator } from './hooks/useDoughCalculator';
 // import PasswordProtection from './components/PasswordProtection';
 import ThemeToggle from './components/ThemeToggle';
 import LanguageToggle from './components/LanguageToggle';
+import heroDough from './assets/hero-dough.png';
 // Language selector temporarily removed - can re-enable if needed
 // import LanguageSelector from './components/LanguageSelector';
 import {
@@ -69,19 +70,19 @@ const AppContent: React.FC = () => {
         <AppContainer>
             <Header>
               <HeaderRow>
-                <h1 style={{ 
-                  background: 'linear-gradient(135deg, #0071e3 0%, #5e5ce6 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
-                  textAlign: 'center',
-                  margin: '0',
-                  fontWeight: '700',
-                  letterSpacing: '-0.02em'
-                }}>
-                  🍕 {t('app.title')}
-                </h1>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+                  <img
+                    src={heroDough}
+                    alt={t('app.title')}
+                    style={{
+                      width: '100%',
+                      maxWidth: '500px',
+                      height: 'auto',
+                      borderRadius: '12px',
+                      objectFit: 'cover'
+                    }}
+                  />
+                </div>
                 <ThemeToggleWrapper>
                   <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
                     <LanguageToggle />
@@ -112,7 +113,7 @@ const AppContent: React.FC = () => {
                 onReset={onReset}
               />
               
-              {recipe && <RecipeDisplay recipe={recipe} />}
+              {recipe && <RecipeDisplay recipe={recipe} pizzaStyle={inputs.pizzaStyle} />}
               
               <Button 
                 onClick={() => setShowTemplateManager(true)}
