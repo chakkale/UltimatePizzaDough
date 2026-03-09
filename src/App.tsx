@@ -70,18 +70,48 @@ const AppContent: React.FC = () => {
         <AppContainer>
             <Header>
               <HeaderRow>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-                  <img
-                    src={heroDough}
-                    alt={t('app.title')}
-                    style={{
-                      width: '100%',
-                      maxWidth: '500px',
-                      height: 'auto',
-                      borderRadius: '12px',
-                      objectFit: 'cover'
-                    }}
-                  />
+                <div style={{
+                  position: 'relative',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  width: '100%'
+                }}>
+                  <div style={{ position: 'relative', width: '100%', maxWidth: '500px' }}>
+                    <img
+                      src={heroDough}
+                      alt={t('app.title')}
+                      style={{
+                        width: '100%',
+                        height: 'auto',
+                        borderRadius: '12px',
+                        objectFit: 'cover',
+                        display: 'block'
+                      }}
+                    />
+                    <div style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      padding: '2rem 1rem 1rem',
+                      borderRadius: '0 0 12px 12px',
+                      background: 'linear-gradient(transparent, rgba(0,0,0,0.7))',
+                      textAlign: 'center'
+                    }}>
+                      <h1 style={{
+                        margin: 0,
+                        fontSize: 'clamp(1.5rem, 4vw, 2.2rem)',
+                        fontWeight: 700,
+                        color: '#fff',
+                        textShadow: '0 2px 8px rgba(0,0,0,0.5)',
+                        fontFamily: 'Georgia, "Times New Roman", serif',
+                        letterSpacing: '0.02em'
+                      }}>
+                        {t('app.title')}
+                      </h1>
+                    </div>
+                  </div>
                 </div>
                 <ThemeToggleWrapper>
                   <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
