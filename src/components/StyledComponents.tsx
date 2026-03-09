@@ -2,18 +2,8 @@ import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 import { keyframes } from '@emotion/react';
 
-// Pulse animation for active elements
-const pulse = keyframes`
-  0% {
-    box-shadow: 0 0 0 0 rgba(0, 113, 227, 0.4);
-  }
-  70% {
-    box-shadow: 0 0 0 8px rgba(0, 113, 227, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(0, 113, 227, 0);
-  }
-`;
+// Keep keyframes import for potential future use
+void keyframes;
 
 // Named export to fix fast refresh warning
 export const StyledComponents = 'StyledComponents';
@@ -21,30 +11,30 @@ export const StyledComponents = 'StyledComponents';
 // Color palette with dark mode support
 export const colors = {
   light: {
-    background: '#f5f5f7',
-    primary: '#0071e3',
-    secondary: '#86868b',
-    text: '#1d1d1f',
-    lightText: '#86868b',
-    border: '#d2d2d7',
-    cardBackground: '#ffffff',
-    success: '#34c759',
-    warning: '#ff9500',
-    error: '#ff3b30',
-    highlight: '#5e5ce6'
+    background: '#FAF6F1',
+    primary: '#C75B39',
+    secondary: '#8C7B6B',
+    text: '#3D2E1F',
+    lightText: '#8C7B6B',
+    border: '#E0D5C7',
+    cardBackground: '#FFFFFF',
+    success: '#6B7F4E',
+    warning: '#D4903C',
+    error: '#C44536',
+    highlight: '#C75B39'
   },
   dark: {
-    background: '#1d1d1f',
-    primary: '#0a84ff',
-    secondary: '#86868b',
-    text: '#f5f5f7',
-    lightText: '#a1a1a6',
-    border: '#38383c',
-    cardBackground: '#2c2c2e',
-    success: '#30d158',
-    warning: '#ff9f0a',
-    error: '#ff453a',
-    highlight: '#5e5ce6'
+    background: '#1A1714',
+    primary: '#D4764E',
+    secondary: '#9C8E80',
+    text: '#F0E8DC',
+    lightText: '#9C8E80',
+    border: '#3D3530',
+    cardBackground: '#2A2520',
+    success: '#8FA66C',
+    warning: '#E0A04C',
+    error: '#D45545',
+    highlight: '#D4764E'
   }
 };
 
@@ -54,26 +44,41 @@ export const AppContainer = styled.div`
   flex-direction: column;
   min-height: 100vh;
   background-color: var(--background);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(60, 40, 20, 0.012) 2px,
+      rgba(60, 40, 20, 0.012) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(60, 40, 20, 0.008) 2px,
+      rgba(60, 40, 20, 0.008) 4px
+    );
   color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  padding: 2rem;
+  padding: 2.5rem 2rem;
   transition: all 0.3s ease;
   position: relative;
-  
+
   @media (max-width: 768px) {
-    padding: 1rem;
+    padding: 1.5rem 1rem;
   }
 `;
 
 // Header component
 export const Header = styled.header`
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
-  
+
   & > *:last-child {
     margin-top: 1rem;
   }
@@ -88,7 +93,7 @@ export const HeaderRow = styled.div`
   width: 100%;
   position: relative;
   flex-wrap: wrap;
-  
+
   @media (min-width: 768px) {
     flex-wrap: nowrap;
   }
@@ -100,7 +105,7 @@ export const ThemeToggleWrapper = styled.div`
   right: 0;
   top: 50%;
   transform: translateY(-50%);
-  
+
   @media (max-width: 767px) {
     position: static;
     transform: none;
@@ -113,7 +118,7 @@ export const Title = styled.h1`
   font-weight: 600;
   margin-bottom: 0.5rem;
   color: var(--text);
-  
+
   @media (max-width: 768px) {
     font-size: 2rem;
   }
@@ -134,46 +139,26 @@ export const ContentContainer = styled.main`
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
-  
+
   @media (min-width: 992px) {
     flex-direction: row;
-    align-items: flex-start; /* Ensures items align at the top */
+    align-items: flex-start;
   }
 `;
 
-// Card container with enhanced visual appeal
+// Card container with premium warmth
 export const Card = styled(motion.div)`
   background-color: var(--cardBackground);
-  border-radius: 1rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 1px 2px rgba(60, 40, 20, 0.06), 0 4px 16px rgba(60, 40, 20, 0.08);
+  padding: 1.75rem;
   flex: 1;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid transparent;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  border: 1px solid var(--border);
   position: relative;
-  overflow: hidden;
-  
-  &:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--primary), var(--highlight, #5e5ce6));
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s ease;
-  }
-  
+
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-    border-color: var(--border);
-    
-    &:before {
-      transform: scaleX(1);
-    }
+    box-shadow: 0 2px 4px rgba(60, 40, 20, 0.08), 0 8px 24px rgba(60, 40, 20, 0.12);
   }
 `;
 
@@ -196,13 +181,13 @@ export const StickyCard = styled(Card)`
 
 // Section title
 export const SectionTitle = styled.h2`
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid var(--border);
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 1.6rem;
+  font-weight: 400;
   color: var(--text);
-  transition: all 0.3s ease;
+  letter-spacing: 0.01em;
+  margin-bottom: 1.25rem;
+  transition: color 0.3s ease;
 `;
 
 // Form group
@@ -213,42 +198,41 @@ export const FormGroup = styled.div`
 // Label
 export const Label = styled.label`
   display: block;
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
   margin-bottom: 0.5rem;
   color: var(--lightText);
-  transition: all 0.3s ease;
+  transition: color 0.3s ease;
 `;
 
-// Input with enhanced visual feedback
+// Input with refined styling
 export const Input = styled.input`
   width: 100%;
-  padding: 0.75rem;
-  border-radius: 0.5rem;
-  border: 1px solid var(--border);
-  font-size: 1rem;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  background-color: var(--cardBackground);
+  padding: 0.875rem 1rem;
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
+  font-size: 0.95rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  background-color: var(--inputBackground, var(--cardBackground));
   color: var(--text);
-  position: relative;
-  
+
   &:hover {
     border-color: var(--primary);
-    box-shadow: 0 0 0 1px rgba(0, 113, 227, 0.1);
   }
-  
+
   &:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.2);
-    transform: translateY(-1px);
+    box-shadow: 0 0 0 3px rgba(199, 91, 57, 0.12);
   }
-  
+
   &:invalid {
-    border-color: var(--error, #ff3b30);
-    box-shadow: 0 0 0 1px rgba(255, 59, 48, 0.2);
+    border-color: var(--error, #C44536);
+    box-shadow: 0 0 0 1px rgba(196, 69, 54, 0.2);
   }
-  
+
   &:disabled {
     background-color: var(--border);
     cursor: not-allowed;
@@ -256,89 +240,78 @@ export const Input = styled.input`
   }
 `;
 
-// Select
+// Select matching Input styling
 export const Select = styled.select`
   width: 100%;
-  padding: 0.75rem;
-  border-radius: 0.5rem;
-  border: 1px solid var(--border);
-  font-size: 1rem;
-  transition: all 0.2s ease;
-  background-color: var(--cardBackground);
+  padding: 0.875rem 1rem;
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
+  font-size: 0.95rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  background-color: var(--inputBackground, var(--cardBackground));
   color: var(--text);
-  
+
+  &:hover {
+    border-color: var(--primary);
+  }
+
   &:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 2px rgba(0, 113, 227, 0.2);
+    box-shadow: 0 0 0 3px rgba(199, 91, 57, 0.12);
   }
 `;
 
-// Button with enhanced visual feedback
+// Button with premium feel
 export const Button = styled.button`
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  border-radius: 12px;
   border: none;
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.15s ease;
   background-color: var(--primary);
   color: white;
-  position: relative;
-  overflow: hidden;
-  
-  &:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.6s;
-  }
-  
+
   &:hover {
-    background-color: #0062c3;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 113, 227, 0.3);
+    filter: brightness(1.1);
+    box-shadow: 0 4px 12px rgba(199, 91, 57, 0.25);
   }
-  
-  &:hover:before {
-    left: 100%;
-  }
-  
+
   &:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 6px rgba(0, 113, 227, 0.2);
+    filter: brightness(0.95);
   }
-  
+
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.3);
+    box-shadow: 0 0 0 3px rgba(199, 91, 57, 0.3);
   }
-  
+
   &:disabled {
     background-color: var(--secondary);
     cursor: not-allowed;
-    transform: none;
+    filter: none;
     box-shadow: none;
-    
-    &:before {
-      display: none;
-    }
   }
 `;
 
-// Secondary button
+// Secondary button — outlined style
 export const SecondaryButton = styled(Button)`
   background-color: transparent;
   color: var(--primary);
-  border: 1px solid var(--primary);
-  
+  border: 1.5px solid var(--primary);
+
   &:hover {
-    background-color: rgba(0, 113, 227, 0.1);
+    filter: none;
+    border-color: var(--text);
+    box-shadow: none;
+  }
+
+  &:active {
+    filter: none;
+    opacity: 0.85;
   }
 `;
 
@@ -347,64 +320,61 @@ export const SliderContainer = styled.div`
   margin-bottom: 1rem;
 `;
 
-// Slider with enhanced visual feedback
+// Slider with refined styling
 export const Slider = styled.input`
   width: 100%;
   -webkit-appearance: none;
-  height: 6px;
-  border-radius: 3px;
+  height: 4px;
+  border-radius: 2px;
   background: var(--border);
   outline: none;
   margin: 1rem 0;
-  transition: all 0.3s ease;
-  
+  transition: background 0.2s ease;
+
   &:hover {
     background: var(--secondary);
   }
-  
+
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     background: var(--primary);
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 2px 6px rgba(0, 113, 227, 0.3);
-    border: 2px solid white;
-    position: relative;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 1px 4px rgba(60, 40, 20, 0.2);
+    border: 2.5px solid white;
   }
-  
+
   &::-moz-range-thumb {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     background: var(--primary);
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 2px 6px rgba(0, 113, 227, 0.3);
-    border: 2px solid white;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 1px 4px rgba(60, 40, 20, 0.2);
+    border: 2.5px solid white;
   }
-  
+
   &::-webkit-slider-thumb:hover {
-    transform: scale(1.2);
-    box-shadow: 0 4px 12px rgba(0, 113, 227, 0.4);
+    transform: scale(1.1);
+    box-shadow: 0 2px 8px rgba(199, 91, 57, 0.3);
   }
-  
+
   &::-moz-range-thumb:hover {
-    transform: scale(1.2);
-    box-shadow: 0 4px 12px rgba(0, 113, 227, 0.4);
+    transform: scale(1.1);
+    box-shadow: 0 2px 8px rgba(199, 91, 57, 0.3);
   }
-  
+
   &::-webkit-slider-thumb:active {
-    transform: scale(1.3);
-    animation: ${pulse} 1.5s infinite;
+    transform: scale(1.15);
   }
-  
+
   &::-moz-range-thumb:active {
-    transform: scale(1.3);
-    animation: ${pulse} 1.5s infinite;
+    transform: scale(1.15);
   }
 `;
 
@@ -412,7 +382,8 @@ export const Slider = styled.input`
 export const SliderValue = styled.div`
   display: flex;
   justify-content: space-between;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
   color: var(--lightText);
 `;
 
@@ -424,25 +395,27 @@ export const RecipeContainer = styled.div`
 // Recipe table
 export const Table = styled.table`
   width: 100%;
-  border-collapse: collapse;
+  border-spacing: 0;
   margin-bottom: 1.5rem;
 `;
 
 // Table header
 export const TableHeader = styled.th`
   text-align: left;
-  padding: 0.75rem;
-  border-bottom: 1px solid var(--border);
-  font-weight: 500;
+  padding: 0.625rem 0.75rem;
+  border-bottom: 2px solid var(--border);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
   color: var(--lightText);
-  font-size: 0.9rem;
 `;
 
 // Table cell
 export const TableCell = styled.td`
   padding: 0.75rem;
   border-bottom: 1px solid var(--border);
-  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
 `;
 
 // Section container
@@ -457,142 +430,85 @@ export const TabsContainer = styled.div`
   border-bottom: 1px solid var(--border);
 `;
 
-// Tab with enhanced visual feedback
+// Tab with clean design
 export const Tab = styled.button<{ active: boolean }>`
-  padding: 0.75rem 1.5rem;
+  padding: 0.625rem 1.25rem;
   border: none;
+  border-bottom: 2px solid ${props => (props.active ? 'var(--primary)' : 'transparent')};
   background-color: transparent;
   font-size: 1rem;
   font-weight: ${props => (props.active ? '600' : '400')};
-  color: ${props => (props.active ? 'var(--primary)' : 'var(--text)')};
+  color: ${props => (props.active ? 'var(--primary)' : 'var(--lightText)')};
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  border-radius: 0.5rem 0.5rem 0 0;
-  
-  &:before {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 50%;
-    width: ${props => (props.active ? '100%' : '0%')};
-    height: 3px;
-    background: linear-gradient(90deg, var(--primary), var(--highlight, #5e5ce6));
-    transform: translateX(-50%);
-    transition: width 0.3s ease;
-    border-radius: 2px;
-  }
-  
-  &:after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: ${props => (props.active ? 'rgba(0, 113, 227, 0.05)' : 'transparent')};
-    border-radius: 0.5rem 0.5rem 0 0;
-    transition: background-color 0.2s ease;
-    z-index: -1;
-  }
-  
+  transition: all 0.15s ease;
+
   &:hover {
-    color: var(--primary);
-    transform: translateY(-1px);
-    
-    &:after {
-      background: rgba(0, 113, 227, 0.08);
-    }
-  }
-  
-  &:active {
-    transform: translateY(0);
+    color: var(--text);
   }
 `;
 
 // Info box
 export const InfoBox = styled.div`
-  background-color: rgba(0, 113, 227, 0.1);
-  border-radius: 0.5rem;
-  padding: 1rem;
+  border-radius: 12px;
+  border-left: 3px solid var(--primary);
+  background: rgba(199, 91, 57, 0.05);
+  padding: 1rem 1.25rem;
   margin-bottom: 1.5rem;
   font-size: 0.9rem;
   color: var(--text);
-  border-left: 4px solid var(--primary);
 `;
 
 // Grid layout
 export const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
+  gap: 0.75rem;
   margin-bottom: 1.5rem;
-  
+
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
   }
 `;
 
-// Grid item with enhanced interactions
+// Grid item with clean interactions
 export const GridItem = styled.div`
-  padding: 1rem;
-  border-radius: 0.5rem;
-  border: 1px solid var(--border);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0.875rem;
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
   cursor: pointer;
   height: 100%;
   display: flex;
   flex-direction: column;
-  position: relative;
-  overflow: hidden;
   background: var(--cardBackground);
-  
-  &:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(45deg, transparent 30%, rgba(0, 113, 227, 0.05) 50%, transparent 70%);
-    transform: translateX(-100%);
-    transition: transform 0.6s;
-  }
-  
+
   h3 {
     margin-top: 0;
     margin-bottom: 0.5rem;
+    font-size: 0.95rem;
     font-weight: 600;
     color: var(--text);
-    transition: color 0.2s ease;
+    transition: color 0.15s ease;
   }
-  
+
   p {
     margin: 0;
+    font-size: 0.78rem;
     color: var(--lightText);
     flex-grow: 1;
   }
-  
+
   &:hover {
     border-color: var(--primary);
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    
-    &:before {
-      transform: translateX(100%);
-    }
-    
-    h3 {
-      color: var(--primary);
-    }
+    box-shadow: 0 2px 12px rgba(60, 40, 20, 0.1);
   }
-  
+
   &:active {
-    transform: translateY(-1px) scale(1.01);
+    opacity: 0.9;
   }
 `;
 
@@ -611,9 +527,9 @@ export const Spacer = styled.div`
 // Badge
 export const Badge = styled.span`
   display: inline-block;
-  padding: 0.25rem 0.5rem;
-  border-radius: 1rem;
-  font-size: 0.8rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 8px;
+  font-size: 0.75rem;
   font-weight: 500;
   background-color: var(--primary);
   color: white;
@@ -622,10 +538,10 @@ export const Badge = styled.span`
 // Footer
 export const Footer = styled.footer`
   text-align: center;
-  margin-top: 2rem;
-  padding-top: 2rem;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
   border-top: 1px solid var(--border);
   color: var(--lightText);
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
-`; 
+  font-size: 0.82rem;
+  transition: color 0.3s ease;
+`;

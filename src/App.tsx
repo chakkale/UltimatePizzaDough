@@ -77,14 +77,14 @@ const AppContent: React.FC = () => {
                   alignItems: 'center',
                   width: '100%'
                 }}>
-                  <div style={{ position: 'relative', width: '100%', maxWidth: '500px' }}>
+                  <div style={{ position: 'relative', width: '100%', maxWidth: '600px', border: '1px solid rgba(255,255,255,0.1)' }}>
                     <img
                       src={heroDough}
                       alt={t('app.title')}
                       style={{
                         width: '100%',
                         height: 'auto',
-                        borderRadius: '12px',
+                        borderRadius: '16px',
                         objectFit: 'cover',
                         display: 'block'
                       }}
@@ -95,21 +95,31 @@ const AppContent: React.FC = () => {
                       left: 0,
                       right: 0,
                       padding: '2rem 1rem 1rem',
-                      borderRadius: '0 0 12px 12px',
-                      background: 'linear-gradient(transparent, rgba(0,0,0,0.7))',
+                      borderRadius: '0 0 16px 16px',
+                      background: 'linear-gradient(transparent, rgba(26,23,20,0.75))',
                       textAlign: 'center'
                     }}>
                       <h1 style={{
                         margin: 0,
-                        fontSize: 'clamp(1.5rem, 4vw, 2.2rem)',
-                        fontWeight: 700,
+                        fontSize: 'clamp(1.6rem, 4.5vw, 2.5rem)',
+                        fontWeight: 400,
                         color: '#fff',
                         textShadow: '0 2px 8px rgba(0,0,0,0.5)',
-                        fontFamily: 'Georgia, "Times New Roman", serif',
-                        letterSpacing: '0.02em'
+                        fontFamily: '"DM Serif Display", Georgia, serif',
+                        letterSpacing: '0.01em'
                       }}>
                         {t('app.title')}
                       </h1>
+                      <p style={{
+                        margin: '0.25rem 0 0',
+                        fontSize: 'clamp(0.8rem, 2vw, 1rem)',
+                        color: 'rgba(255,255,255,0.7)',
+                        fontWeight: 400,
+                        letterSpacing: '0.05em',
+                        textTransform: 'uppercase'
+                      }}>
+                        Pizza Dough Calculator
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -145,17 +155,19 @@ const AppContent: React.FC = () => {
               
               {recipe && <RecipeDisplay recipe={recipe} pizzaStyle={inputs.pizzaStyle} />}
               
-              <Button 
+              <Button
                 onClick={() => setShowTemplateManager(true)}
-                style={{ 
+                style={{
                   marginTop: '1rem',
-                  background: 'linear-gradient(135deg, #34c759 0%, #30d158 100%)',
-                  padding: '0.875rem 1.5rem',
+                  background: 'none',
+                  border: '1.5px solid var(--primary)',
+                  color: 'var(--primary)',
+                  padding: '0.8rem 1.5rem',
                   fontWeight: '600',
-                  boxShadow: '0 4px 12px rgba(52, 199, 89, 0.3)'
+                  boxShadow: 'none'
                 }}
               >
-                📋 {t('button.manageTemplates')}
+                {t('button.manageTemplates')}
               </Button>
               
               {showTemplateManager && (
@@ -178,7 +190,7 @@ const AppContent: React.FC = () => {
                 gap: '0.5rem',
                 margin: 0 
               }}>
-                {t('app.footer')} © {new Date().getFullYear()} {t('app.title')}
+                {t('app.footer')} · {t('app.title')}
               </p>
             </Footer>
           </AppContainer>

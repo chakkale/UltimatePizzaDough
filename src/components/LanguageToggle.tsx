@@ -7,8 +7,8 @@ interface ThemedProps {
 }
 
 const LanguageButton = styled.button<ThemedProps>`
-  background: ${props => props.theme === 'dark' ? '#555' : '#f5f5f7'};
-  border: 2px solid ${props => props.theme === 'dark' ? '#777' : '#d2d2d7'};
+  background: ${props => props.theme === 'dark' ? '#3D3530' : '#F5EFE7'};
+  border: 2px solid ${props => props.theme === 'dark' ? '#4D4540' : '#E0D5C7'};
   border-radius: 30px;
   cursor: pointer;
   display: flex;
@@ -18,19 +18,19 @@ const LanguageButton = styled.button<ThemedProps>`
   padding: 6px 12px;
   height: 30px;
   transition: all 0.3s ease;
-  color: ${props => props.theme === 'dark' ? '#f5f5f7' : '#1d1d1f'};
+  color: ${props => props.theme === 'dark' ? '#F0E8DC' : '#3D2E1F'};
   font-size: 0.85rem;
   font-weight: 500;
 
   &:hover {
-    background: ${props => props.theme === 'dark' ? '#666' : '#e8e8ed'};
+    background: ${props => props.theme === 'dark' ? '#4D4540' : '#E8DFD3'};
     transform: translateY(-1px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   }
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.3);
+    box-shadow: 0 0 0 3px rgba(199, 91, 57, 0.3);
   }
 
   &:active {

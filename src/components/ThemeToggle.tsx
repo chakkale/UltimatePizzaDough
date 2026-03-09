@@ -9,8 +9,8 @@ interface ThemedProps {
 }
 
 const ToggleContainer = styled.button<ThemedProps>`
-  background: ${props => props.theme === 'dark' ? '#555' : '#f5f5f7'};
-  border: 2px solid ${props => props.theme === 'dark' ? '#777' : '#d2d2d7'};
+  background: ${props => props.theme === 'dark' ? '#3D3530' : '#F5EFE7'};
+  border: 2px solid ${props => props.theme === 'dark' ? '#4D4540' : '#E0D5C7'};
   border-radius: 30px;
   cursor: pointer;
   display: flex;
@@ -56,7 +56,7 @@ const Icons = styled.div<ThemedProps>`
 `;
 
 const ToggleButton = styled(motion.div)<ThemedProps>`
-  background: ${props => props.theme === 'dark' ? '#fff' : '#0071e3'};
+  background: ${props => props.theme === 'dark' ? '#F0E8DC' : '#C75B39'};
   border-radius: 50%;
   height: 22px;
   width: 22px;

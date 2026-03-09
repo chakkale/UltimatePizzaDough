@@ -169,36 +169,40 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
         {/* Unit Toggle */}
         <FormGroup>
           <Label>{t('units.title')}</Label>
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <Button 
+          <div style={{ display: 'flex', gap: '0', borderRadius: '12px', overflow: 'hidden', border: '1.5px solid var(--border)' }}>
+            <Button
               onClick={() => handleUseInchesChange && handleUseInchesChange(false)}
               style={{
-                backgroundColor: !inputs.useInches ? '#0071e3' : '#f5f5f7',
-                color: !inputs.useInches ? 'white' : '#1d1d1f',
+                backgroundColor: !inputs.useInches ? 'var(--primary)' : 'transparent',
+                color: !inputs.useInches ? 'white' : 'var(--text)',
                 flex: 1,
                 padding: '8px 4px',
-                fontSize: 'clamp(0.75rem, 3vw, 1rem)',
+                fontSize: 'clamp(0.75rem, 3vw, 0.9rem)',
                 whiteSpace: 'nowrap',
-                transform: !inputs.useInches ? 'translateY(-1px)' : 'translateY(0)',
-                boxShadow: !inputs.useInches ? '0 4px 12px rgba(0, 113, 227, 0.3)' : 'none'
+                borderRadius: '0',
+                transform: 'none',
+                boxShadow: 'none',
+                border: 'none'
               }}
             >
-              📏 {t('units.centimeters')}
+              {t('units.centimeters')}
             </Button>
-            <Button 
+            <Button
               onClick={() => handleUseInchesChange && handleUseInchesChange(true)}
               style={{
-                backgroundColor: inputs.useInches ? '#0071e3' : '#f5f5f7',
-                color: inputs.useInches ? 'white' : '#1d1d1f',
+                backgroundColor: inputs.useInches ? 'var(--primary)' : 'transparent',
+                color: inputs.useInches ? 'white' : 'var(--text)',
                 flex: 1,
                 padding: '8px 4px',
-                fontSize: 'clamp(0.75rem, 3vw, 1rem)',
+                fontSize: 'clamp(0.75rem, 3vw, 0.9rem)',
                 whiteSpace: 'nowrap',
-                transform: inputs.useInches ? 'translateY(-1px)' : 'translateY(0)',
-                boxShadow: inputs.useInches ? '0 4px 12px rgba(0, 113, 227, 0.3)' : 'none'
+                borderRadius: '0',
+                transform: 'none',
+                boxShadow: 'none',
+                border: 'none'
               }}
             >
-              📐 {t('units.inches')}
+              {t('units.inches')}
             </Button>
           </div>
         </FormGroup>
@@ -211,16 +215,16 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
               onClick={() => onPizzaStyleChange(style.id)}
               style={{
                 borderColor: inputs.pizzaStyle === style.id ? 'var(--primary)' : 'var(--border)',
-                backgroundColor: inputs.pizzaStyle === style.id ? 'rgba(0, 113, 227, 0.1)' : 'transparent',
+                backgroundColor: inputs.pizzaStyle === style.id ? 'rgba(199, 91, 57, 0.08)' : 'transparent',
                 overflow: 'hidden'
               }}
             >
               {STYLE_IMAGES[style.id] && (
                 <div style={{
                   width: '100%',
-                  height: '100px',
+                  height: '120px',
                   marginBottom: '0.5rem',
-                  borderRadius: '8px',
+                  borderRadius: '10px',
                   overflow: 'hidden'
                 }}>
                   <img
@@ -242,7 +246,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
                 alignItems: 'center',
                 gap: '0.5rem'
               }}>
-                {inputs.pizzaStyle === style.id && <span>✅</span>}
+                {inputs.pizzaStyle === style.id && <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--primary)', display: 'inline-block' }}></span>}
                 {t(`style.${style.id}`)}
               </h3>
               <p style={{ fontSize: '0.8rem', color: 'var(--lightText)' }}>{t(`style.${style.id}.desc`)}</p>
@@ -265,30 +269,40 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
         {inputs.pizzaStyle === 'custom' && handleShapeToggle && (
           <FormGroup>
             <Label>{t('form.shape')}</Label>
-            <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
-              <Button 
+            <div style={{ display: 'flex', gap: '0', borderRadius: '12px', overflow: 'hidden', border: '1.5px solid var(--border)', marginBottom: '15px' }}>
+              <Button
                 onClick={() => handleShapeToggle(false)}
                 style={{
-                  backgroundColor: !inputs.isRectangular ? '#0071e3' : '#f5f5f7',
-                  color: !inputs.isRectangular ? 'white' : '#1d1d1f',
+                  backgroundColor: !inputs.isRectangular ? 'var(--primary)' : 'transparent',
+                  color: !inputs.isRectangular ? 'white' : 'var(--text)',
                   flex: 1,
-                  transform: !inputs.isRectangular ? 'translateY(-1px)' : 'translateY(0)',
-                  boxShadow: !inputs.isRectangular ? '0 4px 12px rgba(0, 113, 227, 0.3)' : 'none'
+                  padding: '8px 4px',
+                  fontSize: 'clamp(0.75rem, 3vw, 0.9rem)',
+                  whiteSpace: 'nowrap',
+                  borderRadius: '0',
+                  transform: 'none',
+                  boxShadow: 'none',
+                  border: 'none'
                 }}
               >
-                🔵 {t('form.round')}
+                {t('form.round')}
               </Button>
-              <Button 
+              <Button
                 onClick={() => handleShapeToggle(true)}
                 style={{
-                  backgroundColor: inputs.isRectangular ? '#0071e3' : '#f5f5f7',
-                  color: inputs.isRectangular ? 'white' : '#1d1d1f',
+                  backgroundColor: inputs.isRectangular ? 'var(--primary)' : 'transparent',
+                  color: inputs.isRectangular ? 'white' : 'var(--text)',
                   flex: 1,
-                  transform: inputs.isRectangular ? 'translateY(-1px)' : 'translateY(0)',
-                  boxShadow: inputs.isRectangular ? '0 4px 12px rgba(0, 113, 227, 0.3)' : 'none'
+                  padding: '8px 4px',
+                  fontSize: 'clamp(0.75rem, 3vw, 0.9rem)',
+                  whiteSpace: 'nowrap',
+                  borderRadius: '0',
+                  transform: 'none',
+                  boxShadow: 'none',
+                  border: 'none'
                 }}
               >
-                🔲 {t('form.rectangular')}
+                {t('form.rectangular')}
               </Button>
             </div>
           </FormGroup>
@@ -311,30 +325,40 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
         {isFocaccia && handleShapeToggle && (
           <FormGroup>
             <Label>{t('form.shape')}</Label>
-            <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
+            <div style={{ display: 'flex', gap: '0', borderRadius: '12px', overflow: 'hidden', border: '1.5px solid var(--border)', marginBottom: '15px' }}>
               <Button
                 onClick={() => handleShapeToggle(false)}
                 style={{
-                  backgroundColor: !isRectangular ? '#0071e3' : '#f5f5f7',
-                  color: !isRectangular ? 'white' : '#1d1d1f',
+                  backgroundColor: !isRectangular ? 'var(--primary)' : 'transparent',
+                  color: !isRectangular ? 'white' : 'var(--text)',
                   flex: 1,
-                  transform: !isRectangular ? 'translateY(-1px)' : 'translateY(0)',
-                  boxShadow: !isRectangular ? '0 4px 12px rgba(0, 113, 227, 0.3)' : 'none'
+                  padding: '8px 4px',
+                  fontSize: 'clamp(0.75rem, 3vw, 0.9rem)',
+                  whiteSpace: 'nowrap',
+                  borderRadius: '0',
+                  transform: 'none',
+                  boxShadow: 'none',
+                  border: 'none'
                 }}
               >
-                🔵 {t('form.round')}
+                {t('form.round')}
               </Button>
               <Button
                 onClick={() => handleShapeToggle(true)}
                 style={{
-                  backgroundColor: isRectangular ? '#0071e3' : '#f5f5f7',
-                  color: isRectangular ? 'white' : '#1d1d1f',
+                  backgroundColor: isRectangular ? 'var(--primary)' : 'transparent',
+                  color: isRectangular ? 'white' : 'var(--text)',
                   flex: 1,
-                  transform: isRectangular ? 'translateY(-1px)' : 'translateY(0)',
-                  boxShadow: isRectangular ? '0 4px 12px rgba(0, 113, 227, 0.3)' : 'none'
+                  padding: '8px 4px',
+                  fontSize: 'clamp(0.75rem, 3vw, 0.9rem)',
+                  whiteSpace: 'nowrap',
+                  borderRadius: '0',
+                  transform: 'none',
+                  boxShadow: 'none',
+                  border: 'none'
                 }}
               >
-                🔲 {t('form.rectangular')}
+                {t('form.rectangular')}
               </Button>
             </div>
           </FormGroup>
@@ -352,7 +376,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
                 value={inputs.panWidth}
                 onChange={handlePanWidthChange}
               />
-              <p style={{ fontSize: '0.8rem', color: '#86868b', marginTop: '0.5rem' }}>
+              <p style={{ fontSize: '0.8rem', color: 'var(--lightText)', marginTop: '0.5rem' }}>
                 {displayMeasurement(inputs.panWidth || 0, 'width')}
               </p>
             </FormGroup>
@@ -366,7 +390,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
                 value={inputs.panLength}
                 onChange={handlePanLengthChange}
               />
-              <p style={{ fontSize: '0.8rem', color: '#86868b', marginTop: '0.5rem' }}>
+              <p style={{ fontSize: '0.8rem', color: 'var(--lightText)', marginTop: '0.5rem' }}>
                 {displayMeasurement(inputs.panLength || 0, 'length')}
               </p>
             </FormGroup>
@@ -382,7 +406,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
               value={inputs.pizzaDiameter}
               onChange={handlePizzaDiameterChange}
             />
-            <p style={{ fontSize: '0.8rem', color: '#86868b', marginTop: '0.5rem' }}>
+            <p style={{ fontSize: '0.8rem', color: 'var(--lightText)', marginTop: '0.5rem' }}>
               {displayMeasurement(inputs.pizzaDiameter, 'diameter')}
             </p>
           </FormGroup>
@@ -404,7 +428,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
             value={inputs.thicknessFactor}
             onChange={handleThicknessFactorChange}
           />
-          <p style={{ fontSize: '0.8rem', color: '#86868b', marginTop: '0.5rem' }}>
+          <p style={{ fontSize: '0.8rem', color: 'var(--lightText)', marginTop: '0.5rem' }}>
             Thickness factor in ounces of dough per square inch of pizza.
           </p>
         </FormGroup>
@@ -418,7 +442,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
             value={inputs.ballWeight}
             onChange={handleNumberInputChange}
           />
-          <p style={{ fontSize: '0.8rem', color: '#86868b', marginTop: '0.5rem' }}>
+          <p style={{ fontSize: '0.8rem', color: 'var(--lightText)', marginTop: '0.5rem' }}>
             {inputs.ballWeight} g ({(inputs.ballWeight * 0.03527396).toFixed(1)} oz) - Calculated based on {isRectangular ? 'pan dimensions' : 'diameter'} and thickness factor.
           </p>
         </FormGroup>
@@ -487,7 +511,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
               <option value="fresh">{t('form.fresh')}</option>
             </Select>
           </div>
-          <p style={{ fontSize: '0.8rem', color: '#86868b', marginTop: '0.5rem' }}>
+          <p style={{ fontSize: '0.8rem', color: 'var(--lightText)', marginTop: '0.5rem' }}>
             {inputs.preferment.type === 'sourdough' ? 'No commercial yeast needed for sourdough.' : 
              inputs.yeastType === 'active_dry' ? 'Active dry yeast requires blooming in warm water before use.' :
              inputs.yeastType === 'instant' ? 'Instant yeast can be mixed directly with dry ingredients.' :
@@ -547,7 +571,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
             value={inputs.diastaticMalt}
             onChange={(e) => handleSliderChange(e, 'diastaticMalt')}
           />
-          <p style={{ fontSize: '0.8rem', color: '#86868b', marginTop: '0.5rem' }}>
+          <p style={{ fontSize: '0.8rem', color: 'var(--lightText)', marginTop: '0.5rem' }}>
             Diastatic malt helps with browning and fermentation.
           </p>
         </FormGroup>
@@ -568,22 +592,22 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
             value={inputs.doughEnhancer}
             onChange={(e) => handleSliderChange(e, 'doughEnhancer')}
           />
-          <p style={{ fontSize: '0.8rem', color: '#86868b', marginTop: '0.5rem' }}>
+          <p style={{ fontSize: '0.8rem', color: 'var(--lightText)', marginTop: '0.5rem' }}>
             Dough enhancer improves texture and rise.
           </p>
         </FormGroup>
       </Section>
 
       <Section>
-        <SectionTitle>Preferment</SectionTitle>
+        <SectionTitle>{t('form.preferment')}</SectionTitle>
         <InfoBox>
           Preferments improve flavor, texture, and shelf life. They require preparation ahead of time.
         </InfoBox>
 
         {inputs.pizzaStyle !== 'custom' && t(`preferment.hint.${inputs.pizzaStyle}`) !== `preferment.hint.${inputs.pizzaStyle}` && (
           <InfoBox style={{
-            background: 'rgba(255, 149, 0, 0.08)',
-            borderLeft: '3px solid rgba(255, 149, 0, 0.6)',
+            background: 'rgba(212, 144, 60, 0.08)',
+            borderLeft: '3px solid var(--warning)',
             fontSize: '0.85rem'
           }}>
             {t(`preferment.hint.${inputs.pizzaStyle}`)}
@@ -627,7 +651,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
                 value={inputs.preferment.percentage}
                 onChange={handlePrefermentPercentageSlider}
               />
-              <p style={{ fontSize: '0.8rem', color: '#86868b', marginTop: '0.5rem' }}>
+              <p style={{ fontSize: '0.8rem', color: 'var(--lightText)', marginTop: '0.5rem' }}>
                 Percentage of total flour that goes into the preferment.
               </p>
             </FormGroup>
@@ -648,7 +672,7 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
                 value={inputs.preferment.hydration}
                 onChange={handlePrefermentHydrationSlider}
               />
-              <p style={{ fontSize: '0.8rem', color: '#86868b', marginTop: '0.5rem' }}>
+              <p style={{ fontSize: '0.8rem', color: 'var(--lightText)', marginTop: '0.5rem' }}>
                 Poolish is typically 100%, Biga is 50-60%, Sponge is 65-80%, and Sourdough varies (100% is common).
               </p>
             </FormGroup>
@@ -656,20 +680,21 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
         )}
       </Section>
 
-      <Button 
+      <Button
         onClick={onReset}
         style={{
-          backgroundColor: '#ff6b35',
-          background: 'linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%)',
+          backgroundColor: 'var(--primary)',
+          background: 'var(--primary)',
           color: 'white',
           fontWeight: '600',
-          padding: '0.875rem 2rem',
-          fontSize: '1rem',
-          boxShadow: '0 4px 12px rgba(255, 107, 53, 0.3)',
-          border: 'none'
+          padding: '0.8rem 2rem',
+          fontSize: '0.9rem',
+          boxShadow: 'none',
+          border: 'none',
+          letterSpacing: '0.02em'
         }}
       >
-        🔄 {t('button.reset')}
+        {t('button.reset')}
       </Button>
     </Card>
   );

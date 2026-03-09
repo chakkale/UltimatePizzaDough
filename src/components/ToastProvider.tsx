@@ -47,7 +47,7 @@ const ToastItem = styled(motion.div)<{ type: ToastType }>`
   }};
   color: white;
   padding: 1rem 1.5rem;
-  border-radius: 0.5rem;
+  border-radius: 14px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   font-size: 0.9rem;
   font-weight: 500;

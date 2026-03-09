@@ -166,14 +166,27 @@ const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe, pizzaStyle }) => 
               </thead>
               <tbody>
                 {recipe.ingredients.map((ingredient, index) => (
-                  <tr key={index}>
+                  <tr key={index} style={{ backgroundColor: index % 2 === 1 ? 'rgba(199,91,57,0.03)' : 'transparent' }}>
                     <TableCell>{translateIngredient(ingredient.name)}</TableCell>
                     <TableCell>{isYeast(ingredient.name) ? roundToTwoDecimals(ingredient.weight) : roundToOneDecimal(ingredient.weight)}g</TableCell>
-                    <TableCell>{ingredient.percentage}%</TableCell>
+                    <TableCell style={{ color: 'var(--success)', fontWeight: 500 }}>{ingredient.percentage}%</TableCell>
                   </tr>
                 ))}
               </tbody>
             </Table>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              padding: '0.75rem',
+              backgroundColor: 'rgba(199,91,57,0.05)',
+              borderRadius: '10px',
+              fontWeight: 600,
+              fontSize: '0.9rem',
+              marginBottom: '1rem'
+            }}>
+              <span>{t('recipe.total')}</span>
+              <span>{roundToOneDecimal(recipe.ingredients.reduce((sum, i) => sum + i.weight, 0))}g</span>
+            </div>
           </Section>
 
           {recipe.preferment && recipe.mainDough && (
@@ -183,7 +196,7 @@ const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe, pizzaStyle }) => 
                 {t('preferment.info')}
               </InfoBox>
 
-              <h3 style={{ marginBottom: '1rem' }}>{t('recipe.preferment')}</h3>
+              <h3 style={{ marginBottom: '1rem', fontFamily: '"DM Serif Display", Georgia, serif', fontWeight: 400, fontSize: '1.2rem' }}>{t('recipe.preferment')}</h3>
               <Table>
                 <thead>
                   <tr>
@@ -209,7 +222,7 @@ const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe, pizzaStyle }) => 
                 </tbody>
               </Table>
 
-              <h3 style={{ margin: '1.5rem 0 1rem' }}>{t('recipe.mainDough')}</h3>
+              <h3 style={{ marginBottom: '1rem', fontFamily: '"DM Serif Display", Georgia, serif', fontWeight: 400, fontSize: '1.2rem' }}>{t('recipe.mainDough')}</h3>
               <Table>
                 <thead>
                   <tr>
@@ -278,8 +291,8 @@ const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe, pizzaStyle }) => 
           {recipe.preferment && recipe.mainDough ? (
             <>
               <Section>
-                <h3>{t('preferment.instructions')}</h3>
-                <ol style={{ paddingLeft: '1.5rem', lineHeight: '1.6' }}>
+                <h3 style={{ marginBottom: '1rem', fontFamily: '"DM Serif Display", Georgia, serif', fontWeight: 400, fontSize: '1.2rem' }}>{t('preferment.instructions')}</h3>
+                <ol style={{ paddingLeft: '1.25rem', lineHeight: '1.7', fontSize: '0.92rem' }}>
                   <li>
                     {t('preferment.step1')
                       .replace('{flour}', roundToOneDecimal(recipe.preferment.flour).toString())
@@ -303,8 +316,8 @@ const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe, pizzaStyle }) => 
               </Section>
 
               <Section>
-                <h3>{t('mainDough.instructions')}</h3>
-                <ol style={{ paddingLeft: '1.5rem', lineHeight: '1.6' }}>
+                <h3 style={{ marginBottom: '1rem', fontFamily: '"DM Serif Display", Georgia, serif', fontWeight: 400, fontSize: '1.2rem' }}>{t('mainDough.instructions')}</h3>
+                <ol style={{ paddingLeft: '1.25rem', lineHeight: '1.7', fontSize: '0.92rem' }}>
                   <li>
                     {t('mainDough.step1')
                       .replace('{water}', roundToOneDecimal(recipe.mainDough.water).toString())
@@ -356,8 +369,8 @@ const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe, pizzaStyle }) => 
             </>
           ) : (
             <Section>
-              <h3>{t('dough.instructions')}</h3>
-              <ol style={{ paddingLeft: '1.5rem', lineHeight: '1.6' }}>
+              <h3 style={{ marginBottom: '1rem', fontFamily: '"DM Serif Display", Georgia, serif', fontWeight: 400, fontSize: '1.2rem' }}>{t('dough.instructions')}</h3>
+              <ol style={{ paddingLeft: '1.25rem', lineHeight: '1.7', fontSize: '0.92rem' }}>
                 <li>
                   {t('dough.step1')
                     .replace('{water}', roundToOneDecimal(getIngredientWeight('Water')).toString())
@@ -419,13 +432,13 @@ const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe, pizzaStyle }) => 
           )}
 
           <Section>
-            <h3>{t('baking.instructions')}</h3>
+            <h3 style={{ marginBottom: '1rem', fontFamily: '"DM Serif Display", Georgia, serif', fontWeight: 400, fontSize: '1.2rem' }}>{t('baking.instructions')}</h3>
             {pizzaStyle && pizzaStyle !== 'custom' && t(`flour.${pizzaStyle}`) !== `flour.${pizzaStyle}` && (
               <InfoBox>
                 {t(`flour.${pizzaStyle}`)}
               </InfoBox>
             )}
-            <ol style={{ paddingLeft: '1.5rem', lineHeight: '1.6' }}>
+            <ol style={{ paddingLeft: '1.25rem', lineHeight: '1.7', fontSize: '0.92rem' }}>
               <li>{t(`baking.step1.${pizzaStyle}`) !== `baking.step1.${pizzaStyle}` ? t(`baking.step1.${pizzaStyle}`) : t('baking.step1')}</li>
               <li>{t(`baking.step2.${pizzaStyle}`) !== `baking.step2.${pizzaStyle}` ? t(`baking.step2.${pizzaStyle}`) : t('baking.step2')}</li>
               <li>{t('baking.step3')}</li>
