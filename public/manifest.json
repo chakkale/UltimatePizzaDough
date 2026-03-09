@@ -8,9 +8,9 @@
   "theme_color": "#0071e3",
   "icons": [
     {
-      "src": "/pizza-icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
+      "src": "/pizza-icon.png",
+      "sizes": "64x64",
+      "type": "image/png",
       "purpose": "any"
     },
     {
