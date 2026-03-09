@@ -11,7 +11,7 @@ console.log('Root element:', rootElement);
 // Initialize Google Analytics
 initializeAnalytics();
 // Track initial page view
-trackPageView('Ultimate Pizza Dough Calculator', '/');
+trackPageView('Make Better Pizza', '/');
 
 if (rootElement) {
   try {

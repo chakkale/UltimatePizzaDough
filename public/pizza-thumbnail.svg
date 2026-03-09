@@ -33,7 +33,7 @@
   
   <!-- Text -->
   <text x="600" y="450" font-family="Arial, sans-serif" font-size="48" font-weight="bold" text-anchor="middle" fill="#333">
-    Ultimate Pizza Dough Calculator
+    Make Better Pizza
   </text>
   
   <text x="600" y="520" font-family="Arial, sans-serif" font-size="24" text-anchor="middle" fill="#666">

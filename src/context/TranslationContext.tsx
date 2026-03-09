@@ -12,8 +12,8 @@ interface Translations {
 const translations: Translations = {
   // Header
   'app.title': {
-    en: 'Ultimate Pizza Dough Calculator',
-    tr: 'Nihai Pizza Hamuru Hesaplayıcısı'
+    en: 'Make Better Pizza',
+    tr: 'Daha İyi Pizza Yap'
   },
   'app.footer': {
     en: 'Made with ❤️',
