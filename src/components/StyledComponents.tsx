@@ -2,39 +2,42 @@ import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 import { keyframes } from '@emotion/react';
 
-// Keep keyframes import for potential future use
-void keyframes;
+// Subtle shimmer for loading states
+const shimmer = keyframes`
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+`;
 
 // Named export to fix fast refresh warning
 export const StyledComponents = 'StyledComponents';
 
-// Color palette with dark mode support
+// Color palette with dark mode support (kept for backward compat)
 export const colors = {
   light: {
-    background: '#FAF6F1',
-    primary: '#C75B39',
-    secondary: '#8C7B6B',
-    text: '#3D2E1F',
-    lightText: '#8C7B6B',
-    border: '#E0D5C7',
+    background: '#FBF8F4',
+    primary: '#C2582D',
+    secondary: '#7A6E63',
+    text: '#2C1810',
+    lightText: '#8E8078',
+    border: '#E8E0D6',
     cardBackground: '#FFFFFF',
-    success: '#6B7F4E',
-    warning: '#D4903C',
-    error: '#C44536',
-    highlight: '#C75B39'
+    success: '#5B7A3A',
+    warning: '#C48A2C',
+    error: '#B83C2B',
+    highlight: '#C2582D'
   },
   dark: {
-    background: '#1A1714',
-    primary: '#D4764E',
-    secondary: '#9C8E80',
-    text: '#F0E8DC',
-    lightText: '#9C8E80',
-    border: '#3D3530',
-    cardBackground: '#2A2520',
-    success: '#8FA66C',
-    warning: '#E0A04C',
+    background: '#0F0E0D',
+    primary: '#E0885A',
+    secondary: '#8A7E73',
+    text: '#EDE6DC',
+    lightText: '#8A7E73',
+    border: '#262320',
+    cardBackground: '#181614',
+    success: '#8FB365',
+    warning: '#D4A24C',
     error: '#D45545',
-    highlight: '#D4764E'
+    highlight: '#E0885A'
   }
 };
 
@@ -44,29 +47,14 @@ export const AppContainer = styled.div`
   flex-direction: column;
   min-height: 100vh;
   background-color: var(--background);
-  background-image:
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(60, 40, 20, 0.012) 2px,
-      rgba(60, 40, 20, 0.012) 4px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent 2px,
-      rgba(60, 40, 20, 0.008) 2px,
-      rgba(60, 40, 20, 0.008) 4px
-    );
   color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   padding: 2.5rem 2rem;
-  transition: all 0.3s ease;
+  transition: background-color 0.4s ease, color 0.3s ease;
   position: relative;
 
   @media (max-width: 768px) {
-    padding: 1.5rem 1rem;
+    padding: 1.25rem 0.875rem;
   }
 `;
 
@@ -135,7 +123,7 @@ export const Subtitle = styled.p`
 export const ContentContainer = styled.main`
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.5rem;
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
@@ -143,22 +131,46 @@ export const ContentContainer = styled.main`
   @media (min-width: 992px) {
     flex-direction: row;
     align-items: flex-start;
+    gap: 2rem;
   }
 `;
 
-// Card container with premium warmth
+// Card container with premium depth
 export const Card = styled(motion.div)`
   background-color: var(--cardBackground);
-  border-radius: 16px;
-  box-shadow: 0 1px 2px rgba(60, 40, 20, 0.06), 0 4px 16px rgba(60, 40, 20, 0.08);
-  padding: 1.75rem;
+  border-radius: 20px;
+  box-shadow: var(--cardShadow);
+  padding: 2rem;
   flex: 1;
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
-  border: 1px solid var(--border);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  border: 1px solid var(--cardBorder);
   position: relative;
+  overflow: hidden;
+
+  /* Subtle inner glow at top */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--border-strong),
+      transparent
+    );
+    opacity: 0.5;
+  }
 
   &:hover {
-    box-shadow: 0 2px 4px rgba(60, 40, 20, 0.08), 0 8px 24px rgba(60, 40, 20, 0.12);
+    box-shadow: var(--cardShadowHover);
+  }
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+    border-radius: 16px;
   }
 `;
 
@@ -169,25 +181,44 @@ export const StickyCard = styled(Card)`
     top: 2rem;
     max-height: calc(100vh - 4rem);
     overflow-y: auto;
-    /* Hide scrollbar for Chrome, Safari and Opera */
     &::-webkit-scrollbar {
-      display: none;
+      width: 4px;
     }
-    /* Hide scrollbar for IE, Edge and Firefox */
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: var(--border-strong);
+      border-radius: 2px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background: var(--lightText);
+    }
   }
 `;
 
 // Section title
 export const SectionTitle = styled.h2`
-  font-family: 'DM Serif Display', Georgia, serif;
-  font-size: 1.6rem;
-  font-weight: 400;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 600;
   color: var(--text);
-  letter-spacing: 0.01em;
+  letter-spacing: -0.01em;
   margin-bottom: 1.25rem;
   transition: color 0.3s ease;
+  position: relative;
+  padding-bottom: 0.75rem;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 2.5rem;
+    height: 2px;
+    background: var(--primary);
+    border-radius: 1px;
+  }
 `;
 
 // Form group
@@ -198,10 +229,10 @@ export const FormGroup = styled.div`
 // Label
 export const Label = styled.label`
   display: block;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   margin-bottom: 0.5rem;
   color: var(--lightText);
   transition: color 0.3s ease;
@@ -214,23 +245,23 @@ export const Input = styled.input`
   border-radius: 12px;
   border: 1.5px solid var(--border);
   font-size: 0.95rem;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-  background-color: var(--inputBackground, var(--cardBackground));
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  background-color: var(--inputBackground);
   color: var(--text);
 
   &:hover {
-    border-color: var(--primary);
+    border-color: var(--border-strong);
   }
 
   &:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(199, 91, 57, 0.12);
+    box-shadow: 0 0 0 3px var(--primary-soft);
+    background-color: var(--cardBackground);
   }
 
   &:invalid {
-    border-color: var(--error, #C44536);
-    box-shadow: 0 0 0 1px rgba(196, 69, 54, 0.2);
+    border-color: var(--error, #B83C2B);
   }
 
   &:disabled {
@@ -247,18 +278,19 @@ export const Select = styled.select`
   border-radius: 12px;
   border: 1.5px solid var(--border);
   font-size: 0.95rem;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-  background-color: var(--inputBackground, var(--cardBackground));
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background-color: var(--inputBackground);
   color: var(--text);
+  cursor: pointer;
 
   &:hover {
-    border-color: var(--primary);
+    border-color: var(--border-strong);
   }
 
   &:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(199, 91, 57, 0.12);
+    box-shadow: 0 0 0 3px var(--primary-soft);
   }
 `;
 
@@ -271,29 +303,34 @@ export const Button = styled.button`
   font-weight: 600;
   letter-spacing: 0.02em;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.2s ease;
   background-color: var(--primary);
   color: white;
+  position: relative;
+  overflow: hidden;
 
   &:hover {
-    filter: brightness(1.1);
-    box-shadow: 0 4px 12px rgba(199, 91, 57, 0.25);
+    background-color: var(--primary-hover);
+    box-shadow: 0 4px 16px var(--primary-glow);
+    transform: translateY(-1px);
   }
 
   &:active {
-    filter: brightness(0.95);
+    transform: translateY(0);
+    box-shadow: 0 2px 8px var(--primary-glow);
   }
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(199, 91, 57, 0.3);
+    box-shadow: 0 0 0 3px var(--primary-soft);
   }
 
   &:disabled {
     background-color: var(--secondary);
     cursor: not-allowed;
-    filter: none;
+    transform: none;
     box-shadow: none;
+    opacity: 0.7;
   }
 `;
 
@@ -304,13 +341,14 @@ export const SecondaryButton = styled(Button)`
   border: 1.5px solid var(--primary);
 
   &:hover {
-    filter: none;
-    border-color: var(--text);
+    background-color: var(--primary-soft);
+    border-color: var(--primary-hover);
     box-shadow: none;
+    transform: none;
   }
 
   &:active {
-    filter: none;
+    transform: none;
     opacity: 0.85;
   }
 `;
@@ -324,57 +362,57 @@ export const SliderContainer = styled.div`
 export const Slider = styled.input`
   width: 100%;
   -webkit-appearance: none;
-  height: 4px;
-  border-radius: 2px;
-  background: var(--border);
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(
+    to right,
+    var(--border) 0%,
+    var(--border-strong) 100%
+  );
   outline: none;
-  margin: 1rem 0;
+  margin: 0.75rem 0;
   transition: background 0.2s ease;
-
-  &:hover {
-    background: var(--secondary);
-  }
 
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
     background: var(--primary);
     cursor: pointer;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
-    box-shadow: 0 1px 4px rgba(60, 40, 20, 0.2);
-    border: 2.5px solid white;
+    box-shadow: 0 2px 6px var(--primary-glow), 0 0 0 3px var(--cardBackground);
+    border: none;
   }
 
   &::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
     background: var(--primary);
     cursor: pointer;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
-    box-shadow: 0 1px 4px rgba(60, 40, 20, 0.2);
-    border: 2.5px solid white;
+    box-shadow: 0 2px 6px var(--primary-glow), 0 0 0 3px var(--cardBackground);
+    border: none;
   }
 
   &::-webkit-slider-thumb:hover {
-    transform: scale(1.1);
-    box-shadow: 0 2px 8px rgba(199, 91, 57, 0.3);
+    transform: scale(1.15);
+    box-shadow: 0 3px 12px var(--primary-glow), 0 0 0 3px var(--cardBackground);
   }
 
   &::-moz-range-thumb:hover {
-    transform: scale(1.1);
-    box-shadow: 0 2px 8px rgba(199, 91, 57, 0.3);
+    transform: scale(1.15);
+    box-shadow: 0 3px 12px var(--primary-glow), 0 0 0 3px var(--cardBackground);
   }
 
   &::-webkit-slider-thumb:active {
-    transform: scale(1.15);
+    transform: scale(1.2);
   }
 
   &::-moz-range-thumb:active {
-    transform: scale(1.15);
+    transform: scale(1.2);
   }
 `;
 
@@ -382,9 +420,15 @@ export const Slider = styled.input`
 export const SliderValue = styled.div`
   display: flex;
   justify-content: space-between;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-variant-numeric: tabular-nums;
   color: var(--lightText);
+
+  span:nth-of-type(2) {
+    font-weight: 600;
+    color: var(--primary);
+    font-size: 0.85rem;
+  }
 `;
 
 // Recipe container
@@ -397,25 +441,34 @@ export const Table = styled.table`
   width: 100%;
   border-spacing: 0;
   margin-bottom: 1.5rem;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
 `;
 
 // Table header
 export const TableHeader = styled.th`
   text-align: left;
-  padding: 0.625rem 0.75rem;
+  padding: 0.75rem 1rem;
   border-bottom: 2px solid var(--border);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-weight: 600;
+  letter-spacing: 0.1em;
+  font-weight: 700;
   color: var(--lightText);
+  background: var(--inputBackground);
 `;
 
 // Table cell
 export const TableCell = styled.td`
-  padding: 0.75rem;
+  padding: 0.75rem 1rem;
   border-bottom: 1px solid var(--border);
   font-variant-numeric: tabular-nums;
+  font-size: 0.9rem;
+
+  tr:last-child & {
+    border-bottom: none;
+  }
 `;
 
 // Section container
@@ -427,23 +480,30 @@ export const Section = styled.div`
 export const TabsContainer = styled.div`
   display: flex;
   margin-bottom: 1.5rem;
-  border-bottom: 1px solid var(--border);
+  background: var(--inputBackground);
+  border-radius: 12px;
+  padding: 4px;
+  gap: 4px;
 `;
 
-// Tab with clean design
+// Tab with pill design
 export const Tab = styled.button<{ active: boolean }>`
   padding: 0.625rem 1.25rem;
   border: none;
-  border-bottom: 2px solid ${props => (props.active ? 'var(--primary)' : 'transparent')};
-  background-color: transparent;
-  font-size: 1rem;
-  font-weight: ${props => (props.active ? '600' : '400')};
+  border-radius: 10px;
+  background-color: ${props => (props.active ? 'var(--cardBackground)' : 'transparent')};
+  box-shadow: ${props => (props.active ? '0 1px 3px rgba(0,0,0,0.08)' : 'none')};
+  font-size: 0.9rem;
+  font-weight: ${props => (props.active ? '600' : '500')};
   color: ${props => (props.active ? 'var(--primary)' : 'var(--lightText)')};
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.2s ease;
+  flex: 1;
+  text-align: center;
 
   &:hover {
-    color: var(--text);
+    color: ${props => (props.active ? 'var(--primary)' : 'var(--text)')};
+    background-color: ${props => (props.active ? 'var(--cardBackground)' : 'var(--primary-soft)')};
   }
 `;
 
@@ -451,11 +511,12 @@ export const Tab = styled.button<{ active: boolean }>`
 export const InfoBox = styled.div`
   border-radius: 12px;
   border-left: 3px solid var(--primary);
-  background: rgba(199, 91, 57, 0.05);
+  background: var(--primary-soft);
   padding: 1rem 1.25rem;
   margin-bottom: 1.5rem;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   color: var(--text);
+  line-height: 1.6;
 `;
 
 // Grid layout
@@ -476,39 +537,45 @@ export const Grid = styled.div`
 
 // Grid item with clean interactions
 export const GridItem = styled.div`
-  padding: 0.875rem;
-  border-radius: 12px;
+  padding: 0;
+  border-radius: 14px;
   border: 1.5px solid var(--border);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: all 0.25s ease;
   cursor: pointer;
   height: 100%;
   display: flex;
   flex-direction: column;
   background: var(--cardBackground);
+  overflow: hidden;
+  position: relative;
 
   h3 {
     margin-top: 0;
-    margin-bottom: 0.5rem;
-    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+    font-size: 0.88rem;
     font-weight: 600;
     color: var(--text);
-    transition: color 0.15s ease;
+    transition: color 0.2s ease;
+    padding: 0.75rem 0.75rem 0;
   }
 
   p {
     margin: 0;
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     color: var(--lightText);
     flex-grow: 1;
+    line-height: 1.4;
+    padding: 0 0.75rem 0.75rem;
   }
 
   &:hover {
     border-color: var(--primary);
-    box-shadow: 0 2px 12px rgba(60, 40, 20, 0.1);
+    box-shadow: 0 4px 16px var(--primary-glow);
+    transform: translateY(-2px);
   }
 
   &:active {
-    opacity: 0.9;
+    transform: translateY(0);
   }
 `;
 
@@ -527,10 +594,11 @@ export const Spacer = styled.div`
 // Badge
 export const Badge = styled.span`
   display: inline-block;
-  padding: 0.2rem 0.5rem;
-  border-radius: 8px;
-  font-size: 0.75rem;
-  font-weight: 500;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
   background-color: var(--primary);
   color: white;
 `;
@@ -545,3 +613,6 @@ export const Footer = styled.footer`
   font-size: 0.82rem;
   transition: color 0.3s ease;
 `;
+
+// Keep shimmer available
+void shimmer;

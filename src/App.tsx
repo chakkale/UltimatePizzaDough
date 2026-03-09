@@ -77,14 +77,20 @@ const AppContent: React.FC = () => {
                   alignItems: 'center',
                   width: '100%'
                 }}>
-                  <div style={{ position: 'relative', width: '100%', maxWidth: '600px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                  <div style={{
+                    position: 'relative',
+                    width: '100%',
+                    maxWidth: '640px',
+                    borderRadius: '20px',
+                    overflow: 'hidden',
+                    boxShadow: '0 8px 32px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.1)'
+                  }}>
                     <img
                       src={heroDough}
                       alt={t('app.title')}
                       style={{
                         width: '100%',
                         height: 'auto',
-                        borderRadius: '16px',
                         objectFit: 'cover',
                         display: 'block'
                       }}
@@ -94,28 +100,27 @@ const AppContent: React.FC = () => {
                       bottom: 0,
                       left: 0,
                       right: 0,
-                      padding: '2rem 1rem 1rem',
-                      borderRadius: '0 0 16px 16px',
-                      background: 'linear-gradient(transparent, rgba(26,23,20,0.75))',
+                      padding: '3rem 1.5rem 1.25rem',
+                      background: 'linear-gradient(transparent, rgba(15,14,13,0.85))',
                       textAlign: 'center'
                     }}>
                       <h1 style={{
                         margin: 0,
-                        fontSize: 'clamp(1.6rem, 4.5vw, 2.5rem)',
-                        fontWeight: 400,
+                        fontSize: 'clamp(1.8rem, 5vw, 2.75rem)',
+                        fontWeight: 600,
                         color: '#fff',
-                        textShadow: '0 2px 8px rgba(0,0,0,0.5)',
-                        fontFamily: '"DM Serif Display", Georgia, serif',
-                        letterSpacing: '0.01em'
+                        textShadow: '0 2px 12px rgba(0,0,0,0.6)',
+                        fontFamily: '"Playfair Display", Georgia, serif',
+                        letterSpacing: '-0.01em'
                       }}>
                         {t('app.title')}
                       </h1>
                       <p style={{
-                        margin: '0.25rem 0 0',
-                        fontSize: 'clamp(0.8rem, 2vw, 1rem)',
-                        color: 'rgba(255,255,255,0.7)',
-                        fontWeight: 400,
-                        letterSpacing: '0.05em',
+                        margin: '0.35rem 0 0',
+                        fontSize: 'clamp(0.7rem, 1.8vw, 0.85rem)',
+                        color: 'rgba(255,255,255,0.6)',
+                        fontWeight: 500,
+                        letterSpacing: '0.15em',
                         textTransform: 'uppercase'
                       }}>
                         Pizza Dough Calculator

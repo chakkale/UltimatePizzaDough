@@ -215,16 +215,14 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
               onClick={() => onPizzaStyleChange(style.id)}
               style={{
                 borderColor: inputs.pizzaStyle === style.id ? 'var(--primary)' : 'var(--border)',
-                backgroundColor: inputs.pizzaStyle === style.id ? 'rgba(199, 91, 57, 0.08)' : 'transparent',
+                backgroundColor: inputs.pizzaStyle === style.id ? 'var(--primary-soft)' : 'transparent',
                 overflow: 'hidden'
               }}
             >
               {STYLE_IMAGES[style.id] && (
                 <div style={{
                   width: '100%',
-                  height: '120px',
-                  marginBottom: '0.5rem',
-                  borderRadius: '10px',
+                  height: '100px',
                   overflow: 'hidden'
                 }}>
                   <img
@@ -234,8 +232,9 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
                       width: '100%',
                       height: '100%',
                       objectFit: 'cover',
-                      opacity: inputs.pizzaStyle === style.id ? 1 : 0.7,
-                      transition: 'opacity 0.2s ease'
+                      opacity: inputs.pizzaStyle === style.id ? 1 : 0.65,
+                      transition: 'all 0.3s ease',
+                      filter: inputs.pizzaStyle === style.id ? 'none' : 'saturate(0.7)'
                     }}
                   />
                 </div>
@@ -244,12 +243,12 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
                 color: inputs.pizzaStyle === style.id ? 'var(--primary)' : 'var(--text)',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.5rem'
+                gap: '0.4rem'
               }}>
-                {inputs.pizzaStyle === style.id && <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--primary)', display: 'inline-block' }}></span>}
+                {inputs.pizzaStyle === style.id && <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'var(--primary)', display: 'inline-block', flexShrink: 0 }}></span>}
                 {t(`style.${style.id}`)}
               </h3>
-              <p style={{ fontSize: '0.8rem', color: 'var(--lightText)' }}>{t(`style.${style.id}.desc`)}</p>
+              <p>{t(`style.${style.id}.desc`)}</p>
             </GridItem>
           ))}
         </Grid>
@@ -683,15 +682,9 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({
       <Button
         onClick={onReset}
         style={{
-          backgroundColor: 'var(--primary)',
-          background: 'var(--primary)',
-          color: 'white',
-          fontWeight: '600',
-          padding: '0.8rem 2rem',
-          fontSize: '0.9rem',
-          boxShadow: 'none',
-          border: 'none',
-          letterSpacing: '0.02em'
+          width: '100%',
+          padding: '0.875rem 2rem',
+          fontSize: '0.9rem'
         }}
       >
         {t('button.reset')}

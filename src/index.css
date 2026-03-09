@@ -1,31 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
+
 :root {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light dark;
-  color: #3D2E1F;
-  background-color: #FAF6F1;
+  color: #2C1810;
+  background-color: #FBF8F4;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  /* Light theme variables */
-  --background: #FAF6F1;
-  --primary: #C75B39;
-  --secondary: #8C7B6B;
-  --text: #3D2E1F;
-  --lightText: #8C7B6B;
-  --border: #E0D5C7;
+  /* Light theme */
+  --background: #FBF8F4;
+  --primary: #C2582D;
+  --primary-hover: #A84A24;
+  --primary-soft: rgba(194, 88, 45, 0.08);
+  --primary-glow: rgba(194, 88, 45, 0.15);
+  --secondary: #7A6E63;
+  --text: #2C1810;
+  --text-secondary: #6B5D52;
+  --lightText: #8E8078;
+  --border: #E8E0D6;
+  --border-strong: #D4C9BC;
   --cardBackground: #FFFFFF;
-  --success: #6B7F4E;
-  --warning: #D4903C;
-  --error: #C44536;
-  --highlight: #C75B39;
-  --inputBackground: #F5EFE7;
-  
+  --cardBorder: rgba(0, 0, 0, 0.06);
+  --cardShadow: 0 1px 3px rgba(0,0,0,0.04), 0 6px 24px rgba(0,0,0,0.06);
+  --cardShadowHover: 0 2px 8px rgba(0,0,0,0.06), 0 12px 36px rgba(0,0,0,0.1);
+  --success: #5B7A3A;
+  --warning: #C48A2C;
+  --error: #B83C2B;
+  --highlight: #C2582D;
+  --inputBackground: #F4EFE8;
+  --overlay: rgba(255, 255, 255, 0.8);
+  --surface-elevated: #FFFFFF;
+
   /* iOS safe area variables */
   --safe-area-inset-top: env(safe-area-inset-top, 0px);
   --safe-area-inset-right: env(safe-area-inset-right, 0px);
@@ -54,14 +66,11 @@ body {
   overflow: auto;
   position: fixed;
   -webkit-overflow-scrolling: touch;
-  /* Add padding for iOS safe areas */
   padding: var(--safe-area-inset-top) var(--safe-area-inset-right) var(--safe-area-inset-bottom) var(--safe-area-inset-left);
 }
 
-/* For iOS standalone mode */
 @media (display-mode: standalone) {
   body {
-    /* Ensure content is below the status bar in standalone mode */
     padding-top: max(var(--safe-area-inset-top), 20px);
   }
 }
@@ -72,21 +81,15 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
   font-weight: 600;
   line-height: 1.2;
+  color: var(--text);
 }
 
-h1 {
-  font-size: 2.5rem;
-}
-
-h2 {
-  font-size: 1.5rem;
-}
-
-h3 {
-  font-size: 1.25rem;
-}
+h1 { font-size: 2.5rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.25rem; }
 
 p {
   margin-bottom: 1rem;
@@ -105,25 +108,34 @@ input::-webkit-inner-spin-button {
 
 @media (prefers-color-scheme: dark) {
   :root {
-    color: #F0E8DC;
-    background-color: #1A1714;
+    color: #EDE6DC;
+    background-color: #0F0E0D;
   }
 }
 
 [data-theme='dark'] {
-  /* Dark theme variables */
-  --background: #1A1714;
-  --primary: #D4764E;
-  --secondary: #9C8E80;
-  --text: #F0E8DC;
-  --lightText: #9C8E80;
-  --border: #3D3530;
-  --cardBackground: #2A2520;
-  --success: #8FA66C;
-  --warning: #E0A04C;
+  --background: #0F0E0D;
+  --primary: #E0885A;
+  --primary-hover: #ECA07A;
+  --primary-soft: rgba(224, 136, 90, 0.1);
+  --primary-glow: rgba(224, 136, 90, 0.2);
+  --secondary: #8A7E73;
+  --text: #EDE6DC;
+  --text-secondary: #A89E93;
+  --lightText: #8A7E73;
+  --border: #262320;
+  --border-strong: #332F2B;
+  --cardBackground: #181614;
+  --cardBorder: rgba(255, 255, 255, 0.06);
+  --cardShadow: 0 1px 3px rgba(0,0,0,0.2), 0 8px 32px rgba(0,0,0,0.3);
+  --cardShadowHover: 0 2px 8px rgba(0,0,0,0.3), 0 16px 48px rgba(0,0,0,0.4);
+  --success: #8FB365;
+  --warning: #D4A24C;
   --error: #D45545;
-  --highlight: #D4764E;
-  --inputBackground: #332E28;
+  --highlight: #E0885A;
+  --inputBackground: #1E1C1A;
+  --overlay: rgba(15, 14, 13, 0.85);
+  --surface-elevated: #201E1C;
 }
 
 /* Hide Google Translate default UI elements */
@@ -136,24 +148,20 @@ input::-webkit-inner-spin-button {
   display: none !important;
 }
 
-/* Prevent body top margin added by Google Translate */
 body.translated-ltr {
   top: 0 !important;
 }
 
-/* Hide the Google Translate top frame */
 .skiptranslate iframe {
   visibility: hidden !important;
   height: 0 !important;
 }
 
-/* Hide the Google Translate attribution */
 .goog-logo-link,
 .goog-te-gadget span {
   display: none !important;
 }
 
-/* Ensure translated content maintains theme colors */
 font[style*="background-color"] {
   background-color: transparent !important;
 }

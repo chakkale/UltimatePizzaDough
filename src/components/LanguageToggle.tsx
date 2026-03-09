@@ -2,13 +2,9 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from '../context/TranslationContext';
 
-interface ThemedProps {
-  theme?: string;
-}
-
-const LanguageButton = styled.button<ThemedProps>`
-  background: ${props => props.theme === 'dark' ? '#3D3530' : '#F5EFE7'};
-  border: 2px solid ${props => props.theme === 'dark' ? '#4D4540' : '#E0D5C7'};
+const LanguageButton = styled.button`
+  background: var(--inputBackground);
+  border: 1.5px solid var(--border);
   border-radius: 30px;
   cursor: pointer;
   display: flex;
@@ -17,20 +13,20 @@ const LanguageButton = styled.button<ThemedProps>`
   gap: 0.5rem;
   padding: 6px 12px;
   height: 30px;
-  transition: all 0.3s ease;
-  color: ${props => props.theme === 'dark' ? '#F0E8DC' : '#3D2E1F'};
+  transition: all 0.2s ease;
+  color: var(--text);
   font-size: 0.85rem;
   font-weight: 500;
 
   &:hover {
-    background: ${props => props.theme === 'dark' ? '#4D4540' : '#E8DFD3'};
+    border-color: var(--border-strong);
     transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(199, 91, 57, 0.3);
+    box-shadow: 0 0 0 3px var(--primary-soft);
   }
 
   &:active {
@@ -42,11 +38,7 @@ const FlagIcon = styled.span`
   font-size: 1.1rem;
 `;
 
-interface LanguageToggleProps {
-  theme?: string;
-}
-
-const LanguageToggle: React.FC<LanguageToggleProps> = ({ theme }) => {
+const LanguageToggle: React.FC = () => {
   const { language, setLanguage } = useTranslation();
 
   const toggleLanguage = () => {
@@ -56,7 +48,6 @@ const LanguageToggle: React.FC<LanguageToggleProps> = ({ theme }) => {
   return (
     <LanguageButton
       onClick={toggleLanguage}
-      theme={theme}
       aria-label={`Switch to ${language === 'en' ? 'Turkish' : 'English'}`}
       title={language === 'en' ? 'Türkçe\'ye geç' : 'Switch to English'}
     >
