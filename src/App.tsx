@@ -188,14 +188,24 @@ const AppContent: React.FC = () => {
             </ContentContainer>
             
             <Footer>
-              <p style={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center', 
-                gap: '0.5rem',
-                margin: 0 
+              <p style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.3rem',
+                margin: 0,
+                flexWrap: 'wrap'
               }}>
-                {t('app.footer')} · {t('app.title')}
+                {t('app.footer')} by{' '}
+                <a
+                  href="https://dogukanatlihan.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: 'var(--primary)', textDecoration: 'none' }}
+                >
+                  Dogukan Atlihan
+                </a>
+                {' '}· {t('app.title')}
               </p>
             </Footer>
           </AppContainer>
