@@ -39,21 +39,21 @@ export const PIZZA_STYLES: PizzaStyle[] = [
   {
     id: 'neapolitan',
     name: 'Neapolitan',
-    defaultHydration: 60, // 58-62%
+    defaultHydration: 60, // 55.5-62.5% (AVPN standard)
     defaultThicknessFactor: 0.06, // Thin crust in oz/in²
     description: 'Traditional Italian style with a thin center and puffy, airy crust.'
   },
   {
     id: 'ny',
     name: 'New York',
-    defaultHydration: 62, // 58-65%
+    defaultHydration: 65, // 62-66% (sweet spot: 65%)
     defaultThicknessFactor: 0.08, // Medium-thin crust in oz/in²
     description: 'Thin, foldable slices with a crispy exterior and chewy interior.'
   },
   {
     id: 'sicilian',
     name: 'Sicilian',
-    defaultHydration: 70, // 65-75%
+    defaultHydration: 70, // 65-70% (high hydration for thick, airy crust)
     defaultThicknessFactor: 0.12, // Thick crust in oz/in²
     description: 'Thick, rectangular pizza with a fluffy, airy interior and crispy bottom.',
     isRectangular: true
@@ -61,7 +61,7 @@ export const PIZZA_STYLES: PizzaStyle[] = [
   {
     id: 'detroit',
     name: 'Detroit',
-    defaultHydration: 68, // 65-70%
+    defaultHydration: 68, // 65-75% (airy, focaccia-like crumb)
     defaultThicknessFactor: 0.10, // Medium-thick crust in oz/in²
     description: 'Rectangular pan pizza with a thick, airy crust and crispy cheese edges.',
     isRectangular: true
@@ -69,14 +69,14 @@ export const PIZZA_STYLES: PizzaStyle[] = [
   {
     id: 'pan',
     name: 'Pan',
-    defaultHydration: 65, // 60-70%
+    defaultHydration: 65, // 60-70% (fluffy, oil-enriched dough)
     defaultThicknessFactor: 0.11, // Thick crust in oz/in²
     description: 'Pizza Hut-style thick, fluffy crust with a crispy, oil-fried bottom baked in a deep round pan.'
   },
   {
     id: 'focaccia',
     name: 'Focaccia',
-    defaultHydration: 75, // 75-85%
+    defaultHydration: 80, // 75-85% (sweet spot: 80%)
     defaultThicknessFactor: 0.14, // Very thick crust in oz/in²
     description: 'Italian flatbread with a high hydration for an open, airy crumb.',
     isRectangular: 'both'

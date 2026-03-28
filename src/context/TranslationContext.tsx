@@ -623,6 +623,30 @@ const translations: Translations = {
     en: 'Bake on the lowest rack for 12-15 minutes until the crust is deep golden and the cheese is bubbly. The oiled pan creates a crispy, fried bottom.',
     tr: 'En alt rafta 12-15 dakika, kenar koyu altın rengi olana ve peynir köpürene kadar pişirin. Yağlı tava çıtır, kızarmış bir taban oluşturur.'
   },
+  'baking.step3.focaccia': {
+    en: 'Dimple the dough with your fingers, drizzle generously with olive oil, and sprinkle with flaky salt.',
+    tr: 'Hamuru parmaklarınızla bastırarak çukurlar oluşturun, bol zeytinyağı gezdirin ve pul tuz serpin.'
+  },
+  'baking.step4.focaccia': {
+    en: 'Bake for 20-25 minutes until the top is deep golden and crispy. Let cool slightly before slicing.',
+    tr: '20-25 dakika, üstü koyu altın rengi ve çıtır olana kadar pişirin. Dilimlemeden önce biraz soğumaya bırakın.'
+  },
+  'baking.step3.sicilian': {
+    en: 'Add sauce and toppings to the dough in the pan. Cheese is typically added after baking or in the last few minutes.',
+    tr: 'Tepsideki hamura sos ve malzemeleri ekleyin. Peynir genellikle pişirdikten sonra veya son birkaç dakikada eklenir.'
+  },
+  'baking.step4.sicilian': {
+    en: 'Bake for 25-30 minutes until the bottom is crispy and the crust is deep golden. Add cheese after removing from the oven if desired.',
+    tr: '25-30 dakika, alt kısmı çıtır ve kenar koyu altın rengi olana kadar pişirin. İsterseniz fırından çıkardıktan sonra peynir ekleyin.'
+  },
+  'baking.step3.detroit': {
+    en: 'Add brick cheese or a blend of cheeses to the edges of the pan first, then add sauce in racing stripes on top.',
+    tr: 'Önce tavanın kenarlarına tuğla peyniri veya karışık peynir ekleyin, ardından üzerine şeritler halinde sos ekleyin.'
+  },
+  'baking.step4.detroit': {
+    en: 'Bake for 12-15 minutes until the cheese edges are deeply caramelized and crispy. The cheese touching the pan creates the signature frico crust.',
+    tr: '12-15 dakika, peynir kenarları iyice karamelize olana ve çıtır olana kadar pişirin. Tavaya dokunan peynir karakteristik frico kabuğu oluşturur.'
+  },
   
   // Template Manager
   'template.manager': {
