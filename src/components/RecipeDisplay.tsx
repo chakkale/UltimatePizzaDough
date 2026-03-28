@@ -442,7 +442,7 @@ const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe, pizzaStyle }) => 
             <ol style={{ paddingLeft: '1.25rem', lineHeight: '1.7', fontSize: '0.92rem' }}>
               <li>{t(`baking.step1.${pizzaStyle}`) !== `baking.step1.${pizzaStyle}` ? t(`baking.step1.${pizzaStyle}`) : t('baking.step1')}</li>
               <li>{t(`baking.step2.${pizzaStyle}`) !== `baking.step2.${pizzaStyle}` ? t(`baking.step2.${pizzaStyle}`) : t('baking.step2')}</li>
-              <li>{t('baking.step3')}</li>
+              <li>{t(`baking.step3.${pizzaStyle}`) !== `baking.step3.${pizzaStyle}` ? t(`baking.step3.${pizzaStyle}`) : t('baking.step3')}</li>
               <li>{t(`baking.step4.${pizzaStyle}`) !== `baking.step4.${pizzaStyle}` ? t(`baking.step4.${pizzaStyle}`) : t('baking.step4')}</li>
             </ol>
           </Section>
