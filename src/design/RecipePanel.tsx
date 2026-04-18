@@ -81,27 +81,27 @@ export function RecipePanel({ recipe, styleId, numberOfPizzas, ballWeight, hydra
     <div className="bp-panel">
       <div className="bp-recipe-head">
         <div>
-          <div className="bp-eyebrow"><span className="num">02</span> {t('recipe.title')}</div>
-          <div className="bp-h-display">{t(`style.${styleId}`)} <em>{t('ingredient.preferment') === 'ingredient.preferment' ? 'dough' : t('recipe.mainDough').toLowerCase()}</em></div>
+          <div className="bp-eyebrow"><span className="num">02</span> The Recipe</div>
+          <div className="bp-h-display">{t(`style.${styleId}`)} <em>dough</em></div>
         </div>
         <div className="bp-live-dot"><span className="dot" /> LIVE</div>
       </div>
 
       <div className="bp-recipe-stats">
         <div className="bp-stat">
-          <div className="k">{t('form.numberOfPizzas')}</div>
+          <div className="k">Pizzas</div>
           <div className="v">{numberOfPizzas}</div>
         </div>
         <div className="bp-stat">
-          <div className="k">{t('form.doughBallWeight') === 'form.doughBallWeight' ? 'Ball weight' : t('form.doughBallWeight')}</div>
+          <div className="k">Ball weight</div>
           <div className="v">{roundToOneDecimal(ballWeight)}<small>g</small></div>
         </div>
         <div className="bp-stat">
-          <div className="k">{t('recipe.total')}</div>
+          <div className="k">Total dough</div>
           <div className="v">{roundToOneDecimal(total)}<small>g</small></div>
         </div>
         <div className="bp-stat">
-          <div className="k">{t('form.hydration')}</div>
+          <div className="k">Hydration</div>
           <div className="v">{hydration}<small>%</small></div>
         </div>
       </div>
@@ -111,10 +111,10 @@ export function RecipePanel({ recipe, styleId, numberOfPizzas, ballWeight, hydra
           {t('recipe.ingredients')} <span className="count">{recipe.ingredients.length}</span>
         </button>
         <button type="button" className={'bp-tab ' + (tab === 'method' ? 'on' : '')} onClick={() => setTab('method')}>
-          {t('method.title')} <span className="count">{hasPreferment ? '2' : '1'}</span>
+          {t('method.title')} <span className="count">{hasPreferment ? '2 stages' : '1 stage'}</span>
         </button>
         <button type="button" className={'bp-tab ' + (tab === 'bake' ? 'on' : '')} onClick={() => setTab('bake')}>
-          {t('baking.instructions') === 'baking.instructions' ? 'Bake' : t('baking.instructions')}
+          Bake
         </button>
       </div>
 
@@ -336,10 +336,13 @@ export function RecipePanel({ recipe, styleId, numberOfPizzas, ballWeight, hydra
 
       <div className="bp-recipe-actions">
         <button type="button" className="bp-btn grow" onClick={copyRecipe}>
-          <Icons.Copy /> {t('button.copy') === 'button.copy' ? 'Copy recipe' : t('button.copy')}
+          <Icons.Copy /> Copy recipe
         </button>
         <button type="button" className="bp-btn" onClick={() => window.print()}>
           <Icons.Print /> Print
+        </button>
+        <button type="button" className="bp-btn bp-btn-primary" onClick={copyRecipe}>
+          <Icons.Save /> Save
         </button>
       </div>
     </div>

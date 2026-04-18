@@ -46,8 +46,8 @@ export function Workshop() {
         <div className="bp-brand">
           <span className="mark" />
           <div className="bp-brand-stack">
-            <div>{t('app.title')}</div>
-            <small>Pizza Dough Calculator</small>
+            <div>Better Pizza</div>
+            <small>Dough Calculator</small>
           </div>
         </div>
         <div className="bp-topbar-actions">
@@ -77,7 +77,7 @@ export function Workshop() {
 
       <div className="bp-shell">
         <div>
-          <Hero recipe={recipe} styleId={inputs.pizzaStyle} numberOfPizzas={inputs.numberOfPizzas} />
+          <Hero recipe={recipe} styleId={inputs.pizzaStyle} />
 
           <div className="bp-panel">
             <div className="bp-panel-pad">
@@ -91,7 +91,7 @@ export function Workshop() {
                 <div className="bp-eyebrow"><span className="num">B</span> Pan &amp; portions</div>
                 <div className="bp-row">
                   <div className="bp-field">
-                    <label>{t('form.numberOfPizzas')}</label>
+                    <label>Pizzas</label>
                     <Stepper
                       value={inputs.numberOfPizzas}
                       min={1}
@@ -103,7 +103,7 @@ export function Workshop() {
                   {isRectangular ? (
                     <div className="bp-field">
                       <label>
-                        {t('form.width')} × {t('form.length')}
+                        Pan size
                         <span className="v">{inputs.panWidth}×{inputs.panLength}{inputs.useInches ? '″' : 'cm'}</span>
                       </label>
                       <div className="bp-row" style={{ gap: 8 }}>
@@ -124,7 +124,7 @@ export function Workshop() {
                   ) : (
                     <div className="bp-field">
                       <label>
-                        {t('form.pizzaDiameter')} <span className="v">{diameterDisplay}</span>
+                        Diameter <span className="v">{diameterDisplay}</span>
                       </label>
                       <Stepper
                         value={inputs.pizzaDiameter}
@@ -151,16 +151,16 @@ export function Workshop() {
                 )}
 
                 <Slider
-                  label={t('form.thicknessFactor')}
+                  label="Crust thickness factor"
                   value={inputs.thicknessFactor}
                   min={0.03}
                   max={0.15}
                   step={0.01}
                   onChange={handleThicknessFactorChange}
-                  display={inputs.thicknessFactor.toFixed(2)}
-                  lo={t('form.thin')}
-                  hi={t('form.thick')}
-                  help={`${t('form.doughBallWeight')}: ${Math.round(inputs.ballWeight)}g (${(inputs.ballWeight * 0.03527396).toFixed(1)}oz)`}
+                  display={`${inputs.thicknessFactor.toFixed(2)} oz/in²`}
+                  lo={t('form.thin').toUpperCase()}
+                  hi={t('form.thick').toUpperCase()}
+                  help={`Per pizza: ${Math.round(inputs.ballWeight)}g (${(inputs.ballWeight * 0.03527396).toFixed(1)}oz)`}
                 />
               </div>
 
