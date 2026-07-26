@@ -1,0 +1,13 @@
+{
+  // Static-asset-only Worker: no server code, so no "main" field.
+  // Serves the Vite build output in ./dist from Cloudflare's edge.
+  "name": "makebetter-pizza",
+  "compatibility_date": "2026-07-27",
+  "assets": {
+    "directory": "./dist",
+    // Equivalent of the Netlify rule `/*  /index.html  200` in public/_redirects.
+    // Cloudflare rejects that rule itself as an infinite loop (error 100324), so
+    // public/_redirects must be stripped from dist before deploying.
+    "not_found_handling": "single-page-application"
+  }
+}
