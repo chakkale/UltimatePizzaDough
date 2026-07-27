@@ -115,9 +115,8 @@ npm run build && rm -f dist/_redirects
 
 > Note this repo uses **npm**, not pnpm — `npm run build`, not `pnpm build`.
 >
-> **If the first Workers Build fails on `npm run build`, substitute the direct-binary
-> form**, which is what every build during this migration actually used and is therefore
-> the only verified one:
+> **`npm run build` verified working (2026-07-27)** — run directly, completes normally.
+> Fallback if it ever fails:
 >
 > ```
 > node_modules/.bin/tsc -b && node_modules/.bin/vite build && rm -f dist/_redirects
