@@ -3,6 +3,17 @@
   // Serves the Vite build output in ./dist from Cloudflare's edge.
   "name": "makebetter-pizza",
   "compatibility_date": "2026-07-27",
+  // Custom domains. Cloudflare manages the DNS records and the certificates.
+  "routes": [
+    {
+      "pattern": "makebetter.pizza",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.makebetter.pizza",
+      "custom_domain": true
+    }
+  ],
   "assets": {
     "directory": "./dist",
     // Equivalent of the Netlify rule `/*  /index.html  200` in public/_redirects.
