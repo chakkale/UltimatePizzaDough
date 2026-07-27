@@ -1,10 +1,40 @@
 # Netlify → Cloudflare migration — makebetter.pizza
 
-Part of moving the whole Netlify account off Netlify, which is serving
+## ✅ CUTOVER COMPLETE (2026-07-27)
+
+`https://makebetter.pizza/` and `https://www.makebetter.pizza/` both serve **200** from
+Cloudflare Worker `makebetter-pizza`. Zone `4f9f4e4b53a7f898dd92a676869f6993`, account
+`717d971f409dc48972394da2c0075e85`. All security headers verified present on the live
+domain.
+
+**Registration stays at NameCheap.** `.pizza` has a high wholesale price, so transferring
+to Cloudflare Registrar was not worth it. Registrar is independent of DNS and hosting —
+only the nameservers moved (to `shubhi.ns.cloudflare.com` / `zod.ns.cloudflare.com`).
+The domain's `client transfer prohibited` lock is irrelevant to this: it blocks registrar
+transfers, not nameserver changes. Renewal continues through NameCheap (expires
+2027-03-09).
+
+### The one thing that bit
+
+Adding the zone to Cloudflare does **not** remove the imported Netlify records. Four
+proxied `A` records (`13.52.188.95`, `52.52.192.191`) survived, so once the nameservers
+flipped, Cloudflare fronted the dead Netlify origin and passed its `503` straight through —
+`Server: Netlify` and `X-Nf-Request-Id` behind Cloudflare proxy IPs. They also block the
+Worker custom domain attach, which fails with an undetailed API error. Delete them first.
+
+Note these IPs differ again from both earlier captures. **Match on record type and purpose,
+never on remembered IPs.**
+
+---
+
+## Historical
+
+Part of moving the whole Netlify account off Netlify, which was serving
 `503 {"error":"usage_exceeded"}` account-wide (2026-07-27).
 
-Deployed and verified: **https://makebetter-pizza.dogukanatlihan.workers.dev**
-(Cloudflare account `717d971f409dc48972394da2c0075e85`, Worker `makebetter-pizza`).
+First deployed and verified at **https://makebetter-pizza.dogukanatlihan.workers.dev**
+(now disabled — adding `routes` without `workers_dev: true` turns the workers.dev URL off,
+which is desirable: it stops a second hostname serving duplicate content).
 
 Why this fixes it: on Cloudflare, *"Requests to static assets are free and unlimited"* and
 *"There are no additional charges for data transfer (egress) or throughput (bandwidth)."*
@@ -138,7 +168,8 @@ hero:  'https://makebetter.pizza/pizza-thumbnail.png',
 ```
 
 These are **stable, unhashed filenames at the site root**, so completing this migration
-repairs the portfolio automatically — no portfolio code change required.
+repaired the portfolio automatically — no portfolio code change was required.
+Both images verified serving 200 after cutover. ✅
 
 ## Verification gotcha
 
